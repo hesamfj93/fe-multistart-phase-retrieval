@@ -114,8 +114,9 @@ def file_sha256(path: str | Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def load_protocol_indices(splits_dir: str | Path, role: str, n_images: int) -> list[int]:
-    """Indices for a protocol run: the first `n_images` rows of the role's file.
+def load_protocol_indices(splits_dir: str | Path, role: str, n_images: int, start: int = 0) -> list[int]:
+    """Indices for a protocol run: rows `start` to `start + n_images - 1` of the role's file
+    (the first `n_images` rows when start = 0).
 
     Hard guarantees, enforced here:
       * n_images does not exceed the file length (no silent truncation);
@@ -125,11 +126,11 @@ def load_protocol_indices(splits_dir: str | Path, role: str, n_images: int) -> l
     if not path.exists():
         raise FileNotFoundError(f"split file missing: {path} (run scripts/make_splits.py)")
     all_idx = read_split_csv(path)
-    if n_images > len(all_idx):
+    if start < 0 or start + n_images > len(all_idx):
         raise ValueError(
-            f"requested {n_images} '{role}' images but {path.name} has only "
+            f"requested rows {start} to {start + n_images - 1} of '{role}' but {path.name} has only "
             f"{len(all_idx)} rows")
-    sel = all_idx[:n_images]
+    sel = all_idx[start:start + n_images]
     if role != "dev":
         dev_file = split_path(splits_dir, "dev")
         dev = set(read_split_csv(dev_file)) if dev_file.exists() else set(DEV_INDICES)

@@ -400,7 +400,8 @@ def build_dataset(spec: dict) -> list[ImageSample]:
         from .splits import load_protocol_indices
         if name != "mnist" or spec.get("split", "test") != "test":
             raise ValueError("protocol_split is currently defined only for the MNIST test set")
-        idx = load_protocol_indices(spec.get("splits_dir", "splits"), role, int(spec["n_images"]))
+        idx = load_protocol_indices(spec.get("splits_dir", "splits"), role, int(spec["n_images"]),
+                                    start=int(spec.get("rank_start", 0)))
         return make_mnist_offline(indices=idx, size=spec.get("size", 32),
                                   root=spec.get("root", "./data"), split="test")
     kwargs = {k: v for k, v in spec.items()

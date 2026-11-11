@@ -21,6 +21,7 @@ References
 """
 from __future__ import annotations
 
+import math
 import time
 from dataclasses import dataclass
 
@@ -61,7 +62,32 @@ def _proj_magnitude(z: torch.Tensor, y_mag: torch.Tensor) -> torch.Tensor:
     return inverse_field(Zp, signal_hw=tuple(z.shape[-2:]))
 
 
-CONSTRAINTS = ("real_nonneg", "support_only")
+CONSTRAINTS = ("real_nonneg", "support_only", "shrinkwrap")
+
+# Shrinkwrap (Marchesini et al. 2003): every SW_EVERY iterations the support becomes the part of
+# the object window where the Gaussian-blurred amplitude exceeds SW_THRESH times its maximum. The
+# blur starts at SW_SIGMA0 pixels and shrinks by 1% per update down to SW_SIGMA_MIN. Inside the
+# support the amplitude is bounded by 1, the bound the untrained network has through its sigmoid.
+SW_EVERY, SW_THRESH, SW_SIGMA0, SW_SIGMA_DECAY, SW_SIGMA_MIN, AMP_MAX = 20, 0.2, 3.0, 0.99, 1.5, 1.0
+
+
+def _clip_magnitude(v: torch.Tensor, vmax: float = AMP_MAX) -> torch.Tensor:
+    mag = v.abs()
+    return torch.where(mag > vmax, v * (vmax / mag.clamp_min(1e-12)), v)
+
+
+def _shrinkwrap_support(z: torch.Tensor, window: torch.Tensor, sigma: float) -> torch.Tensor:
+    """Window AND (Gaussian-blurred |z| > SW_THRESH * max over the window)."""
+    import torch.nn.functional as F
+    r = int(math.ceil(3 * sigma))
+    xs = torch.arange(-r, r + 1, dtype=torch.float32, device=z.device)
+    g = torch.exp(-xs ** 2 / (2 * sigma ** 2))
+    g = g / g.sum()
+    a = z.abs().float()
+    a = F.conv2d(a, g.view(1, 1, 1, -1), padding=(0, r))
+    a = F.conv2d(a, g.view(1, 1, -1, 1), padding=(r, 0))
+    peak = a[window].max()
+    return window & (a > SW_THRESH * peak)
 
 
 def _proj_object(z: torch.Tensor, window: torch.Tensor, constraint: str = "real_nonneg") -> torch.Tensor:
@@ -72,6 +98,8 @@ def _proj_object(z: torch.Tensor, window: torch.Tensor, constraint: str = "real_
         v = z.real.clamp_min(0).to(torch.complex64)
     elif constraint == "support_only":
         v = z
+    elif constraint == "shrinkwrap":
+        v = _clip_magnitude(z)          # `window` is the current shrinkwrap support here
     else:
         raise ValueError(f"unknown constraint {constraint!r}; expected one of {CONSTRAINTS}")
     return torch.where(window, v, torch.zeros_like(v))
@@ -106,6 +134,17 @@ def run_hio_full(y_intensity, image_hw, iters=5000, beta=0.9, er_iters=200, seed
             ok = window & (zp >= 0)
             z = torch.where(ok, zp, z - beta * zp)
         z = z.to(torch.complex64)
+    elif constraint == "shrinkwrap":
+        z = _init(y_mag, seed)
+        support, sigma = window.clone(), SW_SIGMA0
+        for it in range(iters):
+            zp = _proj_magnitude(z, y_mag)
+            ok = support & (zp.abs() <= AMP_MAX)
+            z = torch.where(ok, zp, z - beta * zp)
+            if (it + 1) % SW_EVERY == 0:
+                support = _shrinkwrap_support(z, window, sigma)
+                sigma = max(SW_SIGMA_MIN, sigma * SW_SIGMA_DECAY)
+        window = support
     else:
         z = _init(y_mag, seed)
         for _ in range(iters):
@@ -126,12 +165,16 @@ def run_raar_full(y_intensity, image_hw, iters=5000, beta=0.87, er_iters=200, se
     y_mag = y_intensity.clamp_min(0).sqrt().to(device)
     window = object_window(image_hw, oversample, device)
     z = _init(y_mag, seed)
-    for _ in range(iters):
+    support, sigma = window.clone(), SW_SIGMA0
+    for it in range(iters):
         pm = _proj_magnitude(z, y_mag)
         rm = 2 * pm - z
-        rs_rm = 2 * _proj_object(rm, window, constraint) - rm
+        rs_rm = 2 * _proj_object(rm, support, constraint) - rm
         z = 0.5 * beta * (rs_rm + z) + (1.0 - beta) * pm
-    z = _error_reduction(_proj_object(z, window, constraint), y_mag, window, er_iters, constraint)
+        if constraint == "shrinkwrap" and (it + 1) % SW_EVERY == 0:
+            support = _shrinkwrap_support(_proj_magnitude(z, y_mag), window, sigma)
+            sigma = max(SW_SIGMA_MIN, sigma * SW_SIGMA_DECAY)
+    z = _error_reduction(_proj_object(z, support, constraint), y_mag, support, er_iters, constraint)
     if z.is_cuda:
         torch.cuda.synchronize()
     return ClassicalResult(_crop(z, image_hw).to(torch.complex64), time.perf_counter() - t0, f"raar_{constraint}", seed)
