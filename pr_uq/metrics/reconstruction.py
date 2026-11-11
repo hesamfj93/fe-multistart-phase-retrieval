@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import math
+
 import torch
 import torch.nn.functional as F
 
@@ -153,3 +155,32 @@ def score_against_gt(
         raw_psnr=raw,
         runtime_s=runtime_s,
     )
+
+
+# ---------------------------------------------------------------------------
+# Complex-field metrics (stage 3, complex-valued objects)
+# ---------------------------------------------------------------------------
+
+def psnr_complex(recon: torch.Tensor, gt: torch.Tensor, data_range: float = 1.0) -> float:
+    """PSNR of the complex field: 10 log10(range^2 / mean |recon - gt|^2). Exact -> 100 dB."""
+    d = recon.to(torch.complex64) - gt.to(torch.complex64)
+    m = float(d.abs().pow(2).mean().item())
+    if m <= 1e-20:
+        return 100.0
+    return float(10.0 * math.log10(data_range ** 2 / m))
+
+
+def nrmse_complex(recon: torch.Tensor, gt: torch.Tensor) -> float:
+    g = gt.to(torch.complex64)
+    return float((recon.to(torch.complex64) - g).abs().pow(2).sum().sqrt() / g.abs().pow(2).sum().sqrt().clamp_min(1e-12))
+
+
+def phase_error(recon: torch.Tensor, gt: torch.Tensor, thresh: float = 0.05) -> float:
+    """Amplitude-weighted mean absolute phase difference (radians) where |gt| > thresh."""
+    g = gt.to(torch.complex64)
+    w = g.abs()
+    m = w > thresh
+    if not bool(m.any()):
+        return float("nan")
+    d = torch.angle(recon.to(torch.complex64) * g.conj()).abs()
+    return float((w[m] * d[m]).sum() / w[m].sum())

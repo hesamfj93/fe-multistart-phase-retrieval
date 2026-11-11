@@ -129,6 +129,10 @@ Frozen files (first 16 hex digits of SHA-256):
 
 Details: [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md).
 
+## Stage 3: complex-valued objects (planned)
+
+The analysis plan for a second held-out experiment, with complex-valued objects for which the real and nonnegative constraint does not apply, is [`STAGE3_COMPLEX_PLAN.md`](STAGE3_COMPLEX_PLAN.md). It reuses the frozen design unchanged, uses held-out ranks 100 to 199, and was tagged `stage3-plan-v1` before any of those images was reconstructed. Code: `pr_uq/data/complex_objects.py`, the `shrinkwrap` constraint in `pr_uq/baselines/oversampled.py`, `scripts/stage3_report.py`, `configs/stage3_*.yaml`, `tests/test_stage3_complex.py`.
+
 ## License
 
 Code: MIT, see [`LICENSE`](LICENSE). MNIST: see [`data/README.md`](data/README.md).

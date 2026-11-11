@@ -46,7 +46,8 @@ sys.path.insert(0, str(REPO))
 
 from pr_uq.data.datasets import build_dataset, generate_measurement
 from pr_uq.metrics.alignment import align_ensemble_to_anchor, align_to_gt, map_to_gt_frame
-from pr_uq.metrics.reconstruction import psnr, ssim, fourier_magnitude_error
+from pr_uq.metrics.reconstruction import psnr, ssim, fourier_magnitude_error, psnr_complex, phase_error, nrmse_complex
+from pr_uq.data.complex_objects import object_class, object_from_cfg
 from pr_uq.models.ensemble import EnsembleMember, MemberSpec
 from pr_uq.optim.trainer import TrainerConfig, train_member
 from pr_uq.physics.projection import physics_residual
@@ -173,8 +174,13 @@ def compute_strategies(
 UNCERTAINTY_EVAL_VERSION = 2
 
 
-def score_reconstruction(mean_c, std, gt, y, oversample, n_bins_ece=15):
+def score_reconstruction(mean_c, std, gt, y, oversample, n_bins_ece=15, complex_object=False):
     """PSNR/SSIM/FE (+ fused-uncertainty calibration if std given).
+
+    Real objects (stage 2): PSNR and SSIM of the real part, error |Re x_hat - x|.
+    Complex objects (stage 3, complex_object=True): "psnr" is the PSNR of the complex field,
+    "ssim" is computed on the amplitudes, the error map is |x_hat - x|, and the amplitude PSNR,
+    the real-part PSNR, the phase error and the complex NRMSE are added.
 
     Returned maps (aligned reconstruction, u, physics residual, error) are all in the
     ground-truth frame.
@@ -186,13 +192,22 @@ def score_reconstruction(mean_c, std, gt, y, oversample, n_bins_ece=15):
         "ssim": ssim(aligned, gt),
         "fe": fourier_magnitude_error(mean_c, gt, oversample=oversample),
     }
+    if complex_object:
+        rec.update({
+            "psnr": psnr_complex(aligned, gt),
+            "ssim": ssim(aligned.abs(), gt.abs()),
+            "psnr_real_part": psnr(aligned, gt),
+            "psnr_amp": psnr(aligned.abs(), gt.abs()),
+            "phase_err_rad": phase_error(aligned, gt),
+            "nrmse_c": nrmse_complex(aligned, gt),
+        })
     if std is not None:
         r_phys = physics_residual(mean_c, y, oversample=oversample, return_image_domain=True)
         fused = fuse_uncertainty(std, r_phys, alpha=0.5, normalization="robust", summary="mean")
         # u and r_phys live in the frame of mean_c; the error lives in the frame of gt.
         u_gt = map_to_gt_frame(fused.u, gt_res)
         r_gt = map_to_gt_frame(r_phys, gt_res)
-        err = (aligned.real - gt.real).abs()
+        err = (aligned - gt).abs() if complex_object else (aligned.real - gt.real).abs()
         cal = calibrate(u_gt, err, n_bins=n_bins_ece)
         rec.update({
             "unc_pearson": cal.pearson_r,
@@ -236,7 +251,8 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
 
     t_img = time.perf_counter()
     try:
-        img = sample.image.to(device)
+        complex_obj = object_class(cfg["dataset"]) == "complex"
+        img = object_from_cfg(sample.image.to(device), cfg["dataset"], ds_idx)
         H, W = img.shape[-2:]
         oversample = cfg["measurement"]["oversample"]
         K = int(cfg["ensemble"]["K"])
@@ -280,8 +296,12 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
             recon, log = train_member(member, y, trainer_cfg, device=device, gt=img)
             # per-member eval-only metrics (aligned to GT)
             aln = align_to_gt(recon, img.to(torch.complex64)).aligned_recon
-            p_k = psnr(aln, img.to(torch.complex64))
-            s_k = ssim(aln, img.to(torch.complex64))
+            if complex_obj:
+                p_k = psnr_complex(aln, img)
+                s_k = ssim(aln.abs(), img.abs())
+            else:
+                p_k = psnr(aln, img.to(torch.complex64))
+                s_k = ssim(aln, img.to(torch.complex64))
             torch.save({"recon": recon.detach().cpu(), "seed": seed_k,
                         "runtime_s": log.runtime_s, "psnr": p_k, "ssim": s_k}, mc)
             recons.append(recon); seeds.append(seed_k); runtimes.append(log.runtime_s)
@@ -322,7 +342,8 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
         unc_arrays = {}
         for mname, (mean_c, std) in strategies.items():
             rec, aligned_recon, u, r_phys, err = score_reconstruction(
-                mean_c, std, gt_c, y, oversample, cfg["uncertainty"].get("n_bins_ece", 15))
+                mean_c, std, gt_c, y, oversample, cfg["uncertainty"].get("n_bins_ece", 15),
+                complex_object=complex_obj)
             method_metrics[mname] = rec
             recon_arrays[f"recon_{mname}"] = aligned_recon
             if u is not None:
@@ -421,13 +442,13 @@ def _save_preview(path, gt, strategies, gt_c, unc_arrays, oversample):
         return
     names = [n for n in ["k1", "uniform", "median", "best_single_by_fe", "fe_softmax"] if n in strategies] or list(strategies)
     fig, axes = plt.subplots(2, len(names) + 1, figsize=(2.0 * (len(names) + 1), 4.2))
-    axes[0, 0].imshow(gt.real.squeeze().cpu().numpy(), cmap="gray")
+    axes[0, 0].imshow(gt.abs().squeeze().cpu().numpy(), cmap="gray")
     axes[0, 0].set_title("GT", fontsize=8); axes[0, 0].axis("off")
     axes[1, 0].axis("off")
     for j, nm in enumerate(names):
         mean_c, std = strategies[nm]
         aln = align_to_gt(mean_c, gt_c).aligned_recon
-        p = psnr(aln, gt_c)
+        p = psnr_complex(aln, gt_c) if bool(gt_c.imag.abs().max() > 0) else psnr(aln, gt_c)
         axes[0, j + 1].imshow(np.abs(aln.squeeze().cpu().numpy()), cmap="gray")
         axes[0, j + 1].set_title(f"{nm}\n{p:.1f}dB", fontsize=7); axes[0, j + 1].axis("off")
         key = f"unc_{nm}"
@@ -488,7 +509,8 @@ def _protocol_record(cfg: dict) -> dict:
     rec = {"protocol_split": role, "dev_indices": list(DEV_INDICES)}
     if role:
         sp = split_path(ds.get("splits_dir", "splits"), role)
-        idx = read_split_csv(sp)[: int(ds["n_images"])]
+        r0 = int(ds.get("rank_start", 0))
+        idx = read_split_csv(sp)[r0: r0 + int(ds["n_images"])]
         rec.update({
             "split_file": str(sp),
             "split_file_sha256": file_sha256(sp),
@@ -590,7 +612,7 @@ def main():
         if out_dir.exists():
             _check_or_create_lock(cfg, out_dir, create=False)
         done = 0
-        for rank, smp in enumerate(samples):
+        for rank, smp in enumerate(samples, start=int(cfg["dataset"].get("rank_start", 0))):
             mj = out_dir / "per_image" / f"image_{dataset_index(smp):05d}" / "metrics.json"
             st = "skip (complete)" if mj.exists() and json.loads(mj.read_text(encoding="utf-8")).get("status") == "ok" else "run"
             done += st.startswith("skip")
@@ -615,7 +637,7 @@ def main():
     write_json(rec, out_dir / "split_manifest.json")
     with open(out_dir / "split_indices_used.csv", "w", encoding="utf-8") as f:
         f.write("rank,mnist_test_index,label\n")
-        for rank, smp in enumerate(samples):
+        for rank, smp in enumerate(samples, start=int(cfg["dataset"].get("rank_start", 0))):
             f.write(f"{rank},{dataset_index(smp)},{smp.label}\n")
     logger.info(f"Device: {device} | split: {role} | output: {out_dir.resolve()}")
     logger.info(f"{len(samples)} images, K={cfg['ensemble']['K']}, "
@@ -623,7 +645,7 @@ def main():
                 f"overlap_with_dev={rec.get('overlap_with_dev')}")
 
     n_ok = n_fail = n_skip = 0
-    for rank, sample in enumerate(samples):
+    for rank, sample in enumerate(samples, start=int(cfg["dataset"].get("rank_start", 0))):
         res = process_image(sample, rank, cfg, device, out_dir, logger)
         if res.get("status") == "ok":
             n_ok += 1

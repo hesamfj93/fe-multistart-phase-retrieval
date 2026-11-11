@@ -1,0 +1,42 @@
+# STAGE 3 (complex-valued objects). Design identical to the frozen stage-2 design; only the
+# object model, the image set and the output folder differ. Plan: STAGE3_COMPLEX_PLAN.md
+# Stage-2 classical baselines on the held-out MNIST images (pre-registered, see
+# PREREGISTRATION_STAGE2_100.md). Textbook HIO and RAAR on the full oversampled grid.
+# Settings are literature defaults fixed before any held-out image was reconstructed with
+# them; they were not tuned. Same measurement, alignment and metrics as the main runner.
+experiment:
+  name: stage3_complex_dev_baselines
+  output_dir: results/stage3_complex_dev_baselines
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: dev
+  splits_dir: splits
+  n_images: 8
+  rank_start: 0
+  size: 32
+  root: ./data
+  object:                   # stage 3: complex-valued objects (pr_uq/data/complex_objects.py)
+    class: complex          # amplitude = digit in [0, 1], phase = smooth random field on the support
+    phase_sigma_px: 3.0     # Gaussian filter width of the phase field, pixels
+    phase_max_rad: 1.5707963267948966   # largest |phase| on the support (pi/2)
+    phase_seed_offset: 1000003          # phase seed = offset + MNIST test index
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+baselines:
+  algorithms: [hio, raar]
+  constraints: [support_only, shrinkwrap, real_nonneg]   # real_nonneg is a misspecified-prior reference for complex objects
+  starts: 5                                  # same number of starts as K=5
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200                         # error-reduction tail
+  hio_beta: 0.9                              # Fienup 1982
+  raar_beta: 0.87                            # Luke 2005
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5

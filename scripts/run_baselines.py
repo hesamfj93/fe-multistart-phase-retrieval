@@ -34,12 +34,13 @@ sys.path.insert(0, str(REPO))
 from pr_uq.baselines.oversampled import run_hio_full, run_raar_full  # noqa: E402
 from pr_uq.data.datasets import build_dataset, generate_measurement  # noqa: E402
 from pr_uq.metrics.alignment import align_to_gt  # noqa: E402
-from pr_uq.metrics.reconstruction import fourier_magnitude_error, psnr, ssim  # noqa: E402
+from pr_uq.metrics.reconstruction import fourier_magnitude_error, psnr, ssim, psnr_complex, phase_error, nrmse_complex  # noqa: E402
+from pr_uq.data.complex_objects import object_class, object_from_cfg  # noqa: E402
 from pr_uq.uncertainty.ensemble_uq import member_fourier_errors  # noqa: E402
 from pr_uq.utils.config import load_config, resolve_device, save_config  # noqa: E402
 from pr_uq.utils.logging import get_logger, write_json  # noqa: E402
 
-PRIOR_TAG = {"support_only": "supp", "real_nonneg": "realpos"}
+PRIOR_TAG = {"support_only": "supp", "real_nonneg": "realpos", "shrinkwrap": "sw"}
 ALGORITHMS = {"hio": run_hio_full, "raar": run_raar_full}
 
 
@@ -80,8 +81,16 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
     b = cfg["baselines"]
     t_img = time.perf_counter()
     try:
-        img = sample.image.to(device)
+        complex_obj = object_class(cfg["dataset"]) == "complex"
+        img = object_from_cfg(sample.image.to(device), cfg["dataset"], ds_idx)
         gt = img.to(torch.complex64)
+
+        def _scores(aligned):
+            if complex_obj:
+                return {"psnr": psnr_complex(aligned, gt), "ssim": ssim(aligned.abs(), gt.abs()),
+                        "psnr_real_part": psnr(aligned, gt), "psnr_amp": psnr(aligned.abs(), gt.abs()),
+                        "phase_err_rad": phase_error(aligned, gt), "nrmse_c": nrmse_complex(aligned, gt)}
+            return {"psnr": psnr(aligned, gt), "ssim": ssim(aligned, gt)}
         H, W = img.shape[-2:]
         ov = int(cfg["measurement"]["oversample"])
         y, meta = generate_measurement(
@@ -103,13 +112,13 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
                 best = int(fe_meas.argmin())
                 start_psnr = []
                 for k in range(n):
-                    start_psnr.append(psnr(align_to_gt(stack[k:k + 1], gt).aligned_recon, gt))
+                    start_psnr.append(_scores(align_to_gt(stack[k:k + 1], gt).aligned_recon)["psnr"])
                 for label, k, rt in [("s1", 0, res[0].runtime_s),
                                      (f"best{n}", best, sum(r.runtime_s for r in res))]:
                     rec = stack[k:k + 1]
                     aligned = align_to_gt(rec, gt).aligned_recon
                     methods[f"{tag}_{label}"] = {
-                        "psnr": psnr(aligned, gt), "ssim": ssim(aligned, gt),
+                        **_scores(aligned),
                         "fe": fourier_magnitude_error(rec, gt, oversample=ov), "runtime_s": float(rt)}
                     arrays[f"recon_{tag}_{label}"] = aligned
                 starts_info[tag] = {"start_fe": [float(x) for x in fe_meas.tolist()],
@@ -149,7 +158,7 @@ def _preview(path, img, arrays, methods, cfg):
         return
     keys = [k for k in methods if "best" in k]
     fig, axes = plt.subplots(1, len(keys) + 1, figsize=(2.0 * (len(keys) + 1), 2.3))
-    axes[0].imshow(img.squeeze().cpu().numpy(), cmap="gray"); axes[0].set_title("GT", fontsize=8)
+    axes[0].imshow(img.abs().squeeze().cpu().numpy(), cmap="gray"); axes[0].set_title("GT", fontsize=8)
     for a, k in zip(axes[1:], keys):
         a.imshow(np.abs(arrays[f"recon_{k}"].squeeze().cpu().numpy()), cmap="gray")
         a.set_title(f"{k}\n{methods[k]['psnr']:.1f} dB", fontsize=7)
@@ -186,7 +195,7 @@ def main() -> int:
         if out_dir.exists():
             RUNNER._check_or_create_lock(cfg, out_dir, create=False)
         done = 0
-        for rank, smp in enumerate(samples):
+        for rank, smp in enumerate(samples, start=int(cfg["dataset"].get("rank_start", 0))):
             mj = out_dir / "per_image" / f"image_{RUNNER.dataset_index(smp):05d}" / "metrics.json"
             ok = mj.exists() and json.loads(mj.read_text(encoding="utf-8")).get("status") == "ok"
             done += ok
@@ -215,7 +224,7 @@ def main() -> int:
                out_dir / "split_manifest.json")
     logger.info(f"Device: {device} | split: {role} | {len(samples)} images | methods: {method_names(cfg)}")
     n_ok = n_fail = n_skip = 0
-    for rank, smp in enumerate(samples):
+    for rank, smp in enumerate(samples, start=int(cfg["dataset"].get("rank_start", 0))):
         r = process_image(smp, rank, cfg, device, out_dir, logger)
         if r.get("status") == "ok":
             n_ok += 1; n_skip += int(bool(r.get("_skipped")))
