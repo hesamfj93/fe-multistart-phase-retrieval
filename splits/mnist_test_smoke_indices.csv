@@ -1,0 +1,5 @@
+# role=smoke dataset=mnist split=test permutation_seed=20261006 dev_excluded=[429, 1729, 1917, 2890, 4919, 6044, 7532, 9399]; first N rows = the N-image selection
+rank,mnist_test_index,label
+0,2838,2
+1,2350,2
+2,8977,9

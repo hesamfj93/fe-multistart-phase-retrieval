@@ -1,0 +1,54 @@
+20:40:59 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k1_3000iter
+20:40:59 INFO    pr_uq | Device: cpu
+20:40:59 INFO    pr_uq | Dataset mnist: 8 images
+20:40:59 INFO    pr_uq | --- (1/8) mnist_006044 ---
+20:42:11 INFO    pr_uq | [mnist_006044] member 1/1 done | final_loss=5.8770e-05 | final_PSNR=23.02dB | runtime=72.0s
+20:42:11 INFO    pr_uq | [mnist_006044] PSNR=23.04dB SSIM=0.958 ECE=0.0413 fail_score=0.044
+20:42:11 INFO    pr_uq | --- (2/8) mnist_002890 ---
+20:43:23 INFO    pr_uq | [mnist_002890] member 1/1 done | final_loss=9.4566e-05 | final_PSNR=25.87dB | runtime=72.5s
+20:43:23 INFO    pr_uq | [mnist_002890] PSNR=26.21dB SSIM=0.974 ECE=0.0494 fail_score=0.061
+20:43:23 INFO    pr_uq | --- (3/8) mnist_009399 ---
+20:44:34 INFO    pr_uq | [mnist_009399] member 1/1 done | final_loss=4.9999e-04 | final_PSNR=16.19dB | runtime=71.0s
+20:44:34 INFO    pr_uq | [mnist_009399] PSNR=16.17dB SSIM=0.606 ECE=0.0597 fail_score=0.096
+20:44:34 INFO    pr_uq | --- (4/8) mnist_001917 ---
+20:45:45 INFO    pr_uq | [mnist_001917] member 1/1 done | final_loss=2.3994e-04 | final_PSNR=17.28dB | runtime=71.0s
+20:45:45 INFO    pr_uq | [mnist_001917] PSNR=17.28dB SSIM=0.850 ECE=0.0496 fail_score=0.091
+20:45:45 INFO    pr_uq | --- (5/8) mnist_004919 ---
+20:46:08 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k1_3000iter
+20:46:08 INFO    pr_uq | Device: cpu
+20:46:08 INFO    pr_uq | Dataset mnist: 8 images
+20:46:08 INFO    pr_uq | Resume: found 4 pre-existing rows in CSV
+20:46:08 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+20:46:08 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+20:46:08 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+20:46:08 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+20:46:08 INFO    pr_uq | --- (5/8) mnist_004919 ---
+20:47:20 INFO    pr_uq | [mnist_004919] member 1/1 done | final_loss=9.3837e-05 | final_PSNR=22.06dB | runtime=72.0s
+20:47:20 INFO    pr_uq | [mnist_004919] PSNR=22.06dB SSIM=0.947 ECE=0.0538 fail_score=0.076
+20:47:20 INFO    pr_uq | --- (6/8) mnist_001729 ---
+20:48:32 INFO    pr_uq | [mnist_001729] member 1/1 done | final_loss=7.0867e-05 | final_PSNR=25.97dB | runtime=71.3s
+20:48:32 INFO    pr_uq | [mnist_001729] PSNR=25.97dB SSIM=0.970 ECE=0.0371 fail_score=0.048
+20:48:32 INFO    pr_uq | --- (7/8) mnist_000429 ---
+20:49:43 INFO    pr_uq | [mnist_000429] member 1/1 done | final_loss=2.6218e-04 | final_PSNR=13.88dB | runtime=71.2s
+20:49:43 INFO    pr_uq | [mnist_000429] PSNR=13.88dB SSIM=0.652 ECE=0.0561 fail_score=0.086
+20:49:43 INFO    pr_uq | --- (8/8) mnist_007532 ---
+20:50:56 INFO    pr_uq | [mnist_007532] member 1/1 done | final_loss=2.3428e-04 | final_PSNR=15.17dB | runtime=72.4s
+20:50:56 INFO    pr_uq | [mnist_007532] PSNR=15.19dB SSIM=0.633 ECE=0.0344 fail_score=0.085
+20:50:56 INFO    pr_uq | Resumed run: 4 pre-existing images skipped, 4 processed this call.
+20:50:56 INFO    pr_uq | Done.
+20:50:56 INFO    pr_uq | {
+  "n_images": 8,
+  "K": 1,
+  "mean_psnr": 19.97357726097107,
+  "median_psnr": 22.059237957000732,
+  "mean_ssim": 0.8239202871918678,
+  "mean_fourier_mag_err": 0.21436908189207315,
+  "mean_ece": 0.047683125451876585,
+  "mean_pearson": 0.16629832845203532,
+  "mean_spearman": 0.18729764950668323,
+  "auroc_failure_detection": 0.8666666666666667,
+  "failure_threshold_db": 17.059237957000732,
+  "n_failures": 3,
+  "n_successes": 5,
+  "mean_runtime_train_s": 71.688090598625
+}

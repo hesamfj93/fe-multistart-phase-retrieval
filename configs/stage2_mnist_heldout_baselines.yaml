@@ -1,0 +1,34 @@
+# Stage-2 classical baselines on the held-out MNIST images (pre-registered, see
+# PREREGISTRATION_STAGE2_100.md). Textbook HIO and RAAR on the full oversampled grid.
+# Settings are literature defaults fixed before any held-out image was reconstructed with
+# them; they were not tuned. Same measurement, alignment and metrics as the main runner.
+experiment:
+  name: stage2_mnist_heldout_baselines
+  output_dir: results/stage2_mnist_heldout_baselines
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: heldout
+  splits_dir: splits
+  n_images: 100
+  size: 32
+  root: ./data
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+baselines:
+  algorithms: [hio, raar]
+  constraints: [support_only, real_nonneg]   # support_only = the untrained method's prior
+  starts: 5                                  # same number of starts as K=5
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200                         # error-reduction tail
+  hio_beta: 0.9                              # Fienup 1982
+  raar_beta: 0.87                            # Luke 2005
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5

@@ -1,0 +1,9 @@
+# Install PyTorch FIRST, matching your CUDA driver (it is deliberately not listed here,
+# because a plain `pip install torch` can replace a CUDA build with a CPU-only build):
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+# torchvision is not needed: MNIST is read from the bundled IDX files in data/MNIST/raw.
+numpy>=1.24
+scipy>=1.11
+pyyaml>=6.0
+matplotlib>=3.8
+pytest>=7.0

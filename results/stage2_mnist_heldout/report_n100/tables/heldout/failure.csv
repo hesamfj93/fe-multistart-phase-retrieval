@@ -1,0 +1,15 @@
+method,threshold_psnr_db,n,n_failures,n_success,failure_rate,n_exact_ge_cap,detection_auroc,note
+K=1,15.0,100,20,80,0.2000,0,,
+K=5 uniform,15.0,100,5,95,0.0500,0,0.8379,
+K=5 median,15.0,100,4,96,0.0400,0,,not computed: needs >= 5 failures and successes (have 4 / 96)
+K=5 best-single-by-FE,15.0,100,5,95,0.0500,0,0.7347,
+K=5 FE-softmax (T=0.05),15.0,100,3,97,0.0300,0,,not computed: needs >= 5 failures and successes (have 3 / 97)
+"K=1, 15000 it (compute-matched)",15.0,100,12,88,0.1200,0,,
+"HIO, support only, 1 start",15.0,100,35,65,0.3500,0,,
+"HIO, support only, best of 5 by FE",15.0,100,22,78,0.2200,0,,
+"HIO, real+nonneg, 1 start",15.0,100,10,90,0.1000,73,,
+"HIO, real+nonneg, best of 5 by FE",15.0,100,0,100,0.0000,99,,
+"RAAR, support only, 1 start",15.0,100,89,11,0.8900,0,,
+"RAAR, support only, best of 5 by FE",15.0,100,82,18,0.8200,0,,
+"RAAR, real+nonneg, 1 start",15.0,100,21,79,0.2100,37,,
+"RAAR, real+nonneg, best of 5 by FE",15.0,100,3,97,0.0300,80,,

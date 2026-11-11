@@ -1,0 +1,10 @@
+# role=dev dataset=mnist split=test; the 8 development images used to select the aggregation method and T=0.05; never used for held-out evaluation
+rank,mnist_test_index,label
+0,429,8
+1,1729,1
+2,1917,5
+3,2890,7
+4,4919,9
+5,6044,1
+6,7532,6
+7,9399,7

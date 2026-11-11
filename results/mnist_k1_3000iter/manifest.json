@@ -1,0 +1,6 @@
+{
+  "torch_version": "2.12.0+cu130",
+  "cuda_available": false,
+  "cuda_device_count": 0,
+  "config_path": "/home/claude/pr_uq/results/mnist_k1_3000iter/configs/effective.yaml"
+}

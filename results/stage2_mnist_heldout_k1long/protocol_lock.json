@@ -1,0 +1,94 @@
+{
+  "fingerprint": "645fecedcef014be84f0b421961bed22f9830b7763e69b069f0da3e50a26d44f",
+  "frozen_config": {
+    "evaluation": {
+      "failure_psnr_db": 15.0,
+      "auroc_min_per_class": 5
+    },
+    "experiment": {
+      "name": "stage2_mnist_heldout_k1long",
+      "seed": 0,
+      "save_arrays": true,
+      "save_images": true,
+      "save_checkpoints": false,
+      "single_method_name": "k1_long"
+    },
+    "dataset": {
+      "name": "mnist",
+      "size": 32,
+      "split": "test",
+      "download": true,
+      "seed": 0,
+      "protocol_split": "heldout"
+    },
+    "measurement": {
+      "oversample": 2,
+      "noise_model": "none",
+      "noise_level": 0.0,
+      "noise_seed": 0
+    },
+    "model": {
+      "z_channels": 128,
+      "z_hw": 4,
+      "base_ch": 128
+    },
+    "ensemble": {
+      "K": 1,
+      "base_seed": 0
+    },
+    "trainer": {
+      "iterations": 15000,
+      "lr_theta": 0.001,
+      "lr_z": 0.001,
+      "optimize_z": true,
+      "grad_clip": 1.0,
+      "data_loss": "magnitude_l2",
+      "lambda_tv_A": 0.001,
+      "lambda_tv_phi": 0.0001,
+      "lambda_phi_l2": 0.0,
+      "lambda_support": 0.01,
+      "use_spectral_annealing": true,
+      "sigma_start_frac": 0.5,
+      "sigma_end_frac": 0.05,
+      "annealing_schedule": "log",
+      "annealing_fraction": 0.6,
+      "use_physics_projection": true,
+      "beta_schedule": {
+        "type": "linear",
+        "start": 0.7,
+        "end": 0.1
+      },
+      "project_in_loss": true,
+      "project_detached": true,
+      "use_adaptive_support": true,
+      "support_initial_fill": "full",
+      "support_update_every": 200,
+      "support_smooth_sigma": 1.0,
+      "support_threshold_frac": 0.08,
+      "support_gamma": 10.0,
+      "log_every": 150
+    },
+    "uncertainty": {
+      "alpha": 0.5,
+      "alphas_sweep": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "normalization": "robust",
+      "summary": "mean",
+      "n_bins_ece": 15,
+      "fidelity_temperature": 0.05
+    },
+    "failure_detection": {
+      "threshold_kind": "relative",
+      "threshold_value_db": 15.0,
+      "margin_db": 5.0
+    }
+  },
+  "protocol_split": "heldout",
+  "split_file_sha256": "ae054e4f1f5c13ecd4b968f6c9633afb70145bf0bd6a599daff7286f2a0d287f",
+  "created": "2026-11-11 02:00:45"
+}

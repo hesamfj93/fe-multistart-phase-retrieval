@@ -1,0 +1,14 @@
+n_images: 8
+K: 5
+mean_psnr: 19.751492738723755
+median_psnr: 19.22242045402527
+mean_ssim: 0.7753176093101501
+mean_fourier_mag_err: 0.2886162744835019
+mean_ece: 0.1137464984833727
+mean_pearson: 0.2856106604101771
+mean_spearman: 0.3208891797596794
+auroc_failure_detection: 0.7142857142857143
+failure_threshold_db: 14.222420454025269
+n_failures: 1
+n_successes: 7
+mean_runtime_train_s: 339.7472759395

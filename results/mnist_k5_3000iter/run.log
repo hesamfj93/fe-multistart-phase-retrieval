@@ -1,0 +1,189 @@
+21:02:44 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+21:02:44 INFO    pr_uq | Device: cpu
+21:02:44 INFO    pr_uq | Dataset mnist: 8 images
+21:02:44 INFO    pr_uq | --- (1/8) mnist_006044 ---
+21:03:55 INFO    pr_uq | [mnist_006044] member 1/5 done | final_loss=5.8770e-05 | final_PSNR=23.02dB | runtime=70.9s
+21:05:05 INFO    pr_uq | [mnist_006044] member 2/5 done | final_loss=7.7913e-05 | final_PSNR=23.39dB | runtime=69.6s
+21:06:17 INFO    pr_uq | [mnist_006044] member 3/5 done | final_loss=5.3439e-05 | final_PSNR=22.70dB | runtime=72.1s
+21:07:28 INFO    pr_uq | [mnist_006044] member 4/5 done | final_loss=6.0220e-05 | final_PSNR=25.33dB | runtime=71.4s
+23:36:48 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:36:48 INFO    pr_uq | Device: cpu
+23:36:49 INFO    pr_uq | Dataset mnist: 8 images
+23:36:49 INFO    pr_uq | --- (1/8) mnist_006044 ---
+23:36:50 INFO    pr_uq | [mnist_006044] member 1/5 [resumed from disk]
+23:36:50 INFO    pr_uq | [mnist_006044] member 2/5 [resumed from disk]
+23:36:50 INFO    pr_uq | [mnist_006044] member 3/5 [resumed from disk]
+23:36:50 INFO    pr_uq | [mnist_006044] member 4/5 [resumed from disk]
+23:38:08 INFO    pr_uq | [mnist_006044] member 5/5 done | final_loss=8.7419e-05 | final_PSNR=25.04dB | runtime=77.2s
+23:38:08 INFO    pr_uq | [mnist_006044] PSNR=23.55dB SSIM=0.940 ECE=0.0586 fail_score=0.064
+23:38:08 INFO    pr_uq | --- (2/8) mnist_002890 ---
+23:39:20 INFO    pr_uq | [mnist_002890] member 1/5 done | final_loss=9.4566e-05 | final_PSNR=25.87dB | runtime=72.7s
+23:40:33 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:40:33 INFO    pr_uq | Device: cpu
+23:40:33 INFO    pr_uq | Dataset mnist: 8 images
+23:40:33 INFO    pr_uq | Resume: found 1 pre-existing rows in CSV
+23:40:33 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+23:40:33 INFO    pr_uq | --- (2/8) mnist_002890 ---
+23:40:33 INFO    pr_uq | [mnist_002890] member 1/5 [resumed from disk]
+23:41:43 INFO    pr_uq | [mnist_002890] member 2/5 done | final_loss=1.0206e-04 | final_PSNR=20.91dB | runtime=70.2s
+23:42:29 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:42:29 INFO    pr_uq | Device: cpu
+23:42:29 INFO    pr_uq | Dataset mnist: 8 images
+23:42:29 INFO    pr_uq | Resume: found 1 pre-existing rows in CSV
+23:42:29 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+23:42:29 INFO    pr_uq | --- (2/8) mnist_002890 ---
+23:42:29 INFO    pr_uq | [mnist_002890] member 1/5 [resumed from disk]
+23:42:29 INFO    pr_uq | [mnist_002890] member 2/5 [resumed from disk]
+23:43:41 INFO    pr_uq | [mnist_002890] member 3/5 done | final_loss=1.2104e-04 | final_PSNR=13.49dB | runtime=71.7s
+23:44:53 INFO    pr_uq | [mnist_002890] member 4/5 done | final_loss=3.5383e-04 | final_PSNR=20.84dB | runtime=71.8s
+23:46:04 INFO    pr_uq | [mnist_002890] member 5/5 done | final_loss=1.5709e-04 | final_PSNR=14.78dB | runtime=70.9s
+23:46:04 INFO    pr_uq | [mnist_002890] PSNR=20.84dB SSIM=0.852 ECE=0.1163 fail_score=0.152
+23:46:04 INFO    pr_uq | --- (3/8) mnist_009399 ---
+23:47:14 INFO    pr_uq | [mnist_009399] member 1/5 done | final_loss=4.9999e-04 | final_PSNR=16.19dB | runtime=70.4s
+23:47:38 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:47:38 INFO    pr_uq | Device: cpu
+23:47:38 INFO    pr_uq | Dataset mnist: 8 images
+23:47:38 INFO    pr_uq | Resume: found 2 pre-existing rows in CSV
+23:47:38 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+23:47:38 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+23:47:38 INFO    pr_uq | --- (3/8) mnist_009399 ---
+23:47:38 INFO    pr_uq | [mnist_009399] member 1/5 [resumed from disk]
+23:48:49 INFO    pr_uq | [mnist_009399] member 2/5 done | final_loss=1.0809e-04 | final_PSNR=22.34dB | runtime=71.2s
+23:49:58 INFO    pr_uq | [mnist_009399] member 3/5 done | final_loss=8.8809e-05 | final_PSNR=25.27dB | runtime=68.9s
+23:51:09 INFO    pr_uq | [mnist_009399] member 4/5 done | final_loss=2.6945e-04 | final_PSNR=13.12dB | runtime=70.8s
+23:52:22 INFO    pr_uq | [mnist_009399] member 5/5 done | final_loss=1.5845e-04 | final_PSNR=18.22dB | runtime=72.9s
+23:52:22 INFO    pr_uq | [mnist_009399] PSNR=19.22dB SSIM=0.764 ECE=0.1596 fail_score=0.213
+23:52:22 INFO    pr_uq | --- (4/8) mnist_001917 ---
+23:52:47 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:52:47 INFO    pr_uq | Device: cpu
+23:52:47 INFO    pr_uq | Dataset mnist: 8 images
+23:52:47 INFO    pr_uq | Resume: found 3 pre-existing rows in CSV
+23:52:47 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+23:52:47 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+23:52:47 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+23:52:47 INFO    pr_uq | --- (4/8) mnist_001917 ---
+23:54:04 INFO    pr_uq | [mnist_001917] member 1/5 done | final_loss=2.3994e-04 | final_PSNR=17.28dB | runtime=76.8s
+23:55:20 INFO    pr_uq | [mnist_001917] member 2/5 done | final_loss=7.3986e-04 | final_PSNR=11.55dB | runtime=76.1s
+23:56:39 INFO    pr_uq | [mnist_001917] member 3/5 done | final_loss=1.0632e-04 | final_PSNR=18.32dB | runtime=78.9s
+23:57:54 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+23:57:54 INFO    pr_uq | Device: cpu
+23:57:54 INFO    pr_uq | Dataset mnist: 8 images
+23:57:54 INFO    pr_uq | Resume: found 3 pre-existing rows in CSV
+23:57:54 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+23:57:54 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+23:57:54 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+23:57:54 INFO    pr_uq | --- (4/8) mnist_001917 ---
+23:57:54 INFO    pr_uq | [mnist_001917] member 1/5 [resumed from disk]
+23:57:54 INFO    pr_uq | [mnist_001917] member 2/5 [resumed from disk]
+23:57:54 INFO    pr_uq | [mnist_001917] member 3/5 [resumed from disk]
+23:59:20 INFO    pr_uq | [mnist_001917] member 4/5 done | final_loss=3.9230e-04 | final_PSNR=12.73dB | runtime=86.0s
+00:00:37 INFO    pr_uq | [mnist_001917] member 5/5 done | final_loss=2.4190e-04 | final_PSNR=16.47dB | runtime=77.0s
+00:00:37 INFO    pr_uq | [mnist_001917] PSNR=17.17dB SSIM=0.546 ECE=0.1748 fail_score=0.237
+00:00:37 INFO    pr_uq | --- (5/8) mnist_004919 ---
+00:01:52 INFO    pr_uq | [mnist_004919] member 1/5 done | final_loss=9.3837e-05 | final_PSNR=22.06dB | runtime=74.9s
+00:03:01 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+00:03:01 INFO    pr_uq | Device: cpu
+00:03:01 INFO    pr_uq | Dataset mnist: 8 images
+00:03:01 INFO    pr_uq | Resume: found 4 pre-existing rows in CSV
+00:03:01 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+00:03:01 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+00:03:01 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+00:03:01 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+00:03:01 INFO    pr_uq | --- (5/8) mnist_004919 ---
+00:03:01 INFO    pr_uq | [mnist_004919] member 1/5 [resumed from disk]
+00:04:20 INFO    pr_uq | [mnist_004919] member 2/5 done | final_loss=1.3115e-04 | final_PSNR=15.03dB | runtime=78.9s
+00:05:42 INFO    pr_uq | [mnist_004919] member 3/5 done | final_loss=1.0850e-04 | final_PSNR=14.57dB | runtime=82.2s
+00:07:09 INFO    pr_uq | [mnist_004919] member 4/5 done | final_loss=1.0529e-04 | final_PSNR=19.18dB | runtime=86.8s
+17:31:32 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+17:31:32 INFO    pr_uq | Device: cpu
+17:31:34 INFO    pr_uq | Dataset mnist: 8 images
+17:31:34 INFO    pr_uq | Resume: found 4 pre-existing rows in CSV
+17:31:34 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+17:31:34 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+17:31:34 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+17:31:34 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+17:31:34 INFO    pr_uq | --- (5/8) mnist_004919 ---
+17:31:36 INFO    pr_uq | [mnist_004919] member 1/5 [resumed from disk]
+17:31:36 INFO    pr_uq | [mnist_004919] member 2/5 [resumed from disk]
+17:31:36 INFO    pr_uq | [mnist_004919] member 3/5 [resumed from disk]
+17:31:36 INFO    pr_uq | [mnist_004919] member 4/5 [resumed from disk]
+17:32:33 INFO    pr_uq | [mnist_004919] member 5/5 done | final_loss=1.0767e-04 | final_PSNR=18.85dB | runtime=57.7s
+17:32:33 INFO    pr_uq | [mnist_004919] PSNR=18.96dB SSIM=0.846 ECE=0.1023 fail_score=0.145
+17:32:33 INFO    pr_uq | --- (6/8) mnist_001729 ---
+17:33:29 INFO    pr_uq | [mnist_001729] member 1/5 done | final_loss=7.0867e-05 | final_PSNR=25.97dB | runtime=55.3s
+17:34:23 INFO    pr_uq | [mnist_001729] member 2/5 done | final_loss=6.4350e-05 | final_PSNR=27.22dB | runtime=54.5s
+17:35:08 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+17:35:08 INFO    pr_uq | Device: cpu
+17:35:08 INFO    pr_uq | Dataset mnist: 8 images
+17:35:08 INFO    pr_uq | Resume: found 5 pre-existing rows in CSV
+17:35:08 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+17:35:08 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+17:35:08 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+17:35:08 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+17:35:08 INFO    pr_uq | --- (5/8) mnist_004919 [SKIP - already done] ---
+17:35:08 INFO    pr_uq | --- (6/8) mnist_001729 ---
+17:35:08 INFO    pr_uq | [mnist_001729] member 1/5 [resumed from disk]
+17:35:08 INFO    pr_uq | [mnist_001729] member 2/5 [resumed from disk]
+17:36:04 INFO    pr_uq | [mnist_001729] member 3/5 done | final_loss=6.3544e-05 | final_PSNR=23.66dB | runtime=56.1s
+17:36:59 INFO    pr_uq | [mnist_001729] member 4/5 done | final_loss=8.2462e-05 | final_PSNR=27.02dB | runtime=55.0s
+17:37:59 INFO    pr_uq | [mnist_001729] member 5/5 done | final_loss=6.6211e-05 | final_PSNR=24.79dB | runtime=60.0s
+17:37:59 INFO    pr_uq | [mnist_001729] PSNR=26.29dB SSIM=0.974 ECE=0.0622 fail_score=0.072
+17:37:59 INFO    pr_uq | --- (7/8) mnist_000429 ---
+17:39:02 INFO    pr_uq | [mnist_000429] member 1/5 done | final_loss=2.6218e-04 | final_PSNR=13.88dB | runtime=62.6s
+17:40:05 INFO    pr_uq | [mnist_000429] member 2/5 done | final_loss=1.9404e-04 | final_PSNR=13.18dB | runtime=62.6s
+17:40:15 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+17:40:15 INFO    pr_uq | Device: cpu
+17:40:15 INFO    pr_uq | Dataset mnist: 8 images
+17:40:15 INFO    pr_uq | Resume: found 6 pre-existing rows in CSV
+17:40:15 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (5/8) mnist_004919 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (6/8) mnist_001729 [SKIP - already done] ---
+17:40:15 INFO    pr_uq | --- (7/8) mnist_000429 ---
+17:40:15 INFO    pr_uq | [mnist_000429] member 1/5 [resumed from disk]
+17:40:15 INFO    pr_uq | [mnist_000429] member 2/5 [resumed from disk]
+17:41:19 INFO    pr_uq | [mnist_000429] member 3/5 done | final_loss=1.8554e-04 | final_PSNR=12.89dB | runtime=63.5s
+17:42:16 INFO    pr_uq | [mnist_000429] member 4/5 done | final_loss=4.3357e-04 | final_PSNR=13.33dB | runtime=57.4s
+17:43:13 INFO    pr_uq | [mnist_000429] member 5/5 done | final_loss=1.6352e-04 | final_PSNR=13.97dB | runtime=56.9s
+17:43:13 INFO    pr_uq | [mnist_000429] PSNR=13.83dB SSIM=0.634 ECE=0.1128 fail_score=0.198
+17:43:13 INFO    pr_uq | --- (8/8) mnist_007532 ---
+17:44:11 INFO    pr_uq | [mnist_007532] member 1/5 done | final_loss=2.3428e-04 | final_PSNR=15.17dB | runtime=57.8s
+17:45:08 INFO    pr_uq | [mnist_007532] member 2/5 done | final_loss=3.3895e-04 | final_PSNR=12.67dB | runtime=57.1s
+17:45:23 INFO    pr_uq | Output directory: /home/claude/pr_uq/results/mnist_k5_3000iter
+17:45:23 INFO    pr_uq | Device: cpu
+17:45:23 INFO    pr_uq | Dataset mnist: 8 images
+17:45:23 INFO    pr_uq | Resume: found 7 pre-existing rows in CSV
+17:45:23 INFO    pr_uq | --- (1/8) mnist_006044 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (2/8) mnist_002890 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (3/8) mnist_009399 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (4/8) mnist_001917 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (5/8) mnist_004919 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (6/8) mnist_001729 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (7/8) mnist_000429 [SKIP - already done] ---
+17:45:23 INFO    pr_uq | --- (8/8) mnist_007532 ---
+17:45:23 INFO    pr_uq | [mnist_007532] member 1/5 [resumed from disk]
+17:45:23 INFO    pr_uq | [mnist_007532] member 2/5 [resumed from disk]
+17:46:19 INFO    pr_uq | [mnist_007532] member 3/5 done | final_loss=2.1481e-04 | final_PSNR=15.21dB | runtime=56.8s
+17:47:16 INFO    pr_uq | [mnist_007532] member 4/5 done | final_loss=1.2816e-04 | final_PSNR=22.60dB | runtime=56.9s
+17:48:14 INFO    pr_uq | [mnist_007532] member 5/5 done | final_loss=1.2516e-04 | final_PSNR=22.71dB | runtime=57.4s
+17:48:14 INFO    pr_uq | [mnist_007532] PSNR=18.16dB SSIM=0.646 ECE=0.1233 fail_score=0.178
+17:48:14 INFO    pr_uq | Resumed run: 7 pre-existing images skipped, 1 processed this call.
+17:48:14 INFO    pr_uq | Done.
+17:48:14 INFO    pr_uq | {
+  "n_images": 8,
+  "K": 5,
+  "mean_psnr": 19.751492738723755,
+  "median_psnr": 19.22242045402527,
+  "mean_ssim": 0.7753176093101501,
+  "mean_fourier_mag_err": 0.2886162744835019,
+  "mean_ece": 0.1137464984833727,
+  "mean_pearson": 0.2856106604101771,
+  "mean_spearman": 0.3208891797596794,
+  "auroc_failure_detection": 0.7142857142857143,
+  "failure_threshold_db": 14.222420454025269,
+  "n_failures": 1,
+  "n_successes": 7,
+  "mean_runtime_train_s": 339.7472759395
+}

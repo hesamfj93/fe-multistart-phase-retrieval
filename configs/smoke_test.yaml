@@ -1,0 +1,55 @@
+# SOFTWARE VERIFICATION ONLY. Not a scientific evaluation.
+# Uses the 3 smoke images (splits/mnist_test_smoke_indices.csv), which are disjoint
+# from both the development images and every held-out prefix. Reduced model size and
+# iteration count so it finishes in minutes on CPU.
+experiment:
+  name: smoke_test
+  output_dir: results/smoke_test
+  seed: 0
+  device: auto
+  cleanup_member_cache: true
+dataset:
+  name: mnist
+  split: test
+  protocol_split: smoke
+  splits_dir: splits
+  n_images: 3
+  size: 32
+  root: ./data
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+model:
+  z_channels: 64
+  z_hw: 4
+  base_ch: 64
+ensemble:
+  K: 5
+  base_seed: 0
+trainer:
+  iterations: 400
+  lr_theta: 1.0e-3
+  lr_z: 1.0e-3
+  optimize_z: true
+  grad_clip: 1.0
+  data_loss: magnitude_l2
+  lambda_tv_A: 1.0e-3
+  lambda_tv_phi: 1.0e-4
+  lambda_support: 1.0e-2
+  use_spectral_annealing: true
+  sigma_start_frac: 0.5
+  sigma_end_frac: 0.05
+  use_physics_projection: true
+  beta_schedule: { type: linear, start: 0.7, end: 0.1 }
+  use_adaptive_support: true
+  support_update_every: 100
+  log_every: 100
+uncertainty:
+  fidelity_temperature: 0.05
+  n_bins_ece: 15
+evaluation:
+  # Pre-specified before the held-out run (part of the protocol lock).
+  failure_psnr_db: 15.0         # a reconstruction with PSNR below this is a failure
+  auroc_min_per_class: 5        # failure-detection AUROC only if >= 5 failures and >= 5 successes

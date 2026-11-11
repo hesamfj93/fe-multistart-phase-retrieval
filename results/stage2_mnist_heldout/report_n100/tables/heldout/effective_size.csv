@@ -1,0 +1,9 @@
+quantity,value
+n,100
+mean,3.2607
+std,1.0197
+median,3.2430
+min,1.1099
+max,4.9524
+ci95_low,3.0584
+ci95_high,3.4630

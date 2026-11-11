@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# generated locally
+data/_verify_thumbs/
+results/smoke_test/
+results/*/per_image/*/_members/
+results/*/logs/
+paper/figures/
+paper/supp/

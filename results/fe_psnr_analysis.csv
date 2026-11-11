@@ -1,0 +1,11 @@
+image,within_rho,top1,top2,best_fe_member,best_psnr_member
+mnist_000429,0.8,1,1,4,4
+mnist_001729,-0.5,0,0,4,1
+mnist_001917,0.9,1,1,2,2
+mnist_002890,1.0,1,1,0,0
+mnist_004919,0.6,1,1,0,0
+mnist_006044,0.3,0,1,4,3
+mnist_007532,0.9,1,1,4,4
+mnist_009399,0.7,1,1,2,2
+# pooled_spearman=0.8979
+# mean_within_rho=0.5875

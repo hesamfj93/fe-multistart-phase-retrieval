@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this code or the stored results, please cite them as below."
+title: "fe-multistart-phase-retrieval: Fourier-error-guided multi-start reconstruction for untrained-network phase retrieval"
+version: 1.0.0
+date-released: 2026-11-11
+license: MIT
+repository-code: "https://github.com/hesamfj93/fe-multistart-phase-retrieval"
+authors:
+  - family-names: Faraji
+    given-names: Hesamoddin
+    affiliation: "Interdepartmental Centre for Industrial Research on ICT (CIRI ICT), University of Bologna"
+keywords:
+  - phase retrieval
+  - coherent diffraction imaging
+  - untrained neural networks
+  - deep image prior
+  - multi-start optimization
+  - uncertainty quantification
