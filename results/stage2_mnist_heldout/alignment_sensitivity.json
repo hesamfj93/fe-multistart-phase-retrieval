@@ -1,0 +1,176 @@
+{
+  "n": 100,
+  "variant_counts_gt_alignment": {
+    "k1": {
+      "0": 53,
+      "3": 47
+    },
+    "uniform": {
+      "0": 55,
+      "3": 44,
+      "1": 1
+    },
+    "median": {
+      "3": 45,
+      "0": 54,
+      "1": 1
+    },
+    "best_single_by_fe": {
+      "3": 47,
+      "0": 53
+    },
+    "fe_softmax": {
+      "3": 44,
+      "0": 55,
+      "1": 1
+    }
+  },
+  "variant_counts_start_to_anchor": {
+    "3": 193,
+    "0": 200,
+    "2": 3,
+    "1": 4
+  },
+  "settings": {
+    "frozen": {
+      "k1": {
+        "psnr_mean": 18.16810917854309,
+        "ssim_mean": 0.8218329519033432,
+        "failures": 20
+      },
+      "uniform": {
+        "psnr_mean": 18.731276321411134,
+        "ssim_mean": 0.8030579325556755,
+        "failures": 5
+      },
+      "median": {
+        "psnr_mean": 19.158978259563447,
+        "ssim_mean": 0.8688802593946456,
+        "failures": 4
+      },
+      "best_single_by_fe": {
+        "psnr_mean": 19.926587843894957,
+        "ssim_mean": 0.8852069687843322,
+        "failures": 5
+      },
+      "fe_softmax": {
+        "psnr_mean": 19.993107616901398,
+        "ssim_mean": 0.8677823489904404,
+        "failures": 3
+      },
+      "best_single_by_fe_minus_k1": {
+        "mean": 1.7584786653518676,
+        "n_better": 61
+      },
+      "fe_softmax_minus_k1": {
+        "mean": 1.8249984383583069,
+        "n_better": 76
+      }
+    },
+    "B1": {
+      "k1": {
+        "psnr_mean": 18.16810917854309,
+        "ssim_mean": 0.8218329519033432,
+        "failures": 20
+      },
+      "uniform": {
+        "psnr_mean": 18.72949438095093,
+        "ssim_mean": 0.8030688658356666,
+        "failures": 5
+      },
+      "median": {
+        "psnr_mean": 19.156527411937713,
+        "ssim_mean": 0.8688870602846146,
+        "failures": 4
+      },
+      "best_single_by_fe": {
+        "psnr_mean": 19.926587843894957,
+        "ssim_mean": 0.8852069687843322,
+        "failures": 5
+      },
+      "fe_softmax": {
+        "psnr_mean": 19.99154015779495,
+        "ssim_mean": 0.8677957320213318,
+        "failures": 3
+      },
+      "best_single_by_fe_minus_k1": {
+        "mean": 1.7584786653518676,
+        "n_better": 61
+      },
+      "fe_softmax_minus_k1": {
+        "mean": 1.8234309792518615,
+        "n_better": 76
+      }
+    },
+    "B2": {
+      "k1": {
+        "psnr_mean": 18.16810917854309,
+        "ssim_mean": 0.8218329519033432,
+        "failures": 20
+      },
+      "uniform": {
+        "psnr_mean": 18.72949438095093,
+        "ssim_mean": 0.8030688658356666,
+        "failures": 5
+      },
+      "median": {
+        "psnr_mean": 19.164847779273988,
+        "ssim_mean": 0.8691554427146911,
+        "failures": 4
+      },
+      "best_single_by_fe": {
+        "psnr_mean": 19.926587843894957,
+        "ssim_mean": 0.8852069687843322,
+        "failures": 5
+      },
+      "fe_softmax": {
+        "psnr_mean": 19.98942815065384,
+        "ssim_mean": 0.8676955485343933,
+        "failures": 3
+      },
+      "best_single_by_fe_minus_k1": {
+        "mean": 1.7584786653518676,
+        "n_better": 61
+      },
+      "fe_softmax_minus_k1": {
+        "mean": 1.8213189721107483,
+        "n_better": 76
+      }
+    },
+    "C": {
+      "k1": {
+        "psnr_mean": 18.19246952533722,
+        "ssim_mean": 0.8261873382329941,
+        "failures": 20
+      },
+      "uniform": {
+        "psnr_mean": 18.65435833930969,
+        "ssim_mean": 0.8152198818325996,
+        "failures": 6
+      },
+      "median": {
+        "psnr_mean": 19.08166424036026,
+        "ssim_mean": 0.8673096334934235,
+        "failures": 5
+      },
+      "best_single_by_fe": {
+        "psnr_mean": 19.933760690689088,
+        "ssim_mean": 0.8861130464076996,
+        "failures": 5
+      },
+      "fe_softmax": {
+        "psnr_mean": 19.917585265636443,
+        "ssim_mean": 0.8724589020013809,
+        "failures": 4
+      },
+      "best_single_by_fe_minus_k1": {
+        "mean": 1.7412911653518677,
+        "n_better": 61
+      },
+      "fe_softmax_minus_k1": {
+        "mean": 1.7251157402992248,
+        "n_better": 74
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+method,baseline,mean_dB,ci_low,ci_high,better,worse,p_uncorrected,p_holm
+K=5 best-single-by-FE,K=1,1.76,1.21,2.31,61,11,0,0
+K=5 FE-softmax (T=0.05),K=1,1.82,1.29,2.36,76,24,0,0
+K=5 uniform,K=1,0.56,0.16,0.97,62,38,0.0044,0.018
+K=5 median,K=1,0.99,0.52,1.46,67,33,8.7e-05,0.00044
+K=5 FE-softmax (T=0.05),K=5 uniform,1.26,0.96,1.57,85,15,0,0
+K=5 FE-softmax (T=0.05),K=5 median,0.83,0.58,1.08,77,23,0,0
+K=5 best-single-by-FE,K=5 FE-softmax (T=0.05),-0.07,-0.24,0.11,48,52,0.54,0.54
+K=5 FE-softmax (T=0.05),"K=1, 15000 it (compute-matched)",0.80,0.21,1.38,61,39,0.019,0.058
+K=5 best-single-by-FE,"K=1, 15000 it (compute-matched)",0.73,0.12,1.34,59,41,0.021,0.058
+K=5 FE-softmax (T=0.05),"HIO, support only, 1 start",4.12,3.55,4.70,95,5,0,0
+K=5 best-single-by-FE,"HIO, support only, 1 start",4.06,3.43,4.68,92,8,0,0
+K=5 FE-softmax (T=0.05),"HIO, support only, best of 5 by FE",3.47,2.94,4.00,93,7,0,0
+K=5 best-single-by-FE,"HIO, support only, best of 5 by FE",3.41,2.82,3.99,91,9,0,0
+K=5 FE-softmax (T=0.05),"HIO, real+nonneg, 1 start",-30.23,-33.77,-26.69,18,82,0,0
+K=5 best-single-by-FE,"HIO, real+nonneg, 1 start",-30.30,-33.84,-26.75,16,84,0,0
+K=5 FE-softmax (T=0.05),"HIO, real+nonneg, best of 5 by FE",-39.69,-40.64,-38.74,0,100,0,0
+K=5 best-single-by-FE,"HIO, real+nonneg, best of 5 by FE",-39.76,-40.73,-38.78,0,100,0,0
+K=5 FE-softmax (T=0.05),"RAAR, support only, 1 start",7.04,6.52,7.57,100,0,0,0
+K=5 best-single-by-FE,"RAAR, support only, 1 start",6.98,6.40,7.55,100,0,0,0
+K=5 FE-softmax (T=0.05),"RAAR, support only, best of 5 by FE",6.45,5.96,6.94,100,0,0,0
+K=5 best-single-by-FE,"RAAR, support only, best of 5 by FE",6.38,5.85,6.92,100,0,0,0
+K=5 FE-softmax (T=0.05),"RAAR, real+nonneg, 1 start",-14.82,-18.82,-10.83,40,60,5e-06,3e-05
+K=5 best-single-by-FE,"RAAR, real+nonneg, 1 start",-14.89,-18.89,-10.90,34,66,2e-06,1.4e-05
+K=5 FE-softmax (T=0.05),"RAAR, real+nonneg, best of 5 by FE",-32.63,-35.58,-29.67,8,92,0,0
+K=5 best-single-by-FE,"RAAR, real+nonneg, best of 5 by FE",-32.69,-35.63,-29.76,6,94,0,0

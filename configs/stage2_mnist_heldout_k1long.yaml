@@ -1,0 +1,60 @@
+# Stage-2 COMPUTE-MATCHED CONTROL (pre-registered, see PREREGISTRATION_STAGE2_100.md).
+#
+# One start with five times the iterations of a K=5 member, so its training cost equals the
+# K=5 methods (about 5 x 3000 iterations). Everything else is the frozen Stage-2 design:
+# same images (held-out ranks 0 to 99), measurement, model, losses and weights. The annealing
+# and beta schedules are defined as fractions of the run and stretch over 15000 iterations;
+# the support refinement interval (200 iterations) is absolute.
+# Question it answers: does five measurement-guided starts beat one start with the same compute?
+experiment:
+  name: stage2_mnist_heldout_k1long
+  single_method_name: k1_long  # method name in metrics.json and reports
+  output_dir: results/stage2_mnist_heldout_k1long
+  seed: 0
+  device: auto               # the runner refuses a silent CPU fallback for this split
+  cleanup_member_cache: true
+dataset:
+  name: mnist
+  split: test
+  protocol_split: heldout
+  splits_dir: splits
+  n_images: 100
+  size: 32
+  root: ./data
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+model:
+  z_channels: 128
+  z_hw: 4
+  base_ch: 128
+ensemble:
+  K: 1
+  base_seed: 0               # seed 0, the same seed as the K=1 member of the K=5 run
+trainer:
+  iterations: 15000          # 5 x 3000: the compute budget of K=5
+  lr_theta: 1.0e-3
+  lr_z: 1.0e-3
+  optimize_z: true
+  grad_clip: 1.0
+  data_loss: magnitude_l2
+  lambda_tv_A: 1.0e-3
+  lambda_tv_phi: 1.0e-4
+  lambda_support: 1.0e-2
+  use_spectral_annealing: true
+  sigma_start_frac: 0.5
+  sigma_end_frac: 0.05
+  use_physics_projection: true
+  beta_schedule: { type: linear, start: 0.7, end: 0.1 }
+  use_adaptive_support: true
+  support_update_every: 200
+  log_every: 150
+uncertainty:
+  fidelity_temperature: 0.05 # FROZEN, selected on the development images
+  n_bins_ece: 15
+evaluation:
+  # Pre-specified before the held-out run (part of the protocol lock).
+  failure_psnr_db: 15.0         # a reconstruction with PSNR below this is a failure
+  auroc_min_per_class: 5        # failure-detection AUROC only if >= 5 failures and >= 5 successes

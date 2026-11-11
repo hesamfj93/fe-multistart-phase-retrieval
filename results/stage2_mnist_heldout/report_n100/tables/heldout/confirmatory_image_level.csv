@@ -1,0 +1,5 @@
+ranks,status,method,role,n,rho,p_one_sided,ci95_low,ci95_high
+50-99,computed,K=5 FE-softmax (T=0.05),primary,50,0.3846,0.002911,0.0859,0.6277
+50-99,computed,K=5 uniform,secondary (descriptive),50,0.6569,0.000000,0.4112,0.8249
+50-99,computed,K=5 median,secondary (descriptive),50,0.5243,0.000046,0.2512,0.7384
+50-99,computed,K=5 best-single-by-FE,secondary (descriptive),50,0.2937,0.019208,-0.0176,0.5584

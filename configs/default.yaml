@@ -1,0 +1,7 @@
+# Default config — every other config inherits these and overrides selectively.
+# See pr_uq/utils/config.py:DEFAULT_CONFIG for the master schema and defaults.
+experiment:
+  name: default
+  output_dir: results/default
+  seed: 0
+  device: auto
