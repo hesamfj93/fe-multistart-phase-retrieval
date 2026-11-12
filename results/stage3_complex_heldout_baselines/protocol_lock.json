@@ -1,0 +1,116 @@
+{
+  "fingerprint": "60816ee6196183489f73c8a29f2e7fcd5482416006090e8b84c77ceeed5ba999",
+  "frozen_config": {
+    "evaluation": {
+      "failure_psnr_db": 15.0,
+      "auroc_min_per_class": 5
+    },
+    "experiment": {
+      "name": "stage3_complex_heldout_baselines",
+      "seed": 0,
+      "save_arrays": true,
+      "save_images": true,
+      "save_checkpoints": false
+    },
+    "dataset": {
+      "name": "mnist",
+      "size": 32,
+      "split": "test",
+      "download": true,
+      "seed": 0,
+      "protocol_split": "heldout",
+      "rank_start": 100,
+      "object": {
+        "class": "complex",
+        "phase_sigma_px": 3.0,
+        "phase_max_rad": 1.5707963267948966,
+        "phase_seed_offset": 1000003
+      }
+    },
+    "measurement": {
+      "oversample": 2,
+      "noise_model": "none",
+      "noise_level": 0.0,
+      "noise_seed": 0
+    },
+    "model": {
+      "z_channels": 128,
+      "z_hw": 4,
+      "base_ch": 128
+    },
+    "ensemble": {
+      "K": 1,
+      "base_seed": 0
+    },
+    "trainer": {
+      "iterations": 3000,
+      "lr_theta": 0.001,
+      "lr_z": 0.001,
+      "optimize_z": true,
+      "grad_clip": 1.0,
+      "data_loss": "magnitude_l2",
+      "lambda_tv_A": 0.001,
+      "lambda_tv_phi": 0.0001,
+      "lambda_phi_l2": 0.0,
+      "lambda_support": 0.01,
+      "use_spectral_annealing": true,
+      "sigma_start_frac": 0.5,
+      "sigma_end_frac": 0.05,
+      "annealing_schedule": "log",
+      "annealing_fraction": 0.6,
+      "use_physics_projection": true,
+      "beta_schedule": {
+        "type": "linear",
+        "start": 0.7,
+        "end": 0.1
+      },
+      "project_in_loss": true,
+      "project_detached": true,
+      "use_adaptive_support": true,
+      "support_initial_fill": "full",
+      "support_update_every": 300,
+      "support_smooth_sigma": 1.0,
+      "support_threshold_frac": 0.08,
+      "support_gamma": 10.0,
+      "log_every": 100
+    },
+    "uncertainty": {
+      "alpha": 0.5,
+      "alphas_sweep": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "normalization": "robust",
+      "summary": "mean",
+      "n_bins_ece": 15
+    },
+    "failure_detection": {
+      "threshold_kind": "relative",
+      "threshold_value_db": 15.0,
+      "margin_db": 5.0
+    },
+    "baselines": {
+      "algorithms": [
+        "hio",
+        "raar"
+      ],
+      "constraints": [
+        "support_only",
+        "shrinkwrap",
+        "real_nonneg"
+      ],
+      "starts": 5,
+      "base_seed": 0,
+      "iterations": 5000,
+      "er_iterations": 200,
+      "hio_beta": 0.9,
+      "raar_beta": 0.87
+    }
+  },
+  "protocol_split": "heldout",
+  "split_file_sha256": "1ba3efb4cbcba471e314a83646db028e1618f7293723e2bce1627fafe838d4ac",
+  "created": "2026-11-11 20:54:09"
+}

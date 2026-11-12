@@ -1,6 +1,9 @@
 """Write the tables of supplement.tex from the stored results (no hand-typed numbers).
 
-    python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout
+    python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout \
+        --stage3 results/stage3_complex_heldout/report
+
+--stage3 reads summary.json (scripts/stage3_report.py) and posthoc_stage3.json (scripts/stage3_posthoc.py).
 """
 from __future__ import annotations
 import argparse, csv, json
@@ -31,7 +34,8 @@ def pfmt(p: float) -> str:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(); ap.add_argument("--run-dir", required=True); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("--run-dir", required=True); ap.add_argument("--stage3")
+    a = ap.parse_args()
     run = Path(a.run_dir); out = Path(__file__).resolve().parent / "supp"; out.mkdir(exist_ok=True)
     ph = json.loads((run / "report_n100/posthoc/posthoc_revision2.json").read_text(encoding="utf-8"))
     rows = []
@@ -69,8 +73,47 @@ def main() -> int:
             f"\\newcommand{{\\madpixpsnr}}{{{q['psnr_mean']:.2f}}}\\newcommand{{\\madpixssim}}{{{q['ssim_mean']:.3f}}}"
             f"\\newcommand{{\\madpixfail}}{{{q['failures']}}}\\newcommand{{\\madpixrej}}{{{100*q['rejected_value_fraction_mean']:.0f}}}\n",
             encoding="utf-8")
+    if a.stage3:
+        stage3_tables(Path(a.stage3), out)
     print("written to", out)
     return 0
+
+
+S3_NAME = {"k1": "K=1", "uniform": "uniform", "median": "median", "best_single_by_fe": "selection",
+           "fe_softmax": "FE-softmax", "k1_long": "\\texttt{k1\\_long}"}
+
+
+def s3_name(m: str) -> str:
+    if m in S3_NAME:
+        return S3_NAME[m]
+    alg, con, st = m.split("_")
+    con = {"supp": "supp.", "sw": "shrinkwrap", "realpos": "r+n"}[con]
+    return f"{alg.upper()} {con}\\ \\texttt{{{st}}}"
+
+
+def stage3_tables(rep: Path, out: Path) -> None:
+    sm = json.loads((rep / "summary.json").read_text(encoding="utf-8"))
+    rows = []
+    for d in sm["methods"]:
+        rows.append(f"{s3_name(d['method'])} & ${d['psnr_mean']:.2f}\\pm{d['psnr_std']:.2f}$ & {d['psnr_median']:.2f} & "
+                    f"[{d['psnr_ci'][0]:.2f}, {d['psnr_ci'][1]:.2f}] & {d['psnr_amp_mean']:.2f} & {d['phase_err_mean']:.3f} & "
+                    f"{d['nrmse_c_mean']:.3f} & {d['ssim_amp_mean']:.3f} & {d['fe_mean']:.3f} & {d['failures']} & {d['exact']} & "
+                    f"{d['runtime_s']:.1f} \\\\")
+    (out / "tab_s3_methods.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    rows = []
+    for h in sm["hypotheses"]:
+        rows.append(f"{h['id']} & {s3_name(h['first'])} & {s3_name(h['second'])} & ${h['mean']:+.2f}$ & "
+                    f"[{h['ci'][0]:.2f}, {h['ci'][1]:.2f}] & ${h['median']:+.2f}$ & {h['better']}/{h['worse']}/{h['equal']} & "
+                    f"{pfmt(h['p_uncorrected'])} & {pfmt(h['p_holm'])} & {'yes' if h['supported'] else 'no'} \\\\")
+    (out / "tab_s3_hyp.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
+    ph = json.loads((rep / "posthoc_stage3.json").read_text(encoding="utf-8"))
+    rows = []
+    for r in ph["fallback_raar_sw_then_fe_softmax"]:
+        rows.append(f"{r['t']:g} & {r['raar_used']} & {r['mean']:.2f} & {r['median']:.2f} & {r['failures']} & {r['exact']} \\\\")
+    for k, nm in (("raar_sw_best5", "RAAR shrinkwrap \\texttt{best5} alone"), ("fe_softmax", "FE-softmax alone")):
+        r = ph["reference"][k]
+        rows.append(f"\\multicolumn{{2}}{{@{{}}l}}{{{nm}}} & {r['mean']:.2f} & {r['median']:.2f} & {r['failures']} & {r['exact']} \\\\")
+    (out / "tab_s3_fallback.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

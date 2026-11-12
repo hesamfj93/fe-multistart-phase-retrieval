@@ -13,3 +13,8 @@ results/*/per_image/*/_members/
 results/*/logs/
 paper/figures/
 paper/supp/
+
+# local helpers on the GPU machine
+/*.bat
+/pack_stage3.py
+results/*.zip

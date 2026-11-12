@@ -1,0 +1,131 @@
+{
+  "note": "post hoc; not part of STAGE3_COMPLEX_PLAN.md; no test, no chosen threshold",
+  "n": 100,
+  "fe_levels": {
+    "k1": {
+      "median": 0.3128141164779663,
+      "min": 0.1217961311340332,
+      "max": 0.6725846529006958
+    },
+    "uniform": {
+      "median": 0.3575472831726074,
+      "min": 0.15838497877120972,
+      "max": 0.5646153092384338
+    },
+    "median": {
+      "median": 0.3179043084383011,
+      "min": 0.1101842001080513,
+      "max": 0.5497699975967407
+    },
+    "best_single_by_fe": {
+      "median": 0.24041235446929932,
+      "min": 0.10601310431957245,
+      "max": 0.4743027985095978
+    },
+    "fe_softmax": {
+      "median": 0.2726075351238251,
+      "min": 0.11051230877637863,
+      "max": 0.5453630089759827
+    },
+    "hio_supp_best5": {
+      "median": 0.005413145525380969,
+      "min": 0.001463918131776154,
+      "max": 0.013923595659434795
+    },
+    "hio_sw_best5": {
+      "median": 0.021970925852656364,
+      "min": 0.0021858043037354946,
+      "max": 0.03631998971104622
+    },
+    "hio_realpos_best5": {
+      "median": 0.30682314932346344,
+      "min": 0.1436854600906372,
+      "max": 0.4185226857662201
+    },
+    "raar_supp_best5": {
+      "median": 0.017364532686769962,
+      "min": 0.009615320712327957,
+      "max": 0.03423060104250908
+    },
+    "raar_sw_best5": {
+      "median": 0.024016729556024075,
+      "min": 2.3890115130598133e-07,
+      "max": 0.058870453387498856
+    },
+    "raar_realpos_best5": {
+      "median": 0.3096863478422165,
+      "min": 0.14447413384914398,
+      "max": 0.41777485609054565
+    }
+  },
+  "within_raar_sw_best5": {
+    "spearman_fe_vs_minus_psnr": 0.9398536623889108,
+    "n_exact": 25,
+    "fe_max_exact": 0.0003483068139757961,
+    "n_fail": 29,
+    "fe_min_fail": 0.029715072363615036,
+    "n_between": 46,
+    "fe_median_between": 0.023210564628243446,
+    "fe_softmax_better_on_raar_failures": 28,
+    "fe_softmax_better_on_raar_between": 11,
+    "fe_softmax_better_overall": 39,
+    "median_difference_db": -1.9232244500668347
+  },
+  "fallback_raar_sw_then_fe_softmax": [
+    {
+      "t": 0.001,
+      "raar_used": 34,
+      "mean": 31.219462196440467,
+      "median": 19.077382856981494,
+      "failures": 18,
+      "exact": 25
+    },
+    {
+      "t": 0.003,
+      "raar_used": 34,
+      "mean": 31.219462196440467,
+      "median": 19.077382856981494,
+      "failures": 18,
+      "exact": 25
+    },
+    {
+      "t": 0.01,
+      "raar_used": 38,
+      "mean": 31.91711023568454,
+      "median": 19.518445951534254,
+      "failures": 18,
+      "exact": 25
+    },
+    {
+      "t": 0.02,
+      "raar_used": 44,
+      "mean": 32.39407871727545,
+      "median": 20.04192134660723,
+      "failures": 16,
+      "exact": 25
+    },
+    {
+      "t": 0.03,
+      "raar_used": 57,
+      "mean": 32.68051863560646,
+      "median": 20.29788825448251,
+      "failures": 11,
+      "exact": 25
+    }
+  ],
+  "reference": {
+    "fe_softmax": {
+      "mean": 17.672386652469847,
+      "median": 17.45349475490923,
+      "failures": 21,
+      "exact": 0
+    },
+    "raar_sw_best5": {
+      "mean": 31.465648898179687,
+      "median": 18.395041701623086,
+      "failures": 29,
+      "exact": 25
+    },
+    "per_image_oracle_mean": 32.90666861667877
+  }
+}

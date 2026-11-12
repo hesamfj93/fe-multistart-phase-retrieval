@@ -9,7 +9,7 @@ An untrained double-decoder network recovers a 32×32 image from the magnitude o
 - **selection**: the start with the lowest FE;
 - **fusion**: the aligned starts weighted by softmax(-FE / T), with T = 0.05.
 
-The evaluation uses 100 held-out MNIST test images with noiseless measurements, a compute-matched single-start control, and HIO and RAAR with two object constraints.
+The evaluation uses 100 held-out MNIST test images with noiseless measurements, a compute-matched single-start control, and HIO and RAAR with two object constraints. A second held-out study with complex-valued objects is described under Stage 3 below.
 
 ## Main results (100 held-out images)
 
@@ -32,8 +32,8 @@ HIO with a real and nonnegative constraint recovers 99 of the 100 images exactly
 | `configs/` | one YAML file per run; the held-out files are frozen (hashes below) |
 | `splits/` | development (8), held-out (200) and smoke (3) index lists of the MNIST test set |
 | `data/MNIST/raw/` | the MNIST test set (IDX files), see [`data/README.md`](data/README.md) |
-| `results/` | development results and the three held-out runs: per-image metrics, the five stored starts (`members.npz`), the long single start (`members.npz`) and the HIO and RAAR reconstructions (`baselines.npz`) |
-| `paper/make_paper_figures.py` | regenerates the figures of the paper from `results/` |
+| `results/` | development results and the held-out runs of both stages: per-image metrics, the five stored starts (`members.npz`), the long single start (`members.npz`) and the HIO and RAAR reconstructions (`baselines.npz`) |
+| `paper/` | `make_paper_figures.py`, `make_stage3_figures.py` and `make_supplement_tables.py` regenerate the figures and supplementary tables from `results/` |
 | `tests/` | unit and protocol tests |
 | `docs/` | analysis plan, development report, results, runbook |
 
@@ -85,6 +85,7 @@ python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout
 | complex-field metrics, MAD rejection baselines, Holm family (supplement Tables S2 to S4) | `report_n100/posthoc/posthoc_revision2.json`, `report_n100/posthoc/holm_family.csv` |
 | interim analysis, first 50 images (supplement Table S5) | `generate_report.py ... --n-heldout 50` |
 | Development study | `results/*.csv`, `results/mnist_k5_3000iter/`, `docs/AGGREGATION_FINALIZATION_REPORT.md` |
+| Section VIII (complex-valued objects), supplement Tables S7 to S9 and Figs. S2 and S3 | `results/stage3_complex_heldout/report/` (`summary.json`, `posthoc_stage3.json`), `docs/STAGE3_RESULTS.md` |
 
 ## Rerun the held-out evaluation
 
@@ -129,9 +130,18 @@ Frozen files (first 16 hex digits of SHA-256):
 
 Details: [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md).
 
-## Stage 3: complex-valued objects (planned)
+## Stage 3: complex-valued objects
 
-The analysis plan for a second held-out experiment, with complex-valued objects for which the real and nonnegative constraint does not apply, is [`STAGE3_COMPLEX_PLAN.md`](STAGE3_COMPLEX_PLAN.md). It reuses the frozen design unchanged, uses held-out ranks 100 to 199, and was tagged `stage3-plan-v1` before any of those images was reconstructed. Code: `pr_uq/data/complex_objects.py`, the `shrinkwrap` constraint in `pr_uq/baselines/oversampled.py`, `scripts/stage3_report.py`, `configs/stage3_*.yaml`, `tests/test_stage3_complex.py`.
+A second held-out study uses complex-valued objects (MNIST amplitude, smooth random phase up to ±π/2), for which the real and nonnegative constraint does not apply. It reuses the frozen design unchanged and held-out ranks 100 to 199. The analysis plan, [`STAGE3_COMPLEX_PLAN.md`](STAGE3_COMPLEX_PLAN.md), was tagged `stage3-plan-v1` before any of those images was reconstructed. There were no deviations.
+
+| comparison (complex PSNR, n = 100) | mean difference (dB) | 95% CI | supported |
+|---|--:|---|---|
+| FE-softmax fusion vs one start | +3.36 | [2.74, 3.98] | yes |
+| FE-softmax fusion vs one start with the same total iterations | +1.37 | [0.73, 2.01] | yes |
+| FE-softmax fusion vs HIO with shrinkwrap, best of 5 | +2.48 | [1.83, 3.12] | yes |
+| FE-softmax fusion vs RAAR with shrinkwrap, best of 5 | −13.79 | [−17.71, −9.87] | no |
+
+RAAR with shrinkwrap recovers 25 of the 100 images exactly and fails on 29; FE-softmax has no exact recovery and 21 failures, and is better on 28 of the 29 RAAR failures. All results, including post-hoc analyses labelled as such, are in [`docs/STAGE3_RESULTS.md`](docs/STAGE3_RESULTS.md). Code: `pr_uq/data/complex_objects.py`, the `shrinkwrap` constraint in `pr_uq/baselines/oversampled.py`, `scripts/stage3_report.py` (pre-specified), `scripts/stage3_posthoc.py` (post hoc), `paper/make_stage3_figures.py`, `configs/stage3_*.yaml`, `tests/test_stage3_complex.py`.
 
 ## License
 

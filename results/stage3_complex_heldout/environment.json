@@ -1,0 +1,12 @@
+{
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26100-SP0",
+  "torch": "2.5.1+cu121",
+  "cuda_available": true,
+  "device_used": "cuda",
+  "numpy": "2.1.2",
+  "cuda_version": "12.1",
+  "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_count": 1,
+  "git_commit": "27c7c20f7c9d879ece481ef7a8f79e1867c53da6"
+}

@@ -1,0 +1,9 @@
+id,first,second,n,mean_dB,ci_low,ci_high,better,worse,p,p_holm,supported
+C1,fe_softmax,k1,100,3.36,2.74,3.98,89,11,7e-16,4.2e-15,True
+C2,best_single_by_fe,k1,100,3.09,2.38,3.80,71,12,3.1e-12,1.5e-11,True
+C3,fe_softmax,k1_long,100,1.37,0.73,2.01,67,33,6.7e-05,0.00013,True
+C4,best_single_by_fe,k1_long,100,1.10,0.37,1.83,63,37,0.0047,0.0047,True
+C5,fe_softmax,hio_supp_best5,100,4.34,3.78,4.90,96,4,2.3e-17,1.6e-16,True
+C6,fe_softmax,raar_supp_best5,100,6.24,5.70,6.79,100,0,3.9e-18,3.1e-17,True
+C7,fe_softmax,hio_sw_best5,100,2.48,1.83,3.12,81,19,8.4e-10,3.4e-09,True
+C8,fe_softmax,raar_sw_best5,100,-13.79,-17.71,-9.87,39,61,3e-05,9e-05,False
