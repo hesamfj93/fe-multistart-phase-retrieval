@@ -1,3 +1,8 @@
-"""pr_uq — Calibrated Uncertainty for Untrained Fourier Phase Retrieval."""
+"""pr_uq: multi-start untrained-network reconstruction for oversampled Fourier phase retrieval.
 
-__version__ = "0.1.0"
+Forward model, double-decoder generator and trainer, alignment for the trivial ambiguities,
+Fourier-error-guided selection and fusion of independent starts, ensemble statistics,
+classical HIO and RAAR baselines, and the evaluation metrics.
+"""
+
+__version__ = "1.0.0"

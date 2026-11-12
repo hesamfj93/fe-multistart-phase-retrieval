@@ -128,7 +128,7 @@ Generated in `figures/`:
 - **`k1_vs_k5_3000iter_qualitative.png`** — 8×7 grid: GT / K=1 recon / K=5 mean / K=5 std / K=5 r_phys / K=5 fused U / K=5 |error|. PSNR annotated per row.
 - **`k5_minus_k1_psnr_delta.png`** — bar chart of per-image ΔPSNR, sorted by K=1 quality. Shows a clear pattern: K=5 helps the 2 worst K=1 images and hurts the 2 best K=1 images.
 - **`k5_3000iter_reliability.png`** — reliability diagram showing systematic under-confidence at high uncertainty.
-- **`convergence_k1.png`** (previous round) — per-image loss / PSNR / FE curves vs iteration.
+- **`convergence_k1.png`** (earlier diagnostic run): per-image loss / PSNR / FE curves vs iteration.
 
 ### 4.1 Selected cases
 

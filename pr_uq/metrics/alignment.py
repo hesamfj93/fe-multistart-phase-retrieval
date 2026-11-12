@@ -6,16 +6,23 @@ Fourier phase retrieval admits three intrinsic ambiguities:
   2. Translation:    x → x(r − r₀)         (cyclic shift in oversampled FFT)
   3. Conjugate flip: x → x(−r)*            (twin image)
 
-Honest PSNR/SSIM must align over all three before scoring. This module
-implements brute-force alignment that:
+PSNR and SSIM are computed only after removing all three. `align_to_gt` does an
+exhaustive search:
 
-  * enumerates the 4 conjugate/flip options,
-  * finds the best cyclic shift via FFT cross-correlation,
-  * solves for the optimal global phase by inner product,
-  * reports raw and aligned scores.
+  * four variants: identity, horizontal flip, vertical flip, and both flips; for complex
+    input the three flipped variants are also conjugated, so variant 3 is the twin
+    x*(-r) (the one-pixel offset between torch.flip and the DFT index reversal on an even
+    grid is absorbed by the shift search);
+  * for each variant, the integer cyclic shift at the maximum of the FFT cross-correlation
+    of the magnitudes;
+  * the global phase exp(-i angle<x, z>) that makes the inner product with the reference
+    real and positive;
+  * the variant with the lowest mean squared error to the reference is kept.
 
-The protocol is described explicitly in the paper §4 so reviewers can
-verify it.
+Only the identity and the twin are ambiguities of |F x|; the two single-axis flips are
+searched as well. This four-variant search is the frozen alignment of both held-out studies,
+and `map_to_gt_frame` applies the same flip and shift to a real-valued map such as the
+uncertainty map.
 """
 
 from __future__ import annotations
@@ -32,8 +39,8 @@ import torch
 def fft_xcorr(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
     """Real-valued cross-correlation of two (1, 1, H, W) tensors via FFT.
 
-    For complex tensors we cross-correlate the magnitudes (which removes
-    phase issues), and the maximum of |xcorr| is invariant to global phase.
+    Complex inputs are replaced by their magnitudes, so the result does not depend on
+    the global phase of either input.
     """
     a_r = a.abs() if torch.is_complex(a) else a
     b_r = b.abs() if torch.is_complex(b) else b
@@ -58,6 +65,7 @@ def best_cyclic_shift(recon: torch.Tensor, gt: torch.Tensor) -> tuple[int, int]:
 
 
 def cyclic_shift(x: torch.Tensor, dy: int, dx: int) -> torch.Tensor:
+    """Roll the last two axes by (dy, dx) pixels with wrap-around."""
     return torch.roll(x, shifts=(dy, dx), dims=(-2, -1))
 
 
@@ -92,8 +100,8 @@ def apply_variant(x: torch.Tensor, variant: int) -> torch.Tensor:
     1: horizontal flip
     2: vertical flip
     3: both flips (=180° rotation)
-    For complex tensors, each variant is combined with its conjugate twin —
-    in PR the twin image is `conj(flip(x))`.
+    For complex tensors, variants 1 to 3 are also conjugated; variant 3 is then
+    the twin image conj(x(-r)) of phase retrieval.
     """
     if variant == 0:
         out = x

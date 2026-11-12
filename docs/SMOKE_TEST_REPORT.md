@@ -7,12 +7,12 @@ This report states what was executed to verify the package before the Stage-2 GP
 | item | value |
 |---|---|
 | device | **CPU only**. No GPU was available. CUDA execution was **not** verified. |
-| Python | 3.12.3 (your machine: 3.11) |
-| PyTorch | 2.14.1 (CPU execution; your machine: 2.5.1 + CUDA 12.1) |
+| Python | 3.12.3 (GPU machine: 3.11) |
+| PyTorch | 2.14.1 (CPU execution; GPU machine: 2.5.1 + CUDA 12.1) |
 | NumPy | 2.4.4 |
 | OS | Linux |
 
-The code uses no PyTorch feature newer than 2.1, but the CUDA path and Python 3.11 were not executed here. Your own smoke test on the GPU machine is the first CUDA execution.
+The code uses no PyTorch feature newer than 2.1, but the CUDA path and Python 3.11 were not executed here. The smoke test on the GPU machine is the first CUDA execution.
 
 ## What was executed
 
@@ -50,7 +50,7 @@ Raw member stack, aligned member stack, member seeds 0 to 4, member FE, member P
 
 - CUDA, Python 3.11 and PyTorch 2.5.1 were not executed here.
 - Smoke settings (400 iterations, z_channels 64) are far below Stage-2 settings, so the runtimes above say nothing about GPU runtime at z_channels 128 and 3000 iterations.
-- The smoke results directory is not included in the package. Your smoke run therefore starts from scratch and exercises your GPU instead of skipping completed images.
+- The smoke results directory is not included in the package. A smoke run on the GPU machine therefore starts from scratch and exercises the GPU instead of skipping completed images.
 - No held-out image was reconstructed during verification. The held-out path was tested through the dry run and through unit tests on synthetic metrics files.
 
 ## Fix after the first run on the GPU machine (Windows, cp1256)
@@ -65,7 +65,7 @@ Verified here under a strict ASCII locale, which is stricter than cp1256:
 - `generate_report.py` completes end to end with console output redirected to a file, and writes a valid UTF-8 `report.md` containing `Δ` and `±`;
 - `make_splits.py --check` reports ALL OK.
 
-PyTorch could not be installed in the sandbox for this round, so the runner changes (encoding arguments only) were checked by compilation and diff review, not by execution. The full suite (40 tests) and the smoke run on the GPU machine are the execution check.
+PyTorch could not be installed in the CPU test environment for this change, so the runner changes (encoding arguments only) were checked by compilation and diff review, not by execution. The full suite (40 tests) and the smoke run on the GPU machine are the execution check.
 
 ## CUDA device bug found in the first held-out run
 
@@ -80,4 +80,4 @@ Fix:
 
 New `tests/test_device_path.py` runs the full per-image pipeline (training, all five methods, uncertainty, saving, image-level resume, and recovery after a post-training failure without retraining) on the CPU and, when a GPU is present, on CUDA. The CUDA cases are the ones that would have caught this bug.
 
-Execution status (CPU sandbox, PyTorch 2.15): full suite 44 passed, also under a strict ASCII locale; the command-line smoke run completed 3 of 3 images and the report generator succeeded; resumed and fresh images report `runtime_total_s` = training + post-processing. The 4 CUDA test cases exist only on a machine with a GPU (48 tests there) and were not executed here; the test suite on the GPU machine is the first execution of the CUDA path.
+Execution status (CPU test environment, PyTorch 2.15): full suite 44 passed, also under a strict ASCII locale; the command-line smoke run completed 3 of 3 images and the report generator succeeded; resumed and fresh images report `runtime_total_s` = training + post-processing. The 4 CUDA test cases exist only on a machine with a GPU (48 tests there) and were not executed here; the test suite on the GPU machine is the first execution of the CUDA path.

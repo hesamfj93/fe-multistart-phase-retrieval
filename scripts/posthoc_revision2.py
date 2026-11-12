@@ -1,4 +1,4 @@
-"""Post-hoc analyses added in the second pre-submission revision (2026-11-11).
+"""Post-hoc analyses of the first held-out study (ranks 0 to 99), written on 2026-11-11 after the frozen plan was executed.
 
 All analyses use the stored starts and aggregates of the held-out run; nothing is retrained,
 and no frozen decision depends on them.

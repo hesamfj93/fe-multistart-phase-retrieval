@@ -173,8 +173,8 @@ def make_mnist_offline(
     """Network-free MNIST loader.
 
     Reads raw IDX files from a local directory (see `_find_idx_pair` for the
-    accepted layouts). No `torchvision` dependency. Suitable for sandboxed
-    environments and reproducible CI.
+    accepted layouts). No `torchvision` dependency and no network access, so it
+    works offline and in continuous integration.
 
     Parameters
     ----------

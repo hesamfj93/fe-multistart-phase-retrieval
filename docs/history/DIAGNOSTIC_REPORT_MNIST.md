@@ -83,7 +83,7 @@ training loss has plateaued.
 - mnist_009399: plateau at ~14 dB after iter 500 — partial recovery.
 - mnist_001917: plateau at ~10 dB after iter 500 — full failure.
 
-This is why I removed the default `keep_best_recon=True` setting: tracking
+For this reason the default `keep_best_recon=True` setting was removed: tracking
 "best by training loss" was systematically picking iterates from early in
 training where the loss was already low but the PSNR was 8–10 dB worse than
 the final iterate. **Always use the final iterate for PR.**

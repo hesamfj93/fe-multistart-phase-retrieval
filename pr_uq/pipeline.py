@@ -1,9 +1,10 @@
-"""LEGACY MODULE, used only by scripts/_archive/. Not protocol-compliant.
+"""Development-stage pipeline. Not used for the held-out evaluation.
 
-The Stage-2 runner is scripts/run_phase_retrieval.py, which selects images from the
-split files in splits/. Do not use run_experiment() for evaluation.
-
-End-to-end pipeline used by every script.
+`run_experiment` produced the development results on the 8 development images in
+results/mnist_k1_3000iter/ and results/mnist_k5_3000iter/. The scripts that called it are not
+part of this release. It selects images from the dataset configuration, not from the split
+files, so it must not be used for evaluation; the held-out runs use
+scripts/run_phase_retrieval.py, which reads splits/.
 
 `run_experiment(config)` does:
   1. seeds everything,

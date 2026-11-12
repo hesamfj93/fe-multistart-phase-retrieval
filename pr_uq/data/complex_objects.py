@@ -46,6 +46,7 @@ def to_complex_object(img: torch.Tensor, seed: int, sigma_px: float = 3.0,
 
 
 def object_class(dataset_cfg: dict) -> str:
+    """Object model named in dataset.object.class: 'real' (default, the digit itself) or 'complex'."""
     return str((dataset_cfg.get("object") or {}).get("class", "real"))
 
 

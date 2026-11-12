@@ -42,12 +42,14 @@ def _to_real(x: torch.Tensor) -> torch.Tensor:
 
 
 def mse(recon: torch.Tensor, gt: torch.Tensor) -> float:
+    """Mean squared error of the real parts, averaged over all pixels."""
     r = _to_real(recon)
     g = _to_real(gt)
     return float(F.mse_loss(r, g).item())
 
 
 def nmse(recon: torch.Tensor, gt: torch.Tensor) -> float:
+    """Normalized squared error of the real parts, ||Re r - Re g||^2 / ||Re g||^2."""
     r = _to_real(recon)
     g = _to_real(gt)
     num = (r - g).pow(2).sum()
@@ -171,6 +173,7 @@ def psnr_complex(recon: torch.Tensor, gt: torch.Tensor, data_range: float = 1.0)
 
 
 def nrmse_complex(recon: torch.Tensor, gt: torch.Tensor) -> float:
+    """Normalized error of the complex field, ||r - g||_2 / ||g||_2, with no alignment applied."""
     g = gt.to(torch.complex64)
     return float((recon.to(torch.complex64) - g).abs().pow(2).sum().sqrt() / g.abs().pow(2).sum().sqrt().clamp_min(1e-12))
 

@@ -7,8 +7,8 @@ A single `EnsembleMember` holds:
 
 The `Ensemble` is a list of K members. We train each member independently
 (sequentially by default; parallel optional) and aggregate at evaluation
-time. Independence of initialization is what gives us *diverse* members,
-the engine that powers the variance-based uncertainty estimate.
+time. Independent initializations make the members converge to different
+solutions of the same measurement; their spread is the ensemble statistic.
 """
 
 from __future__ import annotations
@@ -63,9 +63,11 @@ class EnsembleMember(nn.Module):
         return [self.z_A, self.z_phi]
 
     def amplitude(self) -> torch.Tensor:
+        """Amplitude A = g_A(z_A) in [0, 1] (sigmoid output), shape (1, 1, H, W)."""
         return self.g_A(self.z_A)
 
     def phase(self) -> torch.Tensor:
+        """Phase = g_phi(z_phi) in [-pi, pi] (pi * tanh output), shape (1, 1, H, W)."""
         return self.g_phi(self.z_phi)
 
     def complex_image(self) -> torch.Tensor:
@@ -77,6 +79,7 @@ class EnsembleMember(nn.Module):
         )
 
     def forward(self) -> torch.Tensor:
+        """Complex reconstruction A exp(i phase); the member has no input besides its latents."""
         return self.complex_image()
 
 

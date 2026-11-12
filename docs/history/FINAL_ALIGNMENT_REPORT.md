@@ -4,7 +4,7 @@
 
 # Ensemble Alignment Investigation — Is the K=5 Regression an Alignment Bug?
 
-**Question (from the brief).** The K=5 ensemble regressed on easy images, worst of all mnist_002890 (K=1 26.21 dB → K=5 20.84 dB, −5.37 dB). Is this an alignment/averaging bug, or a real ensemble problem?
+**Question.** The K=5 ensemble regressed on easy images, worst of all mnist_002890 (K=1 26.21 dB → K=5 20.84 dB, −5.37 dB). Is this an alignment/averaging bug, or a real ensemble problem?
 
 **Answer.** It is an **averaging problem, not an alignment bug.** Alignment is working correctly. The regression comes from a plain uniform mean averaging in under-converged members that are individually poor reconstructions. Fixing the anchor choice recovers ~0.6 dB; downweighting the bad members by their data-fidelity recovers the rest. With both fixes, K=5 now **beats** K=1 (mean 21.57 vs 19.97 dB).
 
@@ -122,12 +122,12 @@ So there is a genuine reconstruction-vs-uncertainty trade-off across the strateg
 - `tests/test_aggregation.py` — 7 new tests (weights sum to 1, softmax downweights high-FE members, top_k zeros the rest, uniform reproduces the plain mean, best-FE anchor picks the lowest-error member, downweighting beats uniform with a bad member present, K=1 gives zero std). All 25 tests pass.
 
 Figures written to `figures/`:
-- `inspect_002890_before_after.png` — the 5 members before/after alignment + the four aggregate reconstructions (the requested item-5 visualization).
+- `inspect_002890_before_after.png`: the 5 members before and after alignment and the four aggregate reconstructions.
 - `aggregation_strategy_comparison.png` — per-image K=1 vs legacy vs fe_softmax.
 
 ---
 
-## 6. Direct answers to the brief
+## 6. Answers to the investigation questions
 
 1. **Align every member to a common anchor before averaging** — done; anchor is now chosen, not fixed at member 0.
 2. **Anchor choices** — implemented all three (best-FE, medoid, first). best-FE is the default and the strongest; note that "K=1 reconstruction as anchor" ≡ member 0 ≡ the `first` option, and it does *not* fix the regression because anchor choice is worth only ~0.6 dB.

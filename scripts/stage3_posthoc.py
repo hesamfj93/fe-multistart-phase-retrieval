@@ -32,6 +32,7 @@ CLASSICAL = ("hio_supp_best5", "hio_sw_best5", "hio_realpos_best5",
 
 
 def load_run(run_dir: Path) -> dict:
+    """Per-image method metrics of a run, keyed by MNIST test index; failed images are skipped."""
     out = {}
     for mj in sorted((run_dir / "per_image").glob("image_*/metrics.json")):
         m = json.loads(mj.read_text(encoding="utf-8"))
@@ -41,11 +42,13 @@ def load_run(run_dir: Path) -> dict:
 
 
 def summarize(p: np.ndarray) -> dict:
+    """Mean, median, failures (< 15 dB) and exact recoveries (>= 60 dB) of capped PSNR values."""
     return {"mean": float(p.mean()), "median": float(np.median(p)),
             "failures": int((p < FAIL).sum()), "exact": int((p >= CAP).sum())}
 
 
 def main() -> None:
+    """Compute the three post-hoc summaries and write them as JSON."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--main", required=True)
     ap.add_argument("--baselines", required=True)

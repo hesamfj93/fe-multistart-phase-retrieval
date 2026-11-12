@@ -13,8 +13,11 @@ Authoritative workflow for this project. Exact Windows commands are in **WINDOWS
 | `scripts/make_splits.py` | writes or checks (`--check`) the dev / held-out / smoke index files |
 | `scripts/verify_dataset.py` | checks that the bundled MNIST files load |
 | `scripts/aggregation_finalization.py` | development-stage analysis on the 8 development images; not used in Stage 2 |
+| `scripts/posthoc_analyses.py`, `scripts/alignment_sensitivity.py`, `scripts/posthoc_revision2.py` | post-hoc analyses of the first held-out study, from stored results |
+| `scripts/stage3_report.py` | pre-specified analysis of the second held-out study (complex-valued objects), as tagged in `stage3-plan-v1` |
+| `scripts/stage3_posthoc.py` | post-hoc analyses of the second held-out study, from stored results |
 
-Older scripts and configs are in `scripts/_archive/` and `configs/_archive/` for reference only. The archived `mnist_main.yaml` and `mnist50_k5_stage2.yaml` selected images with a seed-0 permutation whose first 8 images are exactly the development images, so they must not be used.
+The development-stage scripts and configurations that called `pr_uq/pipeline.py` are not part of this release. They selected images with a seed-0 permutation whose first 8 images are the development images; every held-out run selects its images from `splits/` only.
 
 ## Configs
 
@@ -25,6 +28,10 @@ Older scripts and configs are in `scripts/_archive/` and `configs/_archive/` for
 | `configs/stage2_mnist_dev8.yaml` | dev | 8 | optional, development images under Stage-2 settings, reported separately |
 | `configs/stage2_mnist_heldout_k1long.yaml` | heldout | 100 | compute-matched control: K=1, 15000 iterations, method `k1_long` |
 | `configs/stage2_mnist_heldout_baselines.yaml` | heldout | 100 | HIO and RAAR, support-only and real+nonneg priors, 1 start and best of 5 by FE |
+| `configs/stage3_complex_dev.yaml`, `configs/stage3_complex_dev_baselines.yaml` | dev | 8 | software check of the second study on complex-valued objects |
+| `configs/stage3_complex_heldout.yaml` | heldout, ranks 100 to 199 | 100 | second study: complex-valued objects, frozen design |
+| `configs/stage3_complex_heldout_k1long.yaml` | heldout, ranks 100 to 199 | 100 | second study: compute-matched control |
+| `configs/stage3_complex_heldout_baselines.yaml` | heldout, ranks 100 to 199 | 100 | second study: HIO and RAAR with support-only, shrinkwrap and real+nonneg constraints |
 
 ## Evaluation protocol in brief
 

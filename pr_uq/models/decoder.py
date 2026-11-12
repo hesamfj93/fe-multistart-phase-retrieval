@@ -62,6 +62,7 @@ class UntrainedDecoder(nn.Module):
         self.output_activation = output_activation
 
     def forward(self, z: torch.Tensor) -> torch.Tensor:
+        """Map a latent code (1, Cz, z_hw, z_hw) to a (1, 1, H, W) map with the output activation."""
         h = self.ups(z)
         h = self.head(h)
         h = self.out_conv(h)

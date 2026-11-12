@@ -1,11 +1,11 @@
-"""Textbook HIO and RAAR on the full oversampled grid (Stage-2 classical baselines).
+"""Textbook HIO and RAAR on the full oversampled grid (classical baselines of both held-out studies).
 
 The older `hio.py` and `raar.py` crop every iterate back to the H x W image window, so the
 zero-padded region of the oversampled field never receives the HIO feedback or the RAAR
 reflection. These functions keep the iterate on the full oversampled grid, which is the
 standard formulation for oversampled Fourier phase retrieval.
 
-Two object constraint sets S are provided:
+Three object constraint sets S are provided:
 - "support_only": zero outside the central H x W window where the image sits before zero
   padding, complex values allowed inside. This is the same prior the untrained method uses
   (it estimates a complex object; the window is the extent implied by 2x oversampling).
@@ -13,11 +13,19 @@ Two object constraint sets S are provided:
   assumptions of classical CDI. They hold for MNIST, and with them noiseless oversampled
   MNIST is typically recovered almost exactly, so this variant is a strong reference rather
   than a like-for-like comparison.
+- "shrinkwrap": an adaptive support inside the window (Marchesini et al. 2003). Every 20
+  iterations the support becomes the pixels where the amplitude, blurred with a Gaussian whose
+  width shrinks by 1% per update from 3 to 1.5 pixels, exceeds 0.2 of its maximum; inside the
+  support the amplitude is bounded by 1. Used for the complex-valued objects of the second
+  study, where it gives HIO and RAAR a bounded amplitude and an adaptive support, as the
+  untrained network has.
 
 References
 - J. R. Fienup, "Phase retrieval algorithms: a comparison", Applied Optics 21, 2758 (1982).
 - D. R. Luke, "Relaxed averaged alternating reflections for diffraction imaging",
   Inverse Problems 21, 37 (2005).
+- S. Marchesini et al., "X-ray image reconstruction from a diffraction pattern alone",
+  Physical Review B 68, 140101 (2003).
 """
 from __future__ import annotations
 

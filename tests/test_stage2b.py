@@ -1,4 +1,4 @@
-"""Tests for the pre-registered Stage-2b additions: full-grid HIO/RAAR baselines, the
+"""Tests for the Stage-2b additions of the frozen analysis plan: full-grid HIO/RAAR baselines, the
 compute-matched single-start control, extra-run merging, the PSNR cap, Holm adjustment and
 the confirmatory image-level test.
 

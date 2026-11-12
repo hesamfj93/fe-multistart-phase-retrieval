@@ -88,6 +88,11 @@ class SpectralAnnealer:
         self._cached_weight: torch.Tensor | None = None
 
     def weight_at(self, step: int) -> torch.Tensor:
+        """Gaussian frequency weight for iteration `step`.
+
+        The width follows `annealing_sigma` and is recomputed every `update_every` steps;
+        between updates the cached tensor is returned.
+        """
         if step % self.update_every == 0 or self._cached_weight is None:
             sigma = annealing_sigma(
                 step,

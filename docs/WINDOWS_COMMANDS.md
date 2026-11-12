@@ -165,9 +165,9 @@ python scripts\generate_report.py --run-dir results\stage2_mnist_heldout --n-hel
 
 The development section appears separately in `report_n50\report.md` and in `tables\development\`; it never enters `primary_table.csv`.
 
-## What to send back
+## Archive the results without the large arrays
 
-If this session is linked to your computer, nothing needs to be sent; the results are read directly. Otherwise, everything except the large arrays:
+The command below packs the three held-out run folders without the `.npz` arrays and model checkpoints:
 
 ```cmd
 tar -a -c -f stage2b_results.zip --exclude=*.npz --exclude=*.pt results\stage2_mnist_heldout results\stage2_mnist_heldout_k1long results\stage2_mnist_heldout_baselines
