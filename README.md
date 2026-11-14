@@ -32,7 +32,7 @@ HIO with a real and nonnegative constraint recovers 99 of the 100 images exactly
 | `configs/` | one YAML file per run; the held-out files are frozen (hashes below) |
 | `splits/` | development (8), held-out (200) and smoke (3) index lists of the MNIST test set |
 | `data/MNIST/raw/` | the MNIST test set (IDX files), see [`data/README.md`](data/README.md) |
-| `results/` | development results and the held-out runs of both stages: per-image metrics, the five stored starts (`members.npz`), the long single start (`members.npz`) and the HIO and RAAR reconstructions (`baselines.npz`) |
+| `results/` | development results, the spectral-weight ablation and the held-out runs of both stages: per-image metrics, the five stored starts (`members.npz`), the long single start (`members.npz`) and the HIO and RAAR reconstructions (`baselines.npz`) |
 | `paper/` | `make_paper_figures.py`, `make_stage3_figures.py` and `make_supplement_tables.py` regenerate the figures and supplementary tables from `results/` |
 | `tests/` | unit and protocol tests |
 | `docs/` | analysis plan, development report, results, runbook |
@@ -142,6 +142,12 @@ A second held-out study uses complex-valued objects (MNIST amplitude, smooth ran
 | FE-softmax fusion vs RAAR with shrinkwrap, best of 5 | −13.79 | [−17.71, −9.87] | no |
 
 RAAR with shrinkwrap recovers 25 of the 100 images exactly and fails on 29; FE-softmax has no exact recovery and 21 failures, and is better on 28 of the 29 RAAR failures. All results, including post-hoc analyses labelled as such, are in [`docs/STAGE3_RESULTS.md`](docs/STAGE3_RESULTS.md). Code: `pr_uq/data/complex_objects.py`, the `shrinkwrap` constraint in `pr_uq/baselines/oversampled.py`, `scripts/stage3_report.py` (pre-specified), `scripts/stage3_posthoc.py` (post hoc), `paper/make_stage3_figures.py`, `configs/stage3_*.yaml`, `tests/test_stage3_complex.py`.
+
+## Spectral-weight ablation (development images)
+
+The frozen design weights the data loss with a centered Gaussian in the Fourier domain that narrows to low frequencies. To check whether this weight causes the high Fourier error of the untrained reconstructions, three alternatives were run on the 8 development images, as real and as complex objects: no weight, a widening weight, and the frozen weight switched off for the last 20% of iterations. The plan, [`SPECTRAL_ABLATION_PLAN.md`](SPECTRAL_ABLATION_PLAN.md), and its decision rule were pushed before the runs.
+
+Outcome A: no variant halves the start FE (largest reduction 24% on real and 28% on complex objects) and the frozen design stays. The spread between starts and the advantage of FE-softmax over a single start persist under every weight. Details: [`docs/SPECTRAL_ABLATION_RESULTS.md`](docs/SPECTRAL_ABLATION_RESULTS.md). Code: `unweighted_final_frac` in `pr_uq/optim/trainer.py`, `configs/spectral_ablation/`, `scripts/spectral_ablation_report.py`, `tests/test_spectral_ablation.py`; results in `results/spectral_ablation/`.
 
 ## License
 
