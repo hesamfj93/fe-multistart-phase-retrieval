@@ -64,7 +64,10 @@ No GPU needed:
 
 ```
 python scripts/spectral_ablation_report.py --root results/spectral_ablation --out results/spectral_ablation/report
+python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout --stage3 results/stage3_complex_heldout/report --ablation results/spectral_ablation/report
 ```
+
+The second command also writes `paper/supp/tab_ablation.tex`, Table S10 of the supplementary material.
 
 Rerun the reconstructions (about 2.5 hours on the laptop GPU): the commands in `SPECTRAL_ABLATION_PLAN.md`, in a clone at `51cdeac`.
 

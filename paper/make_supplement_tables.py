@@ -1,9 +1,11 @@
 """Write the tables of supplement.tex from the stored results (no hand-typed numbers).
 
     python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout \
-        --stage3 results/stage3_complex_heldout/report
+        --stage3 results/stage3_complex_heldout/report \
+        --ablation results/spectral_ablation/report
 
 --stage3 reads summary.json (scripts/stage3_report.py) and posthoc_stage3.json (scripts/stage3_posthoc.py).
+--ablation reads summary.json (scripts/spectral_ablation_report.py).
 """
 from __future__ import annotations
 import argparse, csv, json
@@ -35,6 +37,7 @@ def pfmt(p: float) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--run-dir", required=True); ap.add_argument("--stage3")
+    ap.add_argument("--ablation")
     a = ap.parse_args()
     run = Path(a.run_dir); out = Path(__file__).resolve().parent / "supp"; out.mkdir(exist_ok=True)
     ph = json.loads((run / "report_n100/posthoc/posthoc_revision2.json").read_text(encoding="utf-8"))
@@ -75,6 +78,8 @@ def main() -> int:
             encoding="utf-8")
     if a.stage3:
         stage3_tables(Path(a.stage3), out)
+    if a.ablation:
+        ablation_table(Path(a.ablation), out)
     print("written to", out)
     return 0
 
@@ -114,6 +119,29 @@ def stage3_tables(rep: Path, out: Path) -> None:
         r = ph["reference"][k]
         rows.append(f"\\multicolumn{{2}}{{@{{}}l}}{{{nm}}} & {r['mean']:.2f} & {r['median']:.2f} & {r['failures']} & {r['exact']} \\\\")
     (out / "tab_s3_fallback.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+
+ABL_NAME = {"frozen": "frozen", "uniform": "no weight", "widening": "widening", "dcfinal": "unweighted last 20\\%"}
+
+
+def ablation_table(rep: Path, out: Path) -> None:
+    sm = json.loads((rep / "summary.json").read_text(encoding="utf-8"))
+    s, d = sm["summaries"], sm["decision"]["variants"]
+    rows = []
+    for t, label in (("real", "real"), ("complex", "complex")):
+        f = s[t]["frozen"]
+        for i, v in enumerate(ABL_NAME):
+            x = s[t][v]
+            ratio = "--" if v == "frozen" else f"{x['median_start_fe'] / f['median_start_fe']:.2f}"
+            mb = "--" if v == "frozen" else ("yes" if d[v]["materially_better"][t] else "no")
+            rows.append(f"{label if i == 0 else ''} & {ABL_NAME[v]} & {x['median_start_fe']:.3f} & {ratio} & "
+                        f"{x['mean_start_psnr']:.2f} & {x['start_failures']}/{x['n_starts']} & "
+                        f"{x['mean_within_image_sd_db']:.2f} & {x['mean_k1_psnr']:.2f} & {x['mean_selection_psnr']:.2f} & "
+                        f"{x['mean_fe_softmax_psnr']:.2f} & {x['mean_best_start_psnr']:.2f} & "
+                        f"{x['fe_softmax_failures']}/{x['n_images']} & {mb} \\\\")
+        if t == "real":
+            rows.append("\\midrule")
+    (out / "tab_ablation.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
