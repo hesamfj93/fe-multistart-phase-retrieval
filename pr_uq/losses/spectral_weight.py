@@ -47,8 +47,10 @@ def annealing_sigma(
     """Return σ at iteration `step`.
 
     The schedule reaches `sigma_end` at `anneal_fraction · total_steps` and
-    then stays constant. This lets the model spend the last portion of
-    optimization at full bandwidth.
+    then stays constant for the remaining steps. With sigma_end < sigma_start (the
+    frozen design: 0.05 and 0.5 of the detector side) the last portion of the
+    optimization therefore uses the narrowest weight, which emphasizes the lowest
+    frequencies; it does not run at full bandwidth.
     """
     anneal_steps = max(1, int(anneal_fraction * total_steps))
     if step >= anneal_steps:

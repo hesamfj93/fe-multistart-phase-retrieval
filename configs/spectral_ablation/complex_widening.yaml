@@ -1,0 +1,62 @@
+# Spectral-weight ablation on the 8 development images. Plan: SPECTRAL_ABLATION_PLAN.md
+# Object model: complex. Variant: widening, widening weight: 0.05 to 0.5 of the detector side over the first 60% of iterations, then constant (coarse to fine).
+# Identical to configs/stage3_complex_dev.yaml except experiment.name, experiment.output_dir and trainer: sigma_start_frac=0.05, sigma_end_frac=0.5.
+experiment:
+  name: spectral_ablation_complex_widening
+  output_dir: results/spectral_ablation/complex_widening
+  seed: 0
+  device: auto
+  cleanup_member_cache: true
+dataset:
+  name: mnist
+  split: test
+  protocol_split: dev
+  splits_dir: splits
+  n_images: 8
+  rank_start: 0
+  size: 32
+  root: ./data
+  object:
+    class: complex
+    phase_sigma_px: 3.0
+    phase_max_rad: 1.5707963267948966
+    phase_seed_offset: 1000003
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+model:
+  z_channels: 128
+  z_hw: 4
+  base_ch: 128
+ensemble:
+  K: 5
+  base_seed: 0
+trainer:
+  iterations: 3000
+  lr_theta: 0.001
+  lr_z: 0.001
+  optimize_z: true
+  grad_clip: 1.0
+  data_loss: magnitude_l2
+  lambda_tv_A: 0.001
+  lambda_tv_phi: 0.0001
+  lambda_support: 0.01
+  use_spectral_annealing: true
+  sigma_start_frac: 0.05
+  sigma_end_frac: 0.5
+  use_physics_projection: true
+  beta_schedule:
+    type: linear
+    start: 0.7
+    end: 0.1
+  use_adaptive_support: true
+  support_update_every: 200
+  log_every: 150
+uncertainty:
+  fidelity_temperature: 0.05
+  n_bins_ece: 15
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5

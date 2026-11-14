@@ -59,6 +59,9 @@ class TrainerConfig:
     sigma_end_frac: float = 0.05
     annealing_schedule: str = "log"
     annealing_fraction: float = 0.6
+    # Fraction of the final iterations in which the data loss is unweighted (spectral weight off).
+    # 0.0 keeps the frozen design of the held-out studies.
+    unweighted_final_frac: float = 0.0
 
     # β-mixing physics projection
     use_physics_projection: bool = True
@@ -107,6 +110,23 @@ class TrainerLog:
     psnr_curve: list[float] = field(default_factory=list)
     fourier_err_curve: list[float] = field(default_factory=list)
     runtime_s: float = 0.0
+
+
+def spectral_weight_for_step(
+    annealer: SpectralAnnealer | None, step: int, config: TrainerConfig
+) -> torch.Tensor | None:
+    """Frequency weight of the data loss at `step`, or None for an unweighted loss.
+
+    None when spectral annealing is off, and during the last `unweighted_final_frac` of the
+    iterations. With the default `unweighted_final_frac = 0` this is `annealer.weight_at(step)`
+    at every step, the behaviour of the frozen design.
+    """
+    if annealer is None:
+        return None
+    frac = float(config.unweighted_final_frac)
+    if frac > 0.0 and step >= (1.0 - frac) * config.iterations:
+        return None
+    return annealer.weight_at(step)
 
 
 def _make_optimizer(
@@ -213,7 +233,7 @@ def train_member(
         x_loss = x_use if config.project_in_loss else x_net
 
         # Weights
-        w = annealer.weight_at(step) if annealer is not None else None
+        w = spectral_weight_for_step(annealer, step, config)
 
         # Losses
         L_data = data_loss_fn(x_loss, y_intensity, weight=w, oversample=config.oversample)
@@ -261,7 +281,7 @@ def train_member(
             log.loss_data.append(float(L_data.detach().item()))
             log.loss_reg.append(float(L_reg.detach().item()))
             log.loss_total.append(float(L.detach().item()))
-            log.sigma.append(annealer._cached_sigma if annealer is not None else 0.0)
+            log.sigma.append(annealer._cached_sigma if w is not None else 0.0)
             log.beta.append(float(beta))
             if gt is not None:
                 with torch.no_grad():
