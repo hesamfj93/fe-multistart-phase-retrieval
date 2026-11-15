@@ -1,0 +1,48 @@
+# POST HOC (not part of STAGE3_COMPLEX_PLAN.md). RAAR with shrinkwrap at equal wall time.
+# FE-softmax took 128.7 s per image on average and one RAAR-shrinkwrap start 2.86 s on the
+# same laptop GPU (results/stage3_complex_heldout*), so 128.7 / 2.86 = 45 starts. Everything
+# else equals configs/stage3_complex_heldout_baselines.yaml: same images (held-out ranks
+# 100-199), measurement, iterations, beta, shrinkwrap settings, seeds (0..44; seeds 0..4 are
+# the starts of the original best5) and metrics. Report: scripts/stage3_equal_compute_report.py.
+# STAGE 3 (complex-valued objects). Design identical to the frozen stage-2 design; only the
+# object model, the image set and the output folder differ. Plan: STAGE3_COMPLEX_PLAN.md
+# Stage-2 classical baselines on the held-out MNIST images (pre-registered, see
+# PREREGISTRATION_STAGE2_100.md). Textbook HIO and RAAR on the full oversampled grid.
+# Settings are literature defaults fixed before any held-out image was reconstructed with
+# them; they were not tuned. Same measurement, alignment and metrics as the main runner.
+experiment:
+  name: stage3_complex_heldout_raar45
+  output_dir: results/stage3_complex_heldout_raar45
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: heldout
+  splits_dir: splits
+  n_images: 100
+  rank_start: 100
+  size: 32
+  root: ./data
+  object:                   # stage 3: complex-valued objects (pr_uq/data/complex_objects.py)
+    class: complex          # amplitude = digit in [0, 1], phase = smooth random field on the support
+    phase_sigma_px: 3.0     # Gaussian filter width of the phase field, pixels
+    phase_max_rad: 1.5707963267948966   # largest |phase| on the support (pi/2)
+    phase_seed_offset: 1000003          # phase seed = offset + MNIST test index
+measurement:
+  oversample: 2
+  noise_model: none
+  noise_level: 0.0
+  noise_seed: 0
+baselines:
+  algorithms: [raar]
+  constraints: [shrinkwrap]
+  starts: 45                                 # equal wall time to FE-softmax (K=5, 3000 iterations)
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200                         # error-reduction tail
+  hio_beta: 0.9                              # Fienup 1982
+  raar_beta: 0.87                            # Luke 2005
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5
