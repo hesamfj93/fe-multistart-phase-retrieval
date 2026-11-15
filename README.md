@@ -143,6 +143,11 @@ A second held-out study uses complex-valued objects (MNIST amplitude, smooth ran
 
 RAAR with shrinkwrap recovers 25 of the 100 images exactly and fails on 29; FE-softmax has no exact recovery and 21 failures, and is better on 28 of the 29 RAAR failures. All results, including post-hoc analyses labelled as such, are in [`docs/STAGE3_RESULTS.md`](docs/STAGE3_RESULTS.md). Code: `pr_uq/data/complex_objects.py`, the `shrinkwrap` constraint in `pr_uq/baselines/oversampled.py`, `scripts/stage3_report.py` (pre-specified), `scripts/stage3_posthoc.py` (post hoc), `paper/make_stage3_figures.py`, `configs/stage3_*.yaml`, `tests/test_stage3_complex.py`.
 
+## Post hoc and diagnostic analyses after review
+
+- **RAAR with shrinkwrap at equal wall time** (complex objects, held-out ranks 100 to 199): with 45 starts, the wall time of FE-softmax, RAAR with shrinkwrap was exact on 46 images, failed on 5 and was better than FE-softmax on 90. Post hoc; C8 stays as reported. [`docs/STAGE3_EQUAL_COMPUTE.md`](docs/STAGE3_EQUAL_COMPUTE.md), `configs/stage3_complex_heldout_raar45.yaml`, `scripts/stage3_equal_compute_report.py`, `results/stage3_complex_heldout_raar45/`.
+- **Capacity test** (8 development images): the frozen generator fitted directly to the ground truth reaches about 44 dB and a median FE of 0.014 to 0.017, so the FE floor of about 0.2 of the reconstructions is not a capacity limit. [`docs/CAPACITY_TEST.md`](docs/CAPACITY_TEST.md), `scripts/capacity_test.py`, `results/capacity_test/`.
+
 ## Spectral-weight ablation (development images)
 
 The frozen design weights the data loss with a centered Gaussian in the Fourier domain that narrows to low frequencies. To check whether this weight causes the high Fourier error of the untrained reconstructions, three alternatives were run on the 8 development images, as real and as complex objects: no weight, a widening weight, and the frozen weight switched off for the last 20% of iterations. The plan, [`SPECTRAL_ABLATION_PLAN.md`](SPECTRAL_ABLATION_PLAN.md), and its decision rule were pushed before the runs.

@@ -2,10 +2,12 @@
 
     python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout \
         --stage3 results/stage3_complex_heldout/report \
-        --ablation results/spectral_ablation/report
+        --ablation results/spectral_ablation/report \
+        --raar45 results/stage3_complex_heldout_raar45/report
 
 --stage3 reads summary.json (scripts/stage3_report.py) and posthoc_stage3.json (scripts/stage3_posthoc.py).
 --ablation reads summary.json (scripts/spectral_ablation_report.py).
+--raar45 reads summary.json (scripts/stage3_equal_compute_report.py).
 """
 from __future__ import annotations
 import argparse, csv, json
@@ -37,7 +39,7 @@ def pfmt(p: float) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--run-dir", required=True); ap.add_argument("--stage3")
-    ap.add_argument("--ablation")
+    ap.add_argument("--ablation"); ap.add_argument("--raar45")
     a = ap.parse_args()
     run = Path(a.run_dir); out = Path(__file__).resolve().parent / "supp"; out.mkdir(exist_ok=True)
     ph = json.loads((run / "report_n100/posthoc/posthoc_revision2.json").read_text(encoding="utf-8"))
@@ -80,6 +82,8 @@ def main() -> int:
         stage3_tables(Path(a.stage3), out)
     if a.ablation:
         ablation_table(Path(a.ablation), out)
+    if a.raar45:
+        raar45_table(Path(a.raar45), out)
     print("written to", out)
     return 0
 
@@ -142,6 +146,15 @@ def ablation_table(rep: Path, out: Path) -> None:
         if t == "real":
             rows.append("\\midrule")
     (out / "tab_ablation.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+
+def raar45_table(rep: Path, out: Path) -> None:
+    sm = json.loads((rep / "summary.json").read_text(encoding="utf-8"))
+    rows = [f"{c['K']} & {c['mean']:.2f} & {c['median']:.2f} & {c['failures']} & {c['exact']} & {c['any_exact_among_K']} \\\\"
+            for c in sm["best_of_first_K"]]
+    f = sm["fe_softmax_vs_raar45"]["fe_softmax"]
+    rows += ["\\midrule", f"\\multicolumn{{1}}{{l}}{{FE-softmax}} & {f['mean']:.2f} & {f['median']:.2f} & {f['failures']} & {f['exact']} & -- \\\\"]
+    (out / "tab_s3_raar45.tex").write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
