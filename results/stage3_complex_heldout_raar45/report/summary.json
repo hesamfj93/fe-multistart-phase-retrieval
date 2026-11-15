@@ -1,0 +1,176 @@
+{
+  "note": "post hoc; not part of STAGE3_COMPLEX_PLAN.md; C8 unchanged; no multiplicity adjustment",
+  "n": 100,
+  "equal_wall_time": {
+    "fe_softmax_s_per_image": 128.7,
+    "raar_sw_s_per_start": 2.86,
+    "starts": 45
+  },
+  "reproduction_seeds_0_4": {
+    "devices": {
+      "best5_run": [
+        "cuda"
+      ],
+      "raar45_run": [
+        "cpu"
+      ]
+    },
+    "same_selected_start": 51,
+    "max_abs_start_psnr_diff_db": 48.858629127298855,
+    "starts_within_0p1_db": 109,
+    "starts_compared": 500,
+    "best5_new": {
+      "mean": 28.904329950351272,
+      "median": 17.466460678346515,
+      "failures": 35,
+      "exact": 21
+    },
+    "best5_stored": {
+      "mean": 31.465648898179687,
+      "median": 18.395041701623086,
+      "failures": 29,
+      "exact": 25
+    }
+  },
+  "best_of_first_K": [
+    {
+      "K": 1,
+      "mean": 20.601989236564336,
+      "median": 13.727240609341358,
+      "failures": 67,
+      "exact": 13,
+      "any_exact_among_K": 13
+    },
+    {
+      "K": 2,
+      "mean": 23.829365148657086,
+      "median": 14.713446420086417,
+      "failures": 52,
+      "exact": 18,
+      "any_exact_among_K": 18
+    },
+    {
+      "K": 5,
+      "mean": 28.904329950351272,
+      "median": 17.466460678346515,
+      "failures": 35,
+      "exact": 21,
+      "any_exact_among_K": 21
+    },
+    {
+      "K": 10,
+      "mean": 33.9482764862091,
+      "median": 24.105536723211078,
+      "failures": 25,
+      "exact": 29,
+      "any_exact_among_K": 29
+    },
+    {
+      "K": 15,
+      "mean": 36.94844741426141,
+      "median": 33.19153204700832,
+      "failures": 16,
+      "exact": 33,
+      "any_exact_among_K": 33
+    },
+    {
+      "K": 20,
+      "mean": 37.430838669246704,
+      "median": 34.09996627756429,
+      "failures": 11,
+      "exact": 33,
+      "any_exact_among_K": 34
+    },
+    {
+      "K": 30,
+      "mean": 41.33873964843918,
+      "median": 51.07350036267343,
+      "failures": 11,
+      "exact": 42,
+      "any_exact_among_K": 43
+    },
+    {
+      "K": 45,
+      "mean": 43.35635649449818,
+      "median": 54.60767964692384,
+      "failures": 5,
+      "exact": 46,
+      "any_exact_among_K": 47
+    }
+  ],
+  "fe_softmax_vs_raar45": {
+    "mean_difference_db": -25.68396984202833,
+    "t_ci95": [
+      -29.281348328791825,
+      -22.086591355264833
+    ],
+    "median_difference_db": -37.266819474485985,
+    "fe_softmax_better": 10,
+    "raar45_better": 90,
+    "ties": 0,
+    "wilcoxon_p_two_sided_unadjusted": 3.097733124502193e-16,
+    "raar45_failures": 5,
+    "fe_softmax_better_on_raar45_failures": 4,
+    "fe_softmax_failures_on_raar45_failures": 3,
+    "both_fail": 3,
+    "fe_softmax": {
+      "mean": 17.672386652469847,
+      "median": 17.45349475490923,
+      "failures": 21,
+      "exact": 0
+    },
+    "raar45": {
+      "mean": 43.35635649449818,
+      "median": 54.60767964692384,
+      "failures": 5,
+      "exact": 46
+    },
+    "per_image_oracle_mean": 43.59454224560804
+  },
+  "fallback_raar45_then_fe_softmax": [
+    {
+      "t": 0.001,
+      "raar_used": 54,
+      "mean": 39.74052612043705,
+      "median": 53.59052941236091,
+      "failures": 14,
+      "exact": 46
+    },
+    {
+      "t": 0.003,
+      "raar_used": 57,
+      "mean": 40.71235673106225,
+      "median": 54.60767964692384,
+      "failures": 13,
+      "exact": 46
+    },
+    {
+      "t": 0.01,
+      "raar_used": 63,
+      "mean": 41.68715792892571,
+      "median": 54.60767964692384,
+      "failures": 12,
+      "exact": 46
+    },
+    {
+      "t": 0.02,
+      "raar_used": 76,
+      "mean": 43.054938581133264,
+      "median": 54.60767964692384,
+      "failures": 9,
+      "exact": 46
+    },
+    {
+      "t": 0.03,
+      "raar_used": 93,
+      "mean": 43.32836429704412,
+      "median": 54.60767964692384,
+      "failures": 4,
+      "exact": 46
+    }
+  ],
+  "fe_separation_raar45": {
+    "fe_max_exact": 0.0003483062610030174,
+    "fe_min_fail": 0.02875293232500553
+  }
+}
