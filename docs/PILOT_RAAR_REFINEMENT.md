@@ -1,0 +1,29 @@
+# Pilot: refining the network output with RAAR (development images)
+
+**Status: fixed before the computation.** This note and `scripts/pilot_raar_refinement.py` are committed before the script is run. Development images only; no held-out image is used.
+
+## Question
+
+At equal wall time RAAR with shrinkwrap beats FE-softmax on the held-out complex objects (`docs/STAGE3_EQUAL_COMPUTE.md`). Is the output of the untrained network a better starting point for RAAR than a random phase? If so, a combined method (network starts, then RAAR) could be worth a held-out test.
+
+## Design
+
+- **Images.** The 8 development images (MNIST test indices 429, 1729, 1917, 2890, 4919, 6044, 7532, 9399) as complex objects, with the five stored starts of `results/spectral_ablation/complex_frozen`, the frozen design on these images.
+- **RAAR.** RAAR with shrinkwrap exactly as in `configs/stage3_complex_heldout_raar45.yaml`: 5000 iterations, β = 0.87, 200 error-reduction iterations, the same shrinkwrap schedule, the initial support is the object window. Only the starting point differs.
+- **Variants.**
+  - `R1`: RAAR started from the FE-softmax output (one RAAR run per image).
+  - `R5`: RAAR started from each of the five network starts; the result with the lowest FE against the measurement is kept.
+  - `random`: RAAR from random phases, seeds 0 to 49, as in the held-out baseline; best of the first K starts by FE.
+- **Equal wall time.** On the laptop GPU, FE-softmax took 128.7 s per image and one RAAR start 2.86 s. `R1` costs 128.7 + 2.86 s, the time of 46 random starts; `R5` costs 128.7 + 5 × 2.86 s, the time of 50 random starts. So `R1` is compared with the best of 46 and `R5` with the best of 50 random starts.
+- **Measures.** Complex PSNR after alignment, capped at 60 dB; exact recovery ≥ 60 dB; failure < 15 dB; FE against the measurement. Descriptively, the share of the 40 refined network starts and of the 400 random starts that end exact.
+- **Real objects** are not included: HIO with a real and nonnegative constraint is already exact on 99 of 100 held-out real digits, so refinement has no room there.
+- The computation runs on a CPU. Individual RAAR starts depend on floating-point rounding (`docs/STAGE3_EQUAL_COMPUTE.md`), so all variants of this pilot run on the same device.
+
+## Decision rule
+
+Refinement is **promising** if `R1` has more exact recoveries than the best of 46 random starts, or `R5` more than the best of 50, in either case with no more failures, on the 8 images.
+
+- Promising: write a plan for a held-out test on complex objects, ranks 300 to 399 of `splits/mnist_test_heldout_indices.csv`, and push it before any run.
+- Not promising: report the pilot as a development-image result; the manuscript sentence that refinement "was not tested" is replaced by its outcome.
+
+With 8 images the pilot is coarse; it decides only whether a held-out test is worth running.
