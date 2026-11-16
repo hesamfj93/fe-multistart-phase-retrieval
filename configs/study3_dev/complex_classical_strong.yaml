@@ -1,0 +1,40 @@
+# STUDY3_DEV_PLAN.md Section 4: classical baselines, complex objects, Poisson N_p=3000
+experiment:
+  name: study3_dev_complex_classical_strong
+  output_dir: results/study3_dev/complex_classical_strong
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: dev
+  splits_dir: splits
+  n_images: 8
+  rank_start: 0
+  size: 32
+  root: ./data
+  object:
+    class: complex
+    phase_sigma_px: 3.0
+    phase_max_rad: 1.5707963267948966
+    phase_seed_offset: 1000003
+measurement:
+  oversample: 2
+  noise_model: poisson
+  noise_level: 3000.0
+  noise_seed: 0
+baselines:
+  algorithms:
+  - hio
+  - raar
+  constraints:
+  - shrinkwrap
+  starts: 5
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200
+  hio_beta: 0.9
+  raar_beta: 0.87
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5

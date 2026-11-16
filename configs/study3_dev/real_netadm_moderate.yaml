@@ -1,0 +1,68 @@
+# STUDY3_DEV_PLAN.md Sections 1 and 4: Net-ADM starts, K=5, noise moderate
+experiment:
+  name: study3_dev_real_netadm_moderate
+  output_dir: results/study3_dev/real_netadm_moderate
+  seed: 0
+  device: auto
+  cleanup_member_cache: true
+dataset:
+  name: mnist
+  split: test
+  protocol_split: dev
+  splits_dir: splits
+  n_images: 8
+  size: 32
+  root: ./data
+measurement:
+  oversample: 2
+  noise_model: poisson
+  noise_level: 30000.0
+  noise_seed: 0
+model:
+  z_channels: 128
+  z_hw: 4
+  base_ch: 128
+ensemble:
+  K: 5
+  base_seed: 0
+trainer:
+  iterations: 3000
+  lr_theta: 0.001
+  lr_z: 0.001
+  optimize_z: true
+  grad_clip: 1.0
+  data_loss: magnitude_l2
+  lambda_tv_A: 0.001
+  lambda_tv_phi: 0.0001
+  lambda_support: 0.01
+  use_spectral_annealing: true
+  sigma_start_frac: 0.5
+  sigma_end_frac: 0.05
+  use_physics_projection: true
+  beta_schedule:
+    type: linear
+    start: 0.7
+    end: 0.1
+  use_adaptive_support: true
+  support_update_every: 200
+  log_every: 150
+uncertainty:
+  fidelity_temperature: 0.05
+  n_bins_ece: 15
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5
+solver:
+  type: netadm
+  netadm:
+    outer_iters: 1000
+    inner_steps: 5
+    lr: 0.005
+    lr_decay_every: 500
+    lr_decay: 0.5
+    rho: 1.0
+    eps: 0.001
+    widths:
+    - 25
+    - 15
+    - 10
