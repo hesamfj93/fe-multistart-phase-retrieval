@@ -27,3 +27,21 @@ Refinement is **promising** if `R1` has more exact recoveries than the best of 4
 - Not promising: report the pilot as a development-image result; the manuscript sentence that refinement "was not tested" is replaced by its outcome.
 
 With 8 images the pilot is coarse; it decides only whether a held-out test is worth running.
+
+## Results (added after the computation, 2026-11-16)
+
+CPU run of `scripts/pilot_raar_refinement.py`; `results/pilot_raar_refinement/summary.json`. The stored member FE values were reproduced within 3 × 10⁻⁸.
+
+| variant | mean PSNR | exact | failures |
+|---|--:|--:|--:|
+| FE-softmax (no refinement) | 19.94 | 0 | 1 |
+| `R1`: RAAR from the FE-softmax output | 46.98 | 4 | 0 |
+| `R5`: RAAR from each network start, best by FE | 51.60 | 6 | 1 |
+| random, best of 5 | 33.32 | 3 | 4 |
+| random, best of 46 | 51.34 | 6 | 1 |
+| random, best of 50 | 51.34 | 6 | 1 |
+
+- Per start, the network output is the better starting point: 16 of the 40 refined network starts ended exact and 10 failed, against 69 and 209 of the 400 random starts.
+- At equal wall time it is not: `R5` equals the best of 50 random starts (6 exact, 1 failure), and `R1` has fewer exact recoveries than the best of 46 (4 against 6).
+
+**Decision: not promising.** No held-out test is planned. One network start costs the wall time of nine random RAAR starts (128.7 / 5 / 2.86 = 9.0). At the pooled rates of this pilot, nine random starts contain an exact recovery with probability 1 − (1 − 69/400)⁹ = 0.82, one refined network start with 16/40 = 0.40.
