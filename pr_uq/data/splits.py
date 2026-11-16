@@ -9,6 +9,10 @@ Three disjoint index sets, all over the 10,000-image MNIST *test* split:
            permutation of the test set with the dev images removed. Ordered,
            so the first N rows are always the same N images. Extending from
            50 to 100 only appends rows 50..99.
+  heldout3 Images of the third study (Poisson noise). Positions 200 to 399 of the same
+           filtered permutation, written to their own file so that the held-out file,
+           whose SHA-256 is recorded in the protocol locks of the first two studies,
+           stays unchanged. Rank r of heldout3 is position 200 + r of the permutation.
   smoke    3 images used only for software verification. Taken from the end
            of the same filtered permutation, so they are disjoint from both
            dev and every held-out prefix up to 9,989 images.
@@ -35,10 +39,13 @@ DEV_INDICES: tuple[int, ...] = (429, 1729, 1917, 2890, 4919, 6044, 7532, 9399)
 HELDOUT_PERMUTATION_SEED = 20261006   # fixed; documented in the split files
 HELDOUT_LIST_LENGTH = 200             # rows written to the held-out CSV
 SMOKE_COUNT = 3
+HELDOUT3_START = 200                  # first permutation position of the third study
+HELDOUT3_LENGTH = 200                 # rows written to the heldout3 CSV
 
 SPLIT_FILES = {
     "dev": "mnist_test_dev_indices.csv",
     "heldout": "mnist_test_heldout_indices.csv",
+    "heldout3": "mnist_test_heldout3_indices.csv",
     "smoke": "mnist_test_smoke_indices.csv",
 }
 
@@ -55,8 +62,9 @@ def generate_split_lists(
     dev_set = set(dev)
     pool = [i for i in perm if i not in dev_set]
     heldout = pool[:n_heldout]
+    heldout3 = pool[HELDOUT3_START:HELDOUT3_START + HELDOUT3_LENGTH]
     smoke = pool[-n_smoke:]
-    out = {"dev": list(dev), "heldout": heldout, "smoke": smoke}
+    out = {"dev": list(dev), "heldout": heldout, "heldout3": heldout3, "smoke": smoke}
     check_disjoint(out)
     return out
 
@@ -88,6 +96,10 @@ def write_split_csv(path: Path, role: str, indices: list[int], labels: dict[int,
         if role == "dev":
             f.write("# role=dev dataset=mnist split=test; the 8 development images used to "
                     "select the aggregation method and T=0.05; never used for held-out evaluation\n")
+        elif role == "heldout3":
+            f.write(f"# role=heldout3 dataset=mnist split=test permutation_seed={HELDOUT_PERMUTATION_SEED} "
+                    f"dev_excluded={list(DEV_INDICES)}; rank r = position {HELDOUT3_START} + r of the "
+                    f"held-out permutation; first N rows = the N-image selection\n")
         else:
             f.write(f"# role={role} dataset=mnist split=test permutation_seed={HELDOUT_PERMUTATION_SEED} "
                     f"dev_excluded={list(DEV_INDICES)}; first N rows = the N-image selection\n")

@@ -37,6 +37,7 @@ import sys
 import time
 import traceback
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import torch
@@ -48,6 +49,7 @@ from pr_uq.data.datasets import build_dataset, generate_measurement
 from pr_uq.metrics.alignment import align_ensemble_to_anchor, align_to_gt, map_to_gt_frame
 from pr_uq.metrics.reconstruction import psnr, ssim, fourier_magnitude_error, psnr_complex, phase_error, nrmse_complex
 from pr_uq.data.complex_objects import object_class, object_from_cfg
+from pr_uq.baselines.netadm import run_netadm
 from pr_uq.models.ensemble import EnsembleMember, MemberSpec
 from pr_uq.optim.trainer import TrainerConfig, train_member
 from pr_uq.physics.projection import physics_residual
@@ -269,6 +271,9 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
         )
 
         trainer_cfg = _trainer_from_cfg(cfg["trainer"])
+        solver_type = str(cfg.get("solver", {}).get("type", "untrained_generator"))
+        if solver_type not in ("untrained_generator", "netadm"):
+            raise ValueError(f"unknown solver type {solver_type!r}")
 
         # Train / resume each member
         recons, seeds, runtimes = [], [], []
@@ -287,13 +292,25 @@ def process_image(sample, rank, cfg, device, out_dir, logger) -> dict:
                 n_resumed += 1
                 logger.info(f"[{img_id}] member {k+1}/{K} [resumed]")
                 continue
-            spec = MemberSpec(out_h=H, out_w=W,
-                              z_channels=int(cfg["model"]["z_channels"]),
-                              z_hw=int(cfg["model"]["z_hw"]),
-                              base_ch=int(cfg["model"]["base_ch"]),
-                              seed=seed_k)
-            member = EnsembleMember(spec, device=device)
-            recon, log = train_member(member, y, trainer_cfg, device=device, gt=img)
+            if solver_type == "netadm":
+                # Net-ADM (Ma et al. 2024) as the start solver; everything after the
+                # stack of starts (FE, alignment, aggregation, scoring) is unchanged.
+                na = cfg["solver"].get("netadm", {})
+                res = run_netadm(y, (H, W), outer_iters=int(na.get("outer_iters", 1000)),
+                                 inner_steps=int(na.get("inner_steps", 5)), lr=float(na.get("lr", 0.005)),
+                                 lr_decay_every=int(na.get("lr_decay_every", 500)),
+                                 lr_decay=float(na.get("lr_decay", 0.5)), rho=float(na.get("rho", 1.0)),
+                                 eps=float(na.get("eps", 1e-3)), widths=tuple(na.get("widths", (25, 15, 10))),
+                                 seed=seed_k, oversample=oversample, device=device)
+                recon, log = res.recon, SimpleNamespace(runtime_s=res.runtime_s)
+            else:
+                spec = MemberSpec(out_h=H, out_w=W,
+                                  z_channels=int(cfg["model"]["z_channels"]),
+                                  z_hw=int(cfg["model"]["z_hw"]),
+                                  base_ch=int(cfg["model"]["base_ch"]),
+                                  seed=seed_k)
+                member = EnsembleMember(spec, device=device)
+                recon, log = train_member(member, y, trainer_cfg, device=device, gt=img)
             # per-member eval-only metrics (aligned to GT)
             aln = align_to_gt(recon, img.to(torch.complex64)).aligned_recon
             if complex_obj:
@@ -465,7 +482,7 @@ def _save_preview(path, gt, strategies, gt_c, unc_arrays, oversample):
 # Main
 # --------------------------------------------------------------------------
 
-PROTOCOL_ROLES = {"dev", "heldout"}          # runs whose design must stay frozen
+PROTOCOL_ROLES = {"dev", "heldout", "heldout3"}          # runs whose design must stay frozen
 FINGERPRINT_EXCLUDE = {                     # keys that may differ between sessions
     ("dataset", "n_images"), ("dataset", "root"), ("dataset", "splits_dir"),
     ("experiment", "output_dir"), ("experiment", "device"),

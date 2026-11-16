@@ -62,7 +62,7 @@ def main() -> int:
         on_disk = {r: read_split_csv(split_path(sdir, r)) for r in lists if split_path(sdir, r).exists()}
         try:
             check_disjoint(on_disk)
-            print("[check] dev / heldout / smoke are pairwise disjoint")
+            print("[check] all split lists are pairwise disjoint")
         except ValueError as e:
             print(f"[check] OVERLAP: {e}")
             ok = False
