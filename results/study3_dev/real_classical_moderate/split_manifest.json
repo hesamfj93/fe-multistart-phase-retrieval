@@ -1,0 +1,61 @@
+{
+  "protocol_split": "dev",
+  "dev_indices": [
+    429,
+    1729,
+    1917,
+    2890,
+    4919,
+    6044,
+    7532,
+    9399
+  ],
+  "selected_indices": [
+    429,
+    1729,
+    1917,
+    2890,
+    4919,
+    6044,
+    7532,
+    9399
+  ],
+  "overlap_with_dev": [
+    429,
+    1729,
+    1917,
+    2890,
+    4919,
+    6044,
+    7532,
+    9399
+  ],
+  "split_file": "splits\\mnist_test_dev_indices.csv",
+  "split_file_sha256": "e1d06916cde51c4eb4d71e83519cd80c3bf8cc76d99c21a24b99135973205fcc",
+  "frozen_baselines": {
+    "algorithms": [
+      "hio",
+      "raar"
+    ],
+    "constraints": [
+      "real_nonneg",
+      "shrinkwrap"
+    ],
+    "starts": 5,
+    "base_seed": 0,
+    "iterations": 5000,
+    "er_iterations": 200,
+    "hio_beta": 0.9,
+    "raar_beta": 0.87
+  },
+  "methods": [
+    "hio_realpos_s1",
+    "hio_realpos_best5",
+    "hio_sw_s1",
+    "hio_sw_best5",
+    "raar_realpos_s1",
+    "raar_realpos_best5",
+    "raar_sw_s1",
+    "raar_sw_best5"
+  ]
+}

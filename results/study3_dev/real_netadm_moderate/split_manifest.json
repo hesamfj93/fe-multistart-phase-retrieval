@@ -1,0 +1,45 @@
+{
+  "protocol_split": "dev",
+  "dev_indices": [
+    429,
+    1729,
+    1917,
+    2890,
+    4919,
+    6044,
+    7532,
+    9399
+  ],
+  "split_file": "splits\\mnist_test_dev_indices.csv",
+  "split_file_sha256": "e1d06916cde51c4eb4d71e83519cd80c3bf8cc76d99c21a24b99135973205fcc",
+  "n_images_selected": 8,
+  "selected_indices": [
+    429,
+    1729,
+    1917,
+    2890,
+    4919,
+    6044,
+    7532,
+    9399
+  ],
+  "overlap_with_dev": null,
+  "frozen_design": {
+    "methods": [
+      "k1",
+      "uniform",
+      "median",
+      "best_single_by_fe",
+      "fe_softmax"
+    ],
+    "anchor": "best_fe (lowest per-member Fourier error)",
+    "alignment": "circular shift, flip, conjugate (twin), global phase",
+    "fe_softmax_temperature": 0.05,
+    "K": 5,
+    "base_seed": 0,
+    "iterations": 3000,
+    "z_channels": 128,
+    "base_ch": 128,
+    "selected_on": "development images only (AGGREGATION_FINALIZATION_REPORT.md)"
+  }
+}

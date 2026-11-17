@@ -1,0 +1,641 @@
+{
+  "plan": "STUDY3_PLAN.md",
+  "dev_check": true,
+  "k_equal_wall_time": {
+    "real_ours": 5,
+    "real_netadm": 5,
+    "complex_ours": 5
+  },
+  "tests": [
+    {
+      "id": "N1",
+      "comparison": "our solver, real, moderate: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 1.28901869058609,
+      "ci": [
+        -1.5783739987077898,
+        4.15641137987997
+      ],
+      "median": 0.20881950855255127,
+      "first_better": 6,
+      "second_better": 2,
+      "p_wilcoxon": 0.3828125,
+      "p_holm": 0.765625,
+      "decision": "no claim"
+    },
+    {
+      "id": "N2",
+      "comparison": "our solver, real, strong: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 1.0554547607898712,
+      "ci": [
+        -0.27800397980430214,
+        2.3889135013840446
+      ],
+      "median": 1.222470998764038,
+      "first_better": 6,
+      "second_better": 2,
+      "p_wilcoxon": 0.1484375,
+      "p_holm": 0.59375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N3",
+      "comparison": "our solver, complex, moderate: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 3.034713365070843,
+      "ci": [
+        -0.010309828068495452,
+        6.079736558210181
+      ],
+      "median": 1.9960213715805217,
+      "first_better": 7,
+      "second_better": 1,
+      "p_wilcoxon": 0.0390625,
+      "p_holm": 0.234375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N4",
+      "comparison": "our solver, complex, strong: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 4.2994045898768745,
+      "ci": [
+        0.7794704286732514,
+        7.8193387510804975
+      ],
+      "median": 3.033713713362313,
+      "first_better": 7,
+      "second_better": 1,
+      "p_wilcoxon": 0.015625,
+      "p_holm": 0.140625,
+      "decision": "no claim"
+    },
+    {
+      "id": "N5",
+      "comparison": "Net-ADM, real, moderate: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 3.935207724571228,
+      "ci": [
+        0.3004576070227416,
+        7.569957842119715
+      ],
+      "median": 3.1246089935302734,
+      "first_better": 7,
+      "second_better": 1,
+      "p_wilcoxon": 0.0234375,
+      "p_holm": 0.1640625,
+      "decision": "no claim"
+    },
+    {
+      "id": "N6",
+      "comparison": "Net-ADM, real, strong: FE-softmax vs K=1",
+      "n": 8,
+      "mean": 0.6145203113555908,
+      "ci": [
+        -0.12084633011658963,
+        1.3498869528277713
+      ],
+      "median": 0.7885003089904785,
+      "first_better": 6,
+      "second_better": 2,
+      "p_wilcoxon": 0.1484375,
+      "p_holm": 0.59375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N7",
+      "comparison": "real, moderate: our FE-softmax vs hio_realpos best of 5",
+      "n": 8,
+      "mean": -23.371967673301697,
+      "ci": [
+        -25.919743964991163,
+        -20.82419138161223
+      ],
+      "median": -22.563499212265015,
+      "first_better": 0,
+      "second_better": 8,
+      "p_wilcoxon": 0.0078125,
+      "p_holm": 0.09375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N8",
+      "comparison": "real, strong: our FE-softmax vs hio_realpos best of 5",
+      "n": 8,
+      "mean": -9.446384906768799,
+      "ci": [
+        -14.55059989144085,
+        -4.342169922096748
+      ],
+      "median": -9.04787540435791,
+      "first_better": 0,
+      "second_better": 8,
+      "p_wilcoxon": 0.0078125,
+      "p_holm": 0.09375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N9",
+      "comparison": "complex, moderate: our FE-softmax vs raar_sw best of 5",
+      "n": 8,
+      "mean": -11.726029657188203,
+      "ci": [
+        -24.494165888439348,
+        1.0421065740629434
+      ],
+      "median": -16.30111408960534,
+      "first_better": 2,
+      "second_better": 6,
+      "p_wilcoxon": 0.078125,
+      "p_holm": 0.390625,
+      "decision": "no claim"
+    },
+    {
+      "id": "N10",
+      "comparison": "complex, strong: our FE-softmax vs raar_sw best of 5",
+      "n": 8,
+      "mean": -0.8452752855167471,
+      "ci": [
+        -4.754175396946273,
+        3.0636248259127794
+      ],
+      "median": -2.280911577365906,
+      "first_better": 2,
+      "second_better": 6,
+      "p_wilcoxon": 0.546875,
+      "p_holm": 0.765625,
+      "decision": "no claim"
+    },
+    {
+      "id": "N11",
+      "comparison": "real, moderate: Net-ADM FE-softmax vs hio_realpos best of 5",
+      "n": 8,
+      "mean": -17.85533308982849,
+      "ci": [
+        -19.437068591067828,
+        -16.273597588589155
+      ],
+      "median": -17.929961681365967,
+      "first_better": 0,
+      "second_better": 8,
+      "p_wilcoxon": 0.0078125,
+      "p_holm": 0.09375,
+      "decision": "no claim"
+    },
+    {
+      "id": "N12",
+      "comparison": "real, strong: Net-ADM FE-softmax vs hio_realpos best of 5",
+      "n": 8,
+      "mean": -7.98179417848587,
+      "ci": [
+        -12.46287186334131,
+        -3.5007164936304305
+      ],
+      "median": -9.422310590744019,
+      "first_better": 1,
+      "second_better": 7,
+      "p_wilcoxon": 0.015625,
+      "p_holm": 0.140625,
+      "decision": "no claim"
+    }
+  ],
+  "fe_signal_N13": {
+    "real_ours_moderate": {
+      "n": 8,
+      "rho": 0.8333333333333335,
+      "p_one_sided": 0.005087770061728376,
+      "ci95": [
+        0.23456790123456786,
+        1.0
+      ]
+    },
+    "real_ours_strong": {
+      "n": 8,
+      "rho": 0.6666666666666669,
+      "p_one_sided": 0.03549382716049378,
+      "ci95": [
+        -0.21518987341772153,
+        1.0
+      ]
+    },
+    "complex_ours_moderate": {
+      "n": 8,
+      "rho": 0.9285714285714287,
+      "p_one_sided": 0.00043148409144998836,
+      "ci95": [
+        0.4074074074074074,
+        1.0
+      ]
+    },
+    "complex_ours_strong": {
+      "n": 8,
+      "rho": 0.8571428571428572,
+      "p_one_sided": 0.0032650086273576452,
+      "ci95": [
+        0.3424657534246575,
+        1.0
+      ]
+    },
+    "real_netadm_moderate": {
+      "n": 8,
+      "rho": 0.5000000000000001,
+      "p_one_sided": 0.10351562499999994,
+      "ci95": [
+        -0.3417721518987342,
+        1.0
+      ]
+    },
+    "real_netadm_strong": {
+      "n": 8,
+      "rho": 0.8333333333333335,
+      "p_one_sided": 0.005087770061728376,
+      "ci95": [
+        0.3076923076923077,
+        1.0
+      ]
+    }
+  },
+  "descriptive": {
+    "real_ours_moderate": {
+      "K=1": {
+        "mean": 20.785591304302216,
+        "sd": 5.005756518113729,
+        "median": 22.500325441360474,
+        "failures": 2
+      },
+      "selection": {
+        "mean": 21.85971662402153,
+        "sd": 4.193106298232656,
+        "median": 22.979894876480103,
+        "failures": 1
+      },
+      "FE-softmax": {
+        "mean": 22.074609994888306,
+        "sd": 3.3762812802274706,
+        "median": 23.414124250411987,
+        "failures": 0
+      },
+      "uniform": {
+        "mean": 20.412643253803253,
+        "sd": 3.769855489394923,
+        "median": 21.095534563064575,
+        "failures": 0
+      },
+      "median": {
+        "mean": 20.7810340821743,
+        "sd": 4.018178617038422,
+        "median": 22.47307300567627,
+        "failures": 1
+      },
+      "best start (oracle)": {
+        "mean": 22.557047307491302,
+        "sd": 3.458363494162823,
+        "median": 23.8040828704834,
+        "failures": 0
+      },
+      "mean start": {
+        "mean": 19.329692900180817,
+        "sd": 3.6906666653819,
+        "median": 19.731934666633606,
+        "failures": 2
+      },
+      "lowest FE is best start": 4,
+      "median start FE": 0.2162579745054245,
+      "runtime_s": 273.98464426249484
+    },
+    "real_ours_strong": {
+      "K=1": {
+        "mean": 20.64939096570015,
+        "sd": 3.102408624887628,
+        "median": 21.445231437683105,
+        "failures": 0
+      },
+      "selection": {
+        "mean": 21.530715823173523,
+        "sd": 4.053960945122363,
+        "median": 22.473312616348267,
+        "failures": 1
+      },
+      "FE-softmax": {
+        "mean": 21.70484572649002,
+        "sd": 3.664941324566751,
+        "median": 23.480994701385498,
+        "failures": 1
+      },
+      "uniform": {
+        "mean": 20.703287720680237,
+        "sd": 3.4328912354113426,
+        "median": 20.56261658668518,
+        "failures": 1
+      },
+      "median": {
+        "mean": 21.075200885534286,
+        "sd": 3.5971635364055485,
+        "median": 22.416491508483887,
+        "failures": 1
+      },
+      "best start (oracle)": {
+        "mean": 22.49489814043045,
+        "sd": 3.599899175813562,
+        "median": 23.84446144104004,
+        "failures": 0
+      },
+      "mean start": {
+        "mean": 19.538614094257355,
+        "sd": 3.4768056480163794,
+        "median": 19.452279925346375,
+        "failures": 1
+      },
+      "lowest FE is best start": 3,
+      "median start FE": 0.20325173437595367,
+      "runtime_s": 283.8209001124924
+    },
+    "complex_ours_moderate": {
+      "K=1": {
+        "mean": 17.649333533124135,
+        "sd": 6.007859760456645,
+        "median": 17.171299756390717,
+        "failures": 3
+      },
+      "selection": {
+        "mean": 20.144877394949877,
+        "sd": 5.215434852567393,
+        "median": 22.437075472366487,
+        "failures": 2
+      },
+      "FE-softmax": {
+        "mean": 20.68404689819498,
+        "sd": 4.583124469198029,
+        "median": 22.14804937410645,
+        "failures": 2
+      },
+      "uniform": {
+        "mean": 18.710871678357748,
+        "sd": 4.513047950364576,
+        "median": 18.035907823964948,
+        "failures": 1
+      },
+      "median": {
+        "mean": 19.23185644331153,
+        "sd": 4.657143019266402,
+        "median": 19.947289004367143,
+        "failures": 1
+      },
+      "best start (oracle)": {
+        "mean": 20.82868935724912,
+        "sd": 4.523049934786313,
+        "median": 22.745498971595502,
+        "failures": 2
+      },
+      "mean start": {
+        "mean": 16.82707992007527,
+        "sd": 4.015443713694293,
+        "median": 16.77863261826896,
+        "failures": 3
+      },
+      "lowest FE is best start": 5,
+      "median start FE": 0.2648974061012268,
+      "runtime_s": 278.30045773752136
+    },
+    "complex_ours_strong": {
+      "K=1": {
+        "mean": 15.425008103011654,
+        "sd": 4.180832460188927,
+        "median": 13.359812297028629,
+        "failures": 5
+      },
+      "selection": {
+        "mean": 19.512115120183516,
+        "sd": 3.0969360571102116,
+        "median": 20.36242557273905,
+        "failures": 1
+      },
+      "FE-softmax": {
+        "mean": 19.724412692888528,
+        "sd": 3.268193580165101,
+        "median": 20.50980900584426,
+        "failures": 1
+      },
+      "uniform": {
+        "mean": 17.709733488200044,
+        "sd": 2.62071398226888,
+        "median": 18.19687858097955,
+        "failures": 1
+      },
+      "median": {
+        "mean": 18.349358713781946,
+        "sd": 3.0125452482165884,
+        "median": 19.12530389254305,
+        "failures": 1
+      },
+      "best start (oracle)": {
+        "mean": 19.784270234342934,
+        "sd": 3.227347162303851,
+        "median": 20.836706910957744,
+        "failures": 1
+      },
+      "mean start": {
+        "mean": 16.21603983607806,
+        "sd": 2.4536426654816084,
+        "median": 16.092137347995894,
+        "failures": 1
+      },
+      "lowest FE is best start": 6,
+      "median start FE": 0.2667785584926605,
+      "runtime_s": 227.19231037500504
+    },
+    "real_netadm_moderate": {
+      "K=1": {
+        "mean": 23.656036853790283,
+        "sd": 4.302979125135479,
+        "median": 24.747618436813354,
+        "failures": 1
+      },
+      "selection": {
+        "mean": 27.30980485677719,
+        "sd": 2.978213183092926,
+        "median": 28.603087663650513,
+        "failures": 0
+      },
+      "FE-softmax": {
+        "mean": 27.59124457836151,
+        "sd": 2.6113797480308545,
+        "median": 26.84854507446289,
+        "failures": 0
+      },
+      "uniform": {
+        "mean": 26.64335995912552,
+        "sd": 2.5939778266557765,
+        "median": 26.02376103401184,
+        "failures": 0
+      },
+      "median": {
+        "mean": 28.024188578128815,
+        "sd": 2.651268107612983,
+        "median": 27.25000500679016,
+        "failures": 0
+      },
+      "best start (oracle)": {
+        "mean": 28.551252782344818,
+        "sd": 2.1061527063449663,
+        "median": 28.7825345993042,
+        "failures": 0
+      },
+      "mean start": {
+        "mean": 25.166138410568237,
+        "sd": 2.785716929091712,
+        "median": 24.51963520050049,
+        "failures": 0
+      },
+      "lowest FE is best start": 4,
+      "median start FE": 0.07044190540909767,
+      "runtime_s": 76.09913201249583
+    },
+    "real_netadm_strong": {
+      "K=1": {
+        "mean": 22.55491614341736,
+        "sd": 2.565413155887269,
+        "median": 21.932255029678345,
+        "failures": 0
+      },
+      "selection": {
+        "mean": 22.600296586751938,
+        "sd": 2.979872937118938,
+        "median": 22.329959869384766,
+        "failures": 0
+      },
+      "FE-softmax": {
+        "mean": 23.16943645477295,
+        "sd": 2.0768515013842377,
+        "median": 23.21365714073181,
+        "failures": 0
+      },
+      "uniform": {
+        "mean": 23.42058926820755,
+        "sd": 1.9379598577039356,
+        "median": 23.24315309524536,
+        "failures": 0
+      },
+      "median": {
+        "mean": 23.209057450294495,
+        "sd": 2.0433627356845374,
+        "median": 23.087563514709473,
+        "failures": 0
+      },
+      "best start (oracle)": {
+        "mean": 23.7273308634758,
+        "sd": 2.3698828307472035,
+        "median": 23.23192000389099,
+        "failures": 0
+      },
+      "mean start": {
+        "mean": 22.343127965927124,
+        "sd": 2.240752066198574,
+        "median": 21.838983297348022,
+        "failures": 0
+      },
+      "lowest FE is best start": 3,
+      "median start FE": 0.1592439040541649,
+      "runtime_s": 72.58987451248686
+    },
+    "real_netadm_none": {
+      "K=1": {
+        "mean": 33.27974885702133,
+        "sd": 9.240733676470791,
+        "median": 32.05466985702515,
+        "failures": 0
+      },
+      "selection": {
+        "mean": 36.59852385520935,
+        "sd": 6.007582950171357,
+        "median": 37.47542381286621,
+        "failures": 0
+      },
+      "FE-softmax": {
+        "mean": 33.465963900089264,
+        "sd": 8.365250869421425,
+        "median": 35.2991247177124,
+        "failures": 0
+      },
+      "uniform": {
+        "mean": 31.179544925689697,
+        "sd": 8.839264008185147,
+        "median": 29.5566987991333,
+        "failures": 0
+      },
+      "median": {
+        "mean": 34.04600068926811,
+        "sd": 9.16693536513775,
+        "median": 36.6096568107605,
+        "failures": 0
+      },
+      "best start (oracle)": {
+        "mean": 37.336742877960205,
+        "sd": 6.6093429950947185,
+        "median": 38.12204122543335,
+        "failures": 0
+      },
+      "lowest FE is best start": 5,
+      "n": 8
+    }
+  },
+  "classical": {
+    "real_hio_realpos_moderate": {
+      "best of 1": {
+        "mean": 40.52519917488098,
+        "sd": 11.27899153388515,
+        "median": 44.75146532058716,
+        "failures": 1
+      },
+      "best of 5": {
+        "mean": 45.44657766819,
+        "sd": 2.157758015857483,
+        "median": 45.147998332977295,
+        "failures": 0
+      }
+    },
+    "real_hio_realpos_strong": {
+      "best of 1": {
+        "mean": 27.846485674381256,
+        "sd": 4.8085991354205655,
+        "median": 26.502935886383057,
+        "failures": 0
+      },
+      "best of 5": {
+        "mean": 31.15123063325882,
+        "sd": 4.945659627600738,
+        "median": 33.0708122253418,
+        "failures": 0
+      }
+    },
+    "complex_raar_sw_moderate": {
+      "best of 1": {
+        "mean": 21.01599154736121,
+        "sd": 14.474735993490564,
+        "median": 14.143929958077061,
+        "failures": 6
+      },
+      "best of 5": {
+        "mean": 32.410076555383185,
+        "sd": 16.05870240475826,
+        "median": 39.96836659324745,
+        "failures": 3
+      }
+    },
+    "complex_raar_sw_strong": {
+      "best of 1": {
+        "mean": 16.359492630546484,
+        "sd": 4.696765454424058,
+        "median": 14.293135033201057,
+        "failures": 5
+      },
+      "best of 5": {
+        "mean": 20.569687978405277,
+        "sd": 5.696173671384304,
+        "median": 23.195948224429614,
+        "failures": 3
+      }
+    }
+  }
+}

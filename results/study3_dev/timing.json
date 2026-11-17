@@ -1,0 +1,44 @@
+{
+  "untrained_s_per_image": {
+    "real_ours": 278.9027721874936,
+    "real_netadm": 74.34450326249134,
+    "complex_ours": 252.7463840562632
+  },
+  "classical_s_per_start": {
+    "real_hio_realpos": 3.4311154974999227,
+    "real_raar_realpos": 4.112772647498787,
+    "real_hio_sw": 3.7031677999999375,
+    "real_raar_sw": 5.089697862500907,
+    "complex_hio_sw": 3.662906693750847,
+    "complex_raar_sw": 5.091114863749317
+  },
+  "devices": {
+    "real_ours": [
+      "cuda"
+    ],
+    "real_netadm": [
+      "cuda"
+    ],
+    "complex_ours": [
+      "cuda"
+    ],
+    "real_classical": [
+      "cuda"
+    ],
+    "complex_classical": [
+      "cuda"
+    ]
+  },
+  "k_equal_wall_time": {
+    "real_ours_vs_hio_realpos": 81,
+    "real_netadm_vs_hio_realpos": 22,
+    "real_ours_vs_raar_realpos": 68,
+    "real_netadm_vs_raar_realpos": 18,
+    "real_ours_vs_hio_sw": 75,
+    "real_netadm_vs_hio_sw": 20,
+    "real_ours_vs_raar_sw": 55,
+    "real_netadm_vs_raar_sw": 15,
+    "complex_ours_vs_hio_sw": 69,
+    "complex_ours_vs_raar_sw": 50
+  }
+}

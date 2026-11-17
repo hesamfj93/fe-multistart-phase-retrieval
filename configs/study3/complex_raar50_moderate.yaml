@@ -1,0 +1,40 @@
+# STUDY3_PLAN.md: RAAR with shrinkwrap, 50 starts (equal wall time to our solver), held-out ranks 100-149.
+# Equal to configs/study3_dev/complex_classical_moderate.yaml except name, output folder, image range, algorithm, constraint and number of starts.
+experiment:
+  name: study3_complex_raar50_moderate
+  output_dir: results/study3/complex_raar50_moderate
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: heldout3
+  splits_dir: splits
+  n_images: 50
+  rank_start: 100
+  size: 32
+  root: ./data
+  object:
+    class: complex
+    phase_sigma_px: 3.0
+    phase_max_rad: 1.5707963267948966
+    phase_seed_offset: 1000003
+measurement:
+  oversample: 2
+  noise_model: poisson
+  noise_level: 30000.0
+  noise_seed: 0
+baselines:
+  algorithms:
+  - raar
+  constraints:
+  - shrinkwrap
+  starts: 50
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200
+  hio_beta: 0.9
+  raar_beta: 0.87
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5

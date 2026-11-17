@@ -155,6 +155,17 @@ The frozen design weights the data loss with a centered Gaussian in the Fourier 
 
 Outcome A: no variant halves the start FE (largest reduction 24% on real and 28% on complex objects) and the frozen design stays. The spread between starts and the advantage of FE-softmax over a single start persist under every weight. Details: [`docs/SPECTRAL_ABLATION_RESULTS.md`](docs/SPECTRAL_ABLATION_RESULTS.md). Code: `unweighted_final_frac` in `pr_uq/optim/trainer.py`, `configs/spectral_ablation/`, `scripts/spectral_ablation_report.py`, `tests/test_spectral_ablation.py`; results in `results/spectral_ablation/`.
 
+## Third study: Poisson noise and a second untrained solver (in progress)
+
+The third study asks whether the FE protocol still helps under Poisson noise, whether it helps a second, independently published untrained solver (Net-ADM, Ma et al. 2024, re-implemented in `pr_uq/baselines/netadm.py`), and how both solvers compare with the strongest classical method at equal wall time. Its images are new: positions 200 to 399 of the held-out permutation (`splits/mnist_test_heldout3_indices.csv`), 50 real and 50 complex objects, at two noise levels.
+
+- **Development phase** (8 development images; plan [`STUDY3_DEV_PLAN.md`](STUDY3_DEV_PLAN.md), pushed before its runs): Poisson levels N_p = 30,000 and 3,000 (`results/study3_dev/noise_levels.json`); a component ablation that kept the solver unchanged ([`docs/COMPONENT_ABLATION_RESULTS.md`](docs/COMPONENT_ABLATION_RESULTS.md)); development runs and the equal-wall-time numbers of classical starts (`results/study3_dev/`, `results/study3_dev/timing.json`, check of the report script in `results/study3_dev/report/`).
+- **Analysis plan** for the held-out runs: [`STUDY3_PLAN.md`](STUDY3_PLAN.md), with configurations in `configs/study3/`, the report script `scripts/study3_report.py` and `tests/test_study3_configs.py`. It is tagged `study3-plan-v1` before any held-out run.
+
+## Real-data preprocessing (CXIDB entry 28)
+
+`scripts/cxidb28_preprocess.py` centers, crops, bins and masks the diffraction pattern of CXIDB entry 28 (Marchesini et al., Phys. Rev. B 68, 140101, 2003; CC0) from the data alone. The data file is not part of the repository; it is available from the Coherent X-ray Imaging Data Bank.
+
 ## License
 
 Code: MIT, see [`LICENSE`](LICENSE). MNIST: see [`data/README.md`](data/README.md).

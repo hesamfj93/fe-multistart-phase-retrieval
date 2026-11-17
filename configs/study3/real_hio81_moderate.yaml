@@ -1,0 +1,35 @@
+# STUDY3_PLAN.md: HIO with the real and nonnegative constraint, 81 starts (equal wall time to our solver), held-out ranks 0-49.
+# Equal to configs/study3_dev/real_classical_moderate.yaml except name, output folder, image range, algorithm, constraint and number of starts.
+experiment:
+  name: study3_real_hio81_moderate
+  output_dir: results/study3/real_hio81_moderate
+  seed: 0
+  device: auto
+dataset:
+  name: mnist
+  split: test
+  protocol_split: heldout3
+  splits_dir: splits
+  n_images: 50
+  rank_start: 0
+  size: 32
+  root: ./data
+measurement:
+  oversample: 2
+  noise_model: poisson
+  noise_level: 30000.0
+  noise_seed: 0
+baselines:
+  algorithms:
+  - hio
+  constraints:
+  - real_nonneg
+  starts: 81
+  base_seed: 0
+  iterations: 5000
+  er_iterations: 200
+  hio_beta: 0.9
+  raar_beta: 0.87
+evaluation:
+  failure_psnr_db: 15.0
+  auroc_min_per_class: 5
