@@ -96,3 +96,11 @@ def test_netadm_ignores_unmeasured_values():
     assert torch.equal(a, b)
     assert torch.equal(run_netadm(y, (N, N), outer_iters=20, widths=(8, 8, 8), mask=torch.ones_like(mask)).recon,
                        run_netadm(y, (N, N), outer_iters=20, widths=(8, 8, 8)).recon)
+
+
+def test_trainer_with_mask_and_no_spectral_weight():
+    _, y, y_other, mask = _problem()
+    cfg = TrainerConfig(iterations=30, use_spectral_annealing=False, log_every=10)
+    r1, log = train_member(EnsembleMember(MemberSpec(out_h=N, out_w=N, seed=0)), y, cfg, mask=mask)
+    r2, _ = train_member(EnsembleMember(MemberSpec(out_h=N, out_w=N, seed=0)), y_other, cfg, mask=mask)
+    assert torch.equal(r1, r2) and log.sigma == [0.0] * len(log.steps)

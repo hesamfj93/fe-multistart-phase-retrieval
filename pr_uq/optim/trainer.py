@@ -246,9 +246,10 @@ def train_member(
         x_loss = x_use if config.project_in_loss else x_net
 
         # Weights
-        w = spectral_weight_for_step(annealer, step, config)
+        w_spec = spectral_weight_for_step(annealer, step, config)
+        w = w_spec
         if mask is not None:
-            w = mask_w if w is None else w * mask_w
+            w = mask_w if w_spec is None else w_spec * mask_w
 
         # Losses
         L_data = data_loss_fn(x_loss, y_intensity, weight=w, oversample=config.oversample)
@@ -298,7 +299,7 @@ def train_member(
             log.loss_data.append(float(L_data.detach().item()))
             log.loss_reg.append(float(L_reg.detach().item()))
             log.loss_total.append(float(L.detach().item()))
-            log.sigma.append(annealer._cached_sigma if w is not None else 0.0)
+            log.sigma.append(annealer._cached_sigma if w_spec is not None else 0.0)
             log.beta.append(float(beta))
             if gt is not None:
                 with torch.no_grad():
