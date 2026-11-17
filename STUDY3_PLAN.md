@@ -1,6 +1,6 @@
 # Third study: analysis plan (Poisson noise, two untrained solvers, classical methods at equal wall time)
 
-**Status: frozen.** It is frozen at the git tag `study3-plan-v1`, which is pushed before any run on the images of this study. Any later change is listed under "Deviations" at the end, with its date and reason.
+**Status: frozen.** It is frozen at the git tag `study3-plan-v1`, created before any run on the images of this study. The tag is pushed to GitHub together with the results, after the runs, so the public record alone does not show that the plan came first. Any later change is listed under "Deviations" at the end, with its date and reason.
 
 The development phase (`STUDY3_DEV_PLAN.md`) fixed the noise levels, kept the solver unchanged (`docs/COMPONENT_ABLATION_RESULTS.md`) and gave the timings for equal wall time (`results/study3_dev/timing.json`). Its results on the 8 development images are in `results/study3_dev`; they informed the choice of classical comparators below and nothing else.
 
@@ -99,10 +99,11 @@ All numbers are computed by `scripts/study3_report.py` as committed at the tag.
 
 ## Order
 
-1. Commit this plan with the code and configurations, push, and tag `study3-plan-v1`.
+1. Commit this plan with the code and configurations and tag `study3-plan-v1`, locally.
 2. Run the held-out runs in any order. An interrupted run resumes with the same command.
 3. Run `scripts/study3_report.py` unchanged.
 4. Report every result, including unfavourable ones, and list any deviation.
+5. Push the tag, the results and the report to GitHub.
 
 ## Commands
 
