@@ -1,0 +1,10 @@
+21:59:14 INFO    pr_run | Device: cuda | split: dev | output: C:\Users\PcKala.org\phase_retrieval_untrained\fe-multistart-study3dev\results\component_ablation\real_noproj
+21:59:14 INFO    pr_run | 8 images, K=5, T=0.05, overlap_with_dev=None
+22:00:08 INFO    pr_run | [image_00429] member 1/5 done | seed=0 | PSNR=13.41 | 53.8s
+22:01:06 INFO    pr_run | [image_00429] member 2/5 done | seed=1 | PSNR=12.82 | 57.9s
+22:02:04 INFO    pr_run | [image_00429] member 3/5 done | seed=2 | PSNR=13.97 | 57.8s
+22:03:00 INFO    pr_run | [image_00429] member 4/5 done | seed=3 | PSNR=12.62 | 56.1s
+22:03:56 INFO    pr_run | [image_00429] member 5/5 done | seed=4 | PSNR=13.96 | 55.3s
+22:03:58 INFO    pr_run | [image_00429] OK | best-FE member=1 | k1=13.41 fe_softmax=13.37 best_single_by_fe=12.82 | 282.8s
+22:04:54 INFO    pr_run | [image_01729] member 1/5 done | seed=0 | PSNR=24.13 | 56.3s
+22:05:47 INFO    pr_run | [image_01729] member 2/5 done | seed=1 | PSNR=13.33 | 53.4s
