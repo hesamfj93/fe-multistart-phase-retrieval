@@ -22,7 +22,8 @@ from .forward import forward_field, inverse_field
 
 
 def project_magnitude(
-    x: torch.Tensor, y_intensity: torch.Tensor, oversample: int = 2, eps: float = 1e-8
+    x: torch.Tensor, y_intensity: torch.Tensor, oversample: int = 2, eps: float = 1e-8,
+    mask: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Project x onto the set { z : |F(z)|^2 == y_intensity }.
 
@@ -32,6 +33,8 @@ def project_magnitude(
     y_intensity : (B, 1, oH, oW) measured intensity (NOT magnitude).
     oversample : must match the one used to generate y_intensity.
     eps : magnitude floor.
+    mask : optional boolean (1, 1, oH, oW), True where the intensity was measured. Unmeasured
+        pixels keep the current field (beamstop, detector gaps). None: every pixel is measured.
     """
     H, W = x.shape[-2:]
     X = forward_field(x, oversample=oversample)
@@ -39,6 +42,8 @@ def project_magnitude(
     mag_cur = X.abs().clamp_min(eps)
     # Replace magnitude with measured, keep phase
     X_proj = X * (mag_meas / mag_cur)
+    if mask is not None:
+        X_proj = torch.where(mask, X_proj, X)
     return inverse_field(X_proj, signal_hw=(H, W))
 
 

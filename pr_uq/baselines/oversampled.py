@@ -63,10 +63,13 @@ def _crop(z: torch.Tensor, image_hw: tuple[int, int]) -> torch.Tensor:
     return z[..., h0:h0 + H, w0:w0 + W]
 
 
-def _proj_magnitude(z: torch.Tensor, y_mag: torch.Tensor) -> torch.Tensor:
-    """P_M: keep the phase of F(z), impose the measured magnitude. Full grid in and out."""
+def _proj_magnitude(z: torch.Tensor, y_mag: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
+    """P_M: keep the phase of F(z), impose the measured magnitude. Full grid in and out.
+    With a boolean `mask` (True where measured), unmeasured pixels keep F(z)."""
     Z = forward_field(z.to(torch.complex64), oversample=1)
     Zp = y_mag * Z / Z.abs().clamp_min(1e-12)
+    if mask is not None:
+        Zp = torch.where(mask, Zp, Z)
     return inverse_field(Zp, signal_hw=tuple(z.shape[-2:]))
 
 
@@ -121,24 +124,26 @@ def _init(y_mag: torch.Tensor, seed: int) -> torch.Tensor:
     return inverse_field(Z0, signal_hw=tuple(y_mag.shape[-2:])).real.to(torch.complex64)
 
 
-def _error_reduction(z, y_mag, window, iters, constraint):
+def _error_reduction(z, y_mag, window, iters, constraint, mask=None):
     for _ in range(iters):
-        z = _proj_object(_proj_magnitude(z, y_mag), window, constraint)
+        z = _proj_object(_proj_magnitude(z, y_mag, mask), window, constraint)
     return z
 
 
 def run_hio_full(y_intensity, image_hw, iters=5000, beta=0.9, er_iters=200, seed=0, oversample=2,
-                 device="cpu", constraint="real_nonneg") -> ClassicalResult:
+                 device="cpu", constraint="real_nonneg", mask=None) -> ClassicalResult:
     """Fienup HIO: z <- P_M z where it satisfies S, else z - beta * P_M z; then an ER tail."""
     if constraint not in CONSTRAINTS:
         raise ValueError(f"unknown constraint {constraint!r}")
     t0 = time.perf_counter()
     y_mag = y_intensity.clamp_min(0).sqrt().to(device)
     window = object_window(image_hw, oversample, device)
+    if mask is not None:
+        mask = mask.to(device=device, dtype=torch.bool)
     if constraint == "real_nonneg":
         z = _init(y_mag, seed).real
         for _ in range(iters):
-            zp = _proj_magnitude(z, y_mag).real
+            zp = _proj_magnitude(z, y_mag, mask).real
             ok = window & (zp >= 0)
             z = torch.where(ok, zp, z - beta * zp)
         z = z.to(torch.complex64)
@@ -146,7 +151,7 @@ def run_hio_full(y_intensity, image_hw, iters=5000, beta=0.9, er_iters=200, seed
         z = _init(y_mag, seed)
         support, sigma = window.clone(), SW_SIGMA0
         for it in range(iters):
-            zp = _proj_magnitude(z, y_mag)
+            zp = _proj_magnitude(z, y_mag, mask)
             ok = support & (zp.abs() <= AMP_MAX)
             z = torch.where(ok, zp, z - beta * zp)
             if (it + 1) % SW_EVERY == 0:
@@ -156,33 +161,35 @@ def run_hio_full(y_intensity, image_hw, iters=5000, beta=0.9, er_iters=200, seed
     else:
         z = _init(y_mag, seed)
         for _ in range(iters):
-            zp = _proj_magnitude(z, y_mag)
+            zp = _proj_magnitude(z, y_mag, mask)
             z = torch.where(window, zp, z - beta * zp)
-    z = _error_reduction(z, y_mag, window, er_iters, constraint)
+    z = _error_reduction(z, y_mag, window, er_iters, constraint, mask)
     if z.is_cuda:
         torch.cuda.synchronize()
     return ClassicalResult(_crop(z, image_hw).to(torch.complex64), time.perf_counter() - t0, f"hio_{constraint}", seed)
 
 
 def run_raar_full(y_intensity, image_hw, iters=5000, beta=0.87, er_iters=200, seed=0, oversample=2,
-                  device="cpu", constraint="real_nonneg") -> ClassicalResult:
+                  device="cpu", constraint="real_nonneg", mask=None) -> ClassicalResult:
     """Luke RAAR: z <- (beta/2)(R_S R_M + I) z + (1 - beta) P_M z; then an ER tail."""
     if constraint not in CONSTRAINTS:
         raise ValueError(f"unknown constraint {constraint!r}")
     t0 = time.perf_counter()
     y_mag = y_intensity.clamp_min(0).sqrt().to(device)
     window = object_window(image_hw, oversample, device)
+    if mask is not None:
+        mask = mask.to(device=device, dtype=torch.bool)
     z = _init(y_mag, seed)
     support, sigma = window.clone(), SW_SIGMA0
     for it in range(iters):
-        pm = _proj_magnitude(z, y_mag)
+        pm = _proj_magnitude(z, y_mag, mask)
         rm = 2 * pm - z
         rs_rm = 2 * _proj_object(rm, support, constraint) - rm
         z = 0.5 * beta * (rs_rm + z) + (1.0 - beta) * pm
         if constraint == "shrinkwrap" and (it + 1) % SW_EVERY == 0:
-            support = _shrinkwrap_support(_proj_magnitude(z, y_mag), window, sigma)
+            support = _shrinkwrap_support(_proj_magnitude(z, y_mag, mask), window, sigma)
             sigma = max(SW_SIGMA_MIN, sigma * SW_SIGMA_DECAY)
-    z = _error_reduction(_proj_object(z, support, constraint), y_mag, support, er_iters, constraint)
+    z = _error_reduction(_proj_object(z, support, constraint), y_mag, support, er_iters, constraint, mask)
     if z.is_cuda:
         torch.cuda.synchronize()
     return ClassicalResult(_crop(z, image_hw).to(torch.complex64), time.perf_counter() - t0, f"raar_{constraint}", seed)

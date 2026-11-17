@@ -88,12 +88,17 @@ def _crop(z: torch.Tensor, hw) -> torch.Tensor:
 def run_netadm(y_intensity: torch.Tensor, image_hw, outer_iters: int = 1000, inner_steps: int = 5,
                lr: float = 0.005, lr_decay_every: int = 500, lr_decay: float = 0.5, rho: float = 1.0,
                eps: float = 1e-3, widths=(25, 15, 10), seed: int = 0, oversample: int = 2,
-               device="cpu") -> NetADMResult:
-    """Net-ADM on an oversampled Fourier intensity y (orthonormal convention of this code base)."""
+               device="cpu", mask=None) -> NetADMResult:
+    """Net-ADM on an oversampled Fourier intensity y (orthonormal convention of this code base).
+
+    With a boolean `mask` (True where measured), the u-update keeps F(P x + lambda/rho) at
+    unmeasured pixels, the standard treatment of a beamstop in projection methods."""
     t0 = time.perf_counter()
     H, W = image_hw
     y = y_intensity.to(device).float().clamp_min(0)
     oH, oW = y.shape[-2:]
+    if mask is not None:
+        mask = mask.to(device=device, dtype=torch.bool)
     scale = float((oH * oW) ** 0.5)
     b = y.sqrt() * scale                                  # unnormalized-DFT magnitudes
     torch.manual_seed(int(seed))
@@ -108,7 +113,10 @@ def run_netadm(y_intensity: torch.Tensor, image_hw, outer_iters: int = 1000, inn
         x = _crop(u_t - lam / rho, (H, W)).real
         Px = _centered_zero_pad(x.to(torch.complex64), oversample)
         V = _fft(Px + lam / rho)
-        u = _ifft(b2e / (V.abs() ** 2 + eps).sqrt() * V)
+        Vp = b2e / (V.abs() ** 2 + eps).sqrt() * V
+        if mask is not None:
+            Vp = torch.where(mask, Vp, V)
+        u = _ifft(Vp)
         lam = lam + rho * (Px - u)
         target = _crop(u, (H, W)).real.detach()
         for _ in range(inner_steps):

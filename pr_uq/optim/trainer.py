@@ -46,6 +46,9 @@ class TrainerConfig:
     # Loss
     data_loss: str = "magnitude_l2"           # 'magnitude_l2' | 'log_magnitude' | 'poisson_nll'
     oversample: int = 2
+    # Multiplier of the data loss. 1.0 in the held-out studies (the loop is then unchanged). The
+    # real-data runner sets it so that the data term has the scale it has for 32 x 32 MNIST objects.
+    data_loss_scale: float = 1.0
 
     # Regularization
     lambda_tv_A: float = 1e-3
@@ -147,6 +150,7 @@ def train_member(
     device: torch.device | str = "cpu",
     progress: Callable[[int, dict], None] | None = None,
     gt: torch.Tensor | None = None,
+    mask: torch.Tensor | None = None,
 ) -> tuple[torch.Tensor, TrainerLog]:
     """Train one ensemble member to fit `y_intensity`.
 
@@ -160,6 +164,9 @@ def train_member(
     gt : optional (1, 1, H, W) ground truth used ONLY for logging aligned-PSNR
         and Fourier-magnitude-error curves during training. Has no effect on
         the optimization itself — purely diagnostic.
+    mask : optional boolean (1, 1, oH, oW), True where the intensity was measured. The projection
+        keeps the current field at unmeasured pixels and the data loss ignores them. None (the
+        held-out studies): every pixel is measured, and the loop is unchanged.
 
     Returns
     -------
@@ -168,6 +175,9 @@ def train_member(
     """
     member = member.to(device)
     y_intensity = y_intensity.to(device)
+    if mask is not None:
+        mask = mask.to(device=device, dtype=torch.bool)
+        mask_w = mask.to(y_intensity.dtype)
     H, W = member.spec.out_h, member.spec.out_w
     oH, oW = y_intensity.shape[-2:]
     log = TrainerLog()
@@ -222,9 +232,12 @@ def train_member(
             beta = beta_schedule(step, config.iterations)
             if config.project_detached:
                 with torch.no_grad():
-                    x_proj = project_magnitude(x_net, y_intensity, oversample=config.oversample)
+                    x_proj = project_magnitude(x_net, y_intensity, oversample=config.oversample,
+                                               mask=mask)
                 x_use = beta * x_proj + (1.0 - beta) * x_net
             else:
+                if mask is not None:
+                    raise NotImplementedError("mask with project_detached=False")
                 x_use = beta_mix(x_net, y_intensity, beta, oversample=config.oversample)
         else:
             beta = 0.0
@@ -234,9 +247,13 @@ def train_member(
 
         # Weights
         w = spectral_weight_for_step(annealer, step, config)
+        if mask is not None:
+            w = mask_w if w is None else w * mask_w
 
         # Losses
         L_data = data_loss_fn(x_loss, y_intensity, weight=w, oversample=config.oversample)
+        if config.data_loss_scale != 1.0:
+            L_data = config.data_loss_scale * L_data
         L_reg = regularization_total(
             amplitude=A,
             phase=phi,
@@ -306,7 +323,8 @@ def train_member(
         if config.keep_best_recon:
             with torch.no_grad():
                 eval_loss = float(
-                    data_loss_fn(x_net, y_intensity, weight=None, oversample=config.oversample).item()
+                    data_loss_fn(x_net, y_intensity, weight=None if mask is None else mask_w,
+                                 oversample=config.oversample).item()
                 )
             if eval_loss < best_loss:
                 best_loss = eval_loss

@@ -1,0 +1,40 @@
+{
+  "source": "CXIDB entry 28, Marchesini et al., Phys. Rev. B 68, 140101 (2003), CC0",
+  "geometry_from_file": {
+    "energy_J": 9.4592662548853e-17,
+    "distance_m": 0.105,
+    "pixel_m": 2.4e-05,
+    "wavelength_m": 2.0999999404002565e-09
+  },
+  "object_pixel_full_pattern_nm": 8.972167714112423,
+  "object_pixel_after_crop_nm": 17.944335428224846,
+  "unmeasured_pixels_full_pattern": 56515,
+  "center_yx": [
+    511.5,
+    510.5
+  ],
+  "centrosymmetry_error_full": 0.017612343084920445,
+  "crop_rows": [
+    255,
+    766
+  ],
+  "crop_cols": [
+    254,
+    765
+  ],
+  "crop": 512,
+  "bin": 2,
+  "binned_shape": [
+    256,
+    256
+  ],
+  "dc_pixel": [
+    128,
+    128
+  ],
+  "object_field_with_oversampling_2_px": 128,
+  "unmeasured_pixels_binned": 900,
+  "unmeasured_fraction_within_half_nyquist": 0.06934391781461592,
+  "centrosymmetry_error_binned": 0.012313381744206882,
+  "sum_measured_intensity_binned": 7823299263.75
+}

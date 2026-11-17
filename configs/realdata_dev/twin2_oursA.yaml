@@ -1,0 +1,42 @@
+# REALDATA_DEV_PLAN.md, run A on twin 2. Trainer settings copied from configs/study3_dev/complex_ours_moderate.yaml.
+experiment:
+  name: twin2_oursA
+  output_dir: results/realdata_dev/twin2_oursA
+  device: auto
+data:
+  source: twin
+  pattern_npz: data/cxidb28/cxidb28_256.npz
+  twin_seed: 2
+  noise: lognormal
+  noise_level: 0.15
+  noise_seed: 0
+temperature: 0.05
+methods:
+  ours:
+    K: 5
+    base_seed: 0
+    model:
+      z_channels: 128
+      z_hw: 4
+      base_ch: 128
+    trainer:
+      iterations: 3000
+      lr_theta: 0.001
+      lr_z: 0.001
+      optimize_z: true
+      grad_clip: 1.0
+      data_loss: magnitude_l2
+      lambda_tv_A: 0.001
+      lambda_tv_phi: 0.0001
+      lambda_support: 0.01
+      use_spectral_annealing: true
+      sigma_start_frac: 0.5
+      sigma_end_frac: 0.05
+      use_physics_projection: true
+      beta_schedule:
+        type: linear
+        start: 0.7
+        end: 0.1
+      use_adaptive_support: true
+      support_update_every: 200
+      log_every: 150

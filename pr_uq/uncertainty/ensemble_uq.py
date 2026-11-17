@@ -41,6 +41,7 @@ def member_fourier_errors(
     y_intensity: torch.Tensor,
     oversample: int = 2,
     eps: float = 1e-12,
+    mask: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Per-member normalized Fourier-magnitude error against the measurement.
 
@@ -48,14 +49,20 @@ def member_fourier_errors(
 
     This is a *ground-truth-free* quality proxy — it only uses the measured
     intensity Y, so it is available at inference time. Lower is better.
-    Returns a (K,) tensor.
+    Returns a (K,) tensor. With a boolean `mask` (True where measured) both sums run over the
+    measured pixels only.
     """
     y_mag = y_intensity.clamp_min(0).sqrt()
-    denom = y_mag.pow(2).sum().clamp_min(eps).sqrt()
+    if mask is None:
+        denom = y_mag.pow(2).sum().clamp_min(eps).sqrt()
+    else:
+        mask = mask.to(device=y_mag.device, dtype=torch.bool)
+        denom = y_mag[mask].pow(2).sum().clamp_min(eps).sqrt()
     fes = []
     for k in range(stack.shape[0]):
         fp = forward_magnitude(stack[k : k + 1], oversample=oversample)
-        fes.append((((fp - y_mag).pow(2).sum().sqrt()) / denom).item())
+        d2 = (fp - y_mag).pow(2)
+        fes.append(((d2.sum() if mask is None else d2[mask].sum()).sqrt() / denom).item())
     # Returned on the CPU (a K-vector used for indexing and logging). Callers that
     # combine it with reconstructions must move it to the stack's device.
     return torch.tensor(fes, dtype=torch.float32)
@@ -66,6 +73,7 @@ def select_anchor(
     method: str = "best_fe",
     y_intensity: torch.Tensor | None = None,
     oversample: int = 2,
+    mask: torch.Tensor | None = None,
 ) -> int:
     """Choose the alignment anchor member.
 
@@ -84,7 +92,7 @@ def select_anchor(
     if method == "best_fe":
         if y_intensity is None:
             raise ValueError("select_anchor(method='best_fe') requires y_intensity")
-        fes = member_fourier_errors(stack, y_intensity, oversample=oversample)
+        fes = member_fourier_errors(stack, y_intensity, oversample=oversample, mask=mask)
         return int(torch.argmin(fes).item())
     if method == "medoid":
         mags = stack.abs() if torch.is_complex(stack) else stack
