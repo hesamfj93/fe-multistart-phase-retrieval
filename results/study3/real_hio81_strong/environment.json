@@ -1,0 +1,9 @@
+{
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v553-x86_64-with-glibc2.39",
+  "torch": "2.15.0+cu132",
+  "cuda_available": false,
+  "device_used": "cpu",
+  "numpy": "2.5.3",
+  "git_commit": "fec8efa2d91edbcc696d19900bdc8c7322a09599"
+}
