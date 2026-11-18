@@ -1,0 +1,8 @@
+17:55:50 device cpu | {'pattern_npz': 'data/cxidb28/cxidb28_256.npz', 'n_measured': 64636, 'n_unmeasured': 900, 'source': 'cxidb28', 'intensity_scale': 2.0466086840086307e-09, 'scale_reference_twin_seed': 0}
+17:59:52 ours start 1/5 | 233.2s
+18:03:52 ours start 2/5 | 240.4s
+18:07:51 ours start 3/5 | 238.2s
+18:11:49 ours start 4/5 | 238.3s
+18:15:54 ours start 5/5 | 245.4s
+18:15:54 ours | start FE [0.6032999753952026, 0.5031999945640564, 0.5217999815940857, 0.501800000667572, 0.5382000207901001] | fe_softmax FE 0.7185 
+18:15:55 done
