@@ -1,0 +1,37 @@
+experiment:
+  name: twin1_classical
+  output_dir: results/realdata_dev/twin1_classical
+  device: auto
+data:
+  source: twin
+  pattern_npz: data/cxidb28/cxidb28_256.npz
+  twin_seed: 1
+  noise: lognormal
+  noise_level: 0.15
+  noise_seed: 0
+methods:
+  classical:
+  - algorithm: raar
+    constraint: shrinkwrap
+    starts: 50
+    iters: 5000
+    er_iters: 200
+    beta: 0.87
+    report_k:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+  - algorithm: hio
+    constraint: shrinkwrap
+    starts: 50
+    iters: 5000
+    er_iters: 200
+    beta: 0.9
+    report_k:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50

@@ -1,0 +1,8 @@
+23:26:02 device cpu | {'pattern_npz': 'data/cxidb28/cxidb28_256.npz', 'n_measured': 64636, 'n_unmeasured': 900, 'source': 'twin', 'twin_seed': 1, 'noise': 'lognormal', 'noise_level': 0.15, 'noise_seed': 0, 'intensity_scale': 1.0}
+23:30:23 ours start 1/5 | 259.6s
+23:34:28 ours start 2/5 | 244.9s
+23:38:27 ours start 3/5 | 239.2s
+23:42:32 ours start 4/5 | 245.1s
+23:46:44 ours start 5/5 | 251.7s
+23:46:44 ours | start FE [0.4115000069141388, 0.34630000591278076, 0.36809998750686646, 0.36800000071525574, 0.34700000286102295] | fe_softmax FE 0.6514 | NRMSE k1 1.992 fe_softmax 2.576
+23:46:44 done
