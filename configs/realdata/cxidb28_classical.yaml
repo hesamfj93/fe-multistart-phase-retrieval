@@ -1,0 +1,35 @@
+# REALDATA_PLAN.md, classical methods on the measured CXIDB 28 pattern. Settings as in configs/realdata_dev/twin0_classical.yaml.
+experiment:
+  name: cxidb28_classical
+  output_dir: results/realdata/cxidb28_classical
+  device: auto
+data:
+  source: cxidb28
+  pattern_npz: data/cxidb28/cxidb28_256.npz
+  scale_reference_twin_seed: 0
+methods:
+  classical:
+  - algorithm: raar
+    constraint: shrinkwrap
+    starts: 50
+    iters: 5000
+    er_iters: 200
+    beta: 0.87
+    report_k:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
+  - algorithm: hio
+    constraint: shrinkwrap
+    starts: 50
+    iters: 5000
+    er_iters: 200
+    beta: 0.9
+    report_k:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 50
