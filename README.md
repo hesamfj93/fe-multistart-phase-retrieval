@@ -1,27 +1,36 @@
-# FE-guided multi-start reconstruction for untrained-network phase retrieval
+# Choosing among random starts in untrained-network phase retrieval
 
-Code, configurations, index lists and per-image results for the paper
+Code, configurations, frozen analysis plans, index lists and per-image results for the manuscript
 
-> H. Faraji, "Fourier-Error-Guided Multi-Start Reconstruction for Untrained-Network Phase Retrieval: Selection, Fusion and Reliability," submitted to *IEEE Transactions on Computational Imaging*, 2026.
+> H. Faraji, "When Does Fourier-Error-Guided Multi-Start Selection Help? Evidence and Limitations in Untrained-Network Phase Retrieval," manuscript in preparation, 2026.
 
-An untrained double-decoder network recovers a 32×32 image from the magnitude of its 2× oversampled Fourier transform. Independent random starts converge to solutions of different quality. This code runs K = 5 starts per measurement, aligns them for the trivial ambiguities (global phase, translation, conjugate twin) and scores them by their Fourier error (FE), the relative misfit to the measured magnitude. Two operating modes follow:
+An untrained network recovers an image from the magnitude of its 2× oversampled Fourier transform. Independent random starts converge to solutions of different quality. This code runs K = 5 starts per measurement, aligns them for the trivial ambiguities (global phase, translation, conjugate twin) and scores them by their Fourier error (FE), the relative misfit to the measured magnitude. Two rules follow:
 
 - **selection**: the start with the lowest FE;
-- **fusion**: the aligned starts weighted by softmax(-FE / T), with T = 0.05.
+- **fusion (FE-softmax)**: the aligned starts weighted by softmax(-FE / T), with T = 0.05.
 
-The evaluation uses 100 held-out MNIST test images with noiseless measurements, a compute-matched single-start control, and HIO and RAAR with two object constraints. A second held-out study with complex-valued objects is described under Stage 3 below.
+The repository holds three held-out studies on MNIST digits and a test on a measured soft X-ray diffraction pattern. Each study has an analysis plan written before its held-out runs; the plan of Study 1 was written after an interim analysis of half of its images.
 
-## Main results (100 held-out images)
+| study | objects | noise | untrained solvers | images | plan | file prefix |
+|---|---|---|---|--:|---|---|
+| 1 | real digits | none | ours | 100 | [`docs/PREREGISTRATION_STAGE2_100.md`](docs/PREREGISTRATION_STAGE2_100.md) (internal) | `stage2_*` |
+| 2 | complex digits | none | ours | 100 | [`STAGE3_COMPLEX_PLAN.md`](STAGE3_COMPLEX_PLAN.md), tag `stage3-plan-v1` | `stage3_*` |
+| 3 | real and complex digits | Poisson, two levels | ours, Net-ADM | 50 + 50 | [`STUDY3_PLAN.md`](STUDY3_PLAN.md), tag `study3-plan-v1` | `study3*` |
+| real data | CXIDB entry 28 | measured | ours | 1 | [`REALDATA_DEV_PLAN.md`](REALDATA_DEV_PLAN.md), [`REALDATA_PLAN.md`](REALDATA_PLAN.md), tag `realdata-plan-v1` | `realdata*` |
 
-| comparison | mean PSNR difference (dB) | 95% CI |
-|---|--:|---|
-| FE-softmax fusion vs one start | +1.82 | [1.29, 2.36] |
-| selection vs one start | +1.76 | [1.21, 2.31] |
-| FE-softmax fusion vs one start with the same total iterations | +0.80 | [0.21, 1.38], Holm p = 0.058, not supported |
-| FE-softmax fusion vs support-only HIO, best of 5 | +3.47 | [2.94, 4.00] |
-| FE-softmax fusion vs support-only RAAR, best of 5 | +6.45 | [5.96, 6.94] |
+The internal names `stage2` and `stage3` predate the numbering of the manuscript: stage 2 is Study 1 and stage 3 is Study 2.
 
-HIO with a real and nonnegative constraint recovers 99 of the 100 images exactly in this noiseless setting. All numbers, the hypotheses and the deviations from the analysis plan are in [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md).
+## Main results
+
+| comparison | result |
+|---|---|
+| five FE-guided starts vs one start, ten pre-specified comparisons (Studies 1 to 3) | better in all ten, by 1.05 to 3.36 dB |
+| vs one start with the same total iterations (Studies 1 and 2) | supported for complex objects (+1.10 and +1.37 dB), not for real objects (+0.73 and +0.80 dB, Holm p = 0.058) |
+| vs HIO (real, nonnegative) or RAAR (shrinkwrap) at equal wall time, selected by FE (Study 3) | the classical method is better in all six comparisons, by 5.8 to 24.0 dB |
+| FE of the fused result ranks images by error | Spearman 0.68 to 0.81 in eight runs |
+| measured pattern (CXIDB 28) | our solver fails on this object; among RAAR starts the lowest FE selects a solution that disagrees with the published reconstruction, while all HIO starts agree with it (post-hoc look at all starts) |
+
+Reports: [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md) (Study 1), [`docs/STAGE3_RESULTS.md`](docs/STAGE3_RESULTS.md) (Study 2), [`results/study3/report/report.md`](results/study3/report/report.md) and [`results/study3/RUN_NOTES.md`](results/study3/RUN_NOTES.md) (Study 3), [`results/realdata_dev/report.md`](results/realdata_dev/report.md) and [`results/realdata/report.md`](results/realdata/report.md) (real data). The scripts in `paper/` whose names start with `make_tmlr` or `tmlr` rebuild the figures, tables and cross-study numbers of the manuscript from `results/`.
 
 ## Contents
 
@@ -30,7 +39,7 @@ HIO with a real and nonnegative constraint recovers 99 of the 100 images exactly
 | `pr_uq/` | the package: forward model, untrained network, trainer, alignment, aggregation, uncertainty, metrics |
 | `scripts/` | runners, report generator, rescoring and post-hoc analyses |
 | `configs/` | one YAML file per run; the held-out files are frozen (hashes below) |
-| `splits/` | development (8), held-out (200) and smoke (3) index lists of the MNIST test set |
+| `splits/` | development (8), held-out (positions 0 to 199, and 200 to 399 for Study 3) and smoke (3) index lists of the MNIST test set |
 | `data/MNIST/raw/` | the MNIST test set (IDX files), see [`data/README.md`](data/README.md) |
 | `results/` | development results, the spectral-weight ablation and the held-out runs of both stages: per-image metrics, the five stored starts (`members.npz`), the long single start (`members.npz`) and the HIO and RAAR reconstructions (`baselines.npz`) |
 | `paper/` | `make_paper_figures.py`, `make_stage3_figures.py` and `make_supplement_tables.py` regenerate the figures and supplementary tables from `results/` |
@@ -76,16 +85,16 @@ python paper/make_supplement_tables.py --run-dir results/stage2_mnist_heldout
 
 `scripts/rescore_uncertainty.py` has already been applied to the stored run (see "Deviations" below). Running it again reproduces `uncertainty_v2.json` and `aggregates_v2.npz` and checks PSNR, SSIM, FE and the failure score against `metrics.json`.
 
-| part of the paper | source |
+| result | source |
 |---|---|
-| Table V, Sections VII-B to VII-D | `results/stage2_mnist_heldout/report_n100/tables/heldout/primary_table.csv`, `paired_comparison.csv` |
-| Section VII-E (FE as a proxy) | `report_n100/tables/heldout/fe_psnr.csv` |
-| Section VII-F, Table VI | `report_n100/tables/heldout/confirmatory_image_level.csv`, `report_n100/posthoc/posthoc.json` |
-| Section VII-G (alignment) | `results/stage2_mnist_heldout/alignment_sensitivity.json` |
-| complex-field metrics, MAD rejection baselines, Holm family (supplement Tables S2 to S4) | `report_n100/posthoc/posthoc_revision2.json`, `report_n100/posthoc/holm_family.csv` |
-| interim analysis, first 50 images (supplement Table S5) | `generate_report.py ... --n-heldout 50` |
+| Study 1: aggregation rules, paired comparisons, compute-matched control, classical methods | `results/stage2_mnist_heldout/report_n100/tables/heldout/primary_table.csv`, `paired_comparison.csv` |
+| Study 1: FE against PSNR | `report_n100/tables/heldout/fe_psnr.csv` |
+| Study 1: image-level score and pixel maps | `report_n100/tables/heldout/confirmatory_image_level.csv`, `report_n100/posthoc/posthoc.json` |
+| Study 1: alignment sensitivity | `results/stage2_mnist_heldout/alignment_sensitivity.json` |
+| Study 1: complex-field metrics, MAD rejection rules, Holm family | `report_n100/posthoc/posthoc_revision2.json`, `report_n100/posthoc/holm_family.csv` |
+| Study 1: interim analysis, first 50 images | `generate_report.py ... --n-heldout 50` |
 | Development study | `results/*.csv`, `results/mnist_k5_3000iter/`, `docs/AGGREGATION_FINALIZATION_REPORT.md` |
-| Section VIII (complex-valued objects), supplement Tables S7 to S9 and Figs. S2 and S3 | `results/stage3_complex_heldout/report/` (`summary.json`, `posthoc_stage3.json`), `docs/STAGE3_RESULTS.md` |
+| Study 2: complex-valued objects | `results/stage3_complex_heldout/report/` (`summary.json`, `posthoc_stage3.json`), `docs/STAGE3_RESULTS.md` |
 
 ## Rerun the held-out evaluation
 
@@ -110,7 +119,7 @@ The runner refuses `--iters` and `--K` for held-out runs, aborts if a held-out i
 ## Evaluation protocol and analysis plan
 
 - The design and the temperature T were chosen on 8 development images (MNIST test indices 429, 1729, 1917, 2890, 4919, 6044, 7532, 9399). They enter no reported comparison.
-- The held-out list is a random permutation of the remaining test indices (NumPy `RandomState(20261006)`). The paper uses its first 100 entries.
+- The held-out list is a random permutation of the remaining test indices (NumPy `RandomState(20261006)`). Study 1 uses its positions 0 to 99 and Study 2 positions 100 to 199; Study 3 uses positions 200 to 249 and 300 to 349 (`splits/mnist_test_heldout3_indices.csv`).
 - The analysis plan for the 100-image stage is [`docs/PREREGISTRATION_STAGE2_100.md`](docs/PREREGISTRATION_STAGE2_100.md). It was frozen before ranks 50 to 99, the compute-matched control and the classical baselines were run. It is an internal plan: it was not deposited in a public registry before the runs, and the paper describes it as a frozen analysis plan, not as a preregistration.
 
 Frozen files (first 16 hex digits of SHA-256):
@@ -130,7 +139,7 @@ Frozen files (first 16 hex digits of SHA-256):
 
 Details: [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md).
 
-## Stage 3: complex-valued objects
+## Study 2 (stage 3): complex-valued objects
 
 A second held-out study uses complex-valued objects (MNIST amplitude, smooth random phase up to ±π/2), for which the real and nonnegative constraint does not apply. It reuses the frozen design unchanged and held-out ranks 100 to 199. The analysis plan, [`STAGE3_COMPLEX_PLAN.md`](STAGE3_COMPLEX_PLAN.md), was tagged `stage3-plan-v1` before any of those images was reconstructed. There were no deviations.
 
@@ -155,16 +164,24 @@ The frozen design weights the data loss with a centered Gaussian in the Fourier 
 
 Outcome A: no variant halves the start FE (largest reduction 24% on real and 28% on complex objects) and the frozen design stays. The spread between starts and the advantage of FE-softmax over a single start persist under every weight. Details: [`docs/SPECTRAL_ABLATION_RESULTS.md`](docs/SPECTRAL_ABLATION_RESULTS.md). Code: `unweighted_final_frac` in `pr_uq/optim/trainer.py`, `configs/spectral_ablation/`, `scripts/spectral_ablation_report.py`, `tests/test_spectral_ablation.py`; results in `results/spectral_ablation/`.
 
-## Third study: Poisson noise and a second untrained solver (in progress)
+## Study 3: Poisson noise and a second untrained solver
 
 The third study asks whether the FE protocol still helps under Poisson noise, whether it helps a second, independently published untrained solver (Net-ADM, Ma et al. 2024, re-implemented in `pr_uq/baselines/netadm.py`), and how both solvers compare with the strongest classical method at equal wall time. Its images are new: positions 200 to 399 of the held-out permutation (`splits/mnist_test_heldout3_indices.csv`), 50 real and 50 complex objects, at two noise levels.
 
 - **Development phase** (8 development images; plan [`STUDY3_DEV_PLAN.md`](STUDY3_DEV_PLAN.md), pushed before its runs): Poisson levels N_p = 30,000 and 3,000 (`results/study3_dev/noise_levels.json`); a component ablation that kept the solver unchanged ([`docs/COMPONENT_ABLATION_RESULTS.md`](docs/COMPONENT_ABLATION_RESULTS.md)); development runs and the equal-wall-time numbers of classical starts (`results/study3_dev/`, `results/study3_dev/timing.json`, check of the report script in `results/study3_dev/report/`).
-- **Analysis plan** for the held-out runs: [`STUDY3_PLAN.md`](STUDY3_PLAN.md), with configurations in `configs/study3/`, the report script `scripts/study3_report.py` and `tests/test_study3_configs.py`. It is tagged `study3-plan-v1` before any held-out run.
+- **Analysis plan** for the held-out runs: [`STUDY3_PLAN.md`](STUDY3_PLAN.md), with configurations in `configs/study3/`, the report script `scripts/study3_report.py` and `tests/test_study3_configs.py`. It was tagged `study3-plan-v1` before any held-out run; the tag was pushed together with the results.
+- **Results**: `results/study3/` (eleven runs, all 50 images each) and the report produced by the frozen script, `results/study3/report/`. How and where each run was made: [`results/study3/RUN_NOTES.md`](results/study3/RUN_NOTES.md).
 
-## Real-data preprocessing (CXIDB entry 28)
+## Real data: CXIDB entry 28
 
-`scripts/cxidb28_preprocess.py` centers, crops, bins and masks the diffraction pattern of CXIDB entry 28 (Marchesini et al., Phys. Rev. B 68, 140101, 2003; CC0) from the data alone. The data file is not part of the repository; it is available from the Coherent X-ray Imaging Data Bank.
+`scripts/cxidb28_preprocess.py` centers, crops, bins and masks the diffraction pattern of CXIDB entry 28 (Marchesini et al., Phys. Rev. B 68, 140101, 2003; CC0) from the data alone; the result is `data/cxidb28/cxidb28_256.npz`. The raw data file is not part of the repository; it is available from the Coherent X-ray Imaging Data Bank.
+
+- **Development on simulated twins** ([`REALDATA_DEV_PLAN.md`](REALDATA_DEV_PLAN.md), pushed before its runs): twins from `pr_uq/data/cxidb28_twin.py`, masked measurements in the solver, FE and the classical methods (`tests/test_masked_measurement.py`), runner `scripts/run_real_data.py`, configurations `configs/realdata_dev/`, results and report `results/realdata_dev/`. Checks made after the planned runs are in `results/realdata_dev/exploratory/`.
+- **Measured pattern** ([`REALDATA_PLAN.md`](REALDATA_PLAN.md), tagged `realdata-plan-v1` before the reconstruction and pushed with the results): configurations `configs/realdata/`, report script `scripts/realdata_report.py`, results `results/realdata/`, and a post-hoc look at all classical starts in `results/realdata/exploratory/`.
+
+## History of this repository
+
+The main branch was rewritten once, on 12 November 2026, after Study 2, to remove trailers from commit messages; the file contents of every commit are unchanged. The tag `stage3-plan-v1` points to the original commit, whose message keeps its trailers; the later tags point to commits of the rewritten branch.
 
 ## License
 

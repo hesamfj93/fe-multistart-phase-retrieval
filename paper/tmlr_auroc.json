@@ -1,0 +1,70 @@
+{
+  "Study 1, real, ours": {
+    "n": 100,
+    "failures": 3,
+    "auroc": 0.8831615120274914,
+    "ci95": [
+      0.8006872852233677,
+      0.9489795918367347
+    ]
+  },
+  "Study 2, complex, ours": {
+    "n": 100,
+    "failures": 21,
+    "auroc": 0.864376130198915,
+    "ci95": [
+      0.7804834737845096,
+      0.9343752595514949
+    ]
+  },
+  "Study 3, real, moderate, ours": {
+    "n": 50,
+    "failures": 1,
+    "auroc": 0.9591836734693877,
+    "ci95": [
+      0.897906037414966,
+      1.0
+    ]
+  },
+  "Study 3, real, strong, ours": {
+    "n": 50,
+    "failures": 2,
+    "auroc": 0.8645833333333334,
+    "ci95": [
+      0.6875,
+      1.0
+    ]
+  },
+  "Study 3, complex, moderate, ours": {
+    "n": 50,
+    "failures": 13,
+    "auroc": 0.7941787941787942,
+    "ci95": [
+      0.6625,
+      0.9043659043659044
+    ]
+  },
+  "Study 3, complex, strong, ours": {
+    "n": 50,
+    "failures": 8,
+    "auroc": 0.7291666666666666,
+    "ci95": [
+      0.584717607973422,
+      0.8617886178861789
+    ]
+  },
+  "Study 3, real, moderate, Net-ADM": {
+    "n": 50,
+    "failures": 1,
+    "auroc": 0.9387755102040817,
+    "ci95": [
+      0.8571428571428571,
+      1.0
+    ]
+  },
+  "Study 3, real, strong, Net-ADM": {
+    "n": 50,
+    "failures": 0,
+    "auroc": null
+  }
+}
