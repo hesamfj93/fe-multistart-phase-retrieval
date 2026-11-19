@@ -11,4 +11,14 @@ A start counts as two clusters when at least 20% of the rows between the 0.5% an
 
 The published reconstruction of this pattern, which agrees with an electron micrograph, shows two clusters of 50 nm gold balls (Marchesini et al., Phys. Rev. B 68, 140101, 2003). The two-cluster solutions agree with it; the streak does not. On this pattern, then, the lowest FE over measured pixels selects a RAAR solution that disagrees with the published object, while within HIO every start has the published structure. On the three twins, all 150 starts of each method have two clusters by the same criterion, so the streak appears only on the measured pattern.
 
-Possible reasons, not tested here: the streak may differ from the two-cluster solutions mainly at frequencies under the beamstop, which FE does not see, or fit scattering that is not in the object model; the twin has neither.
+Possible reasons: the streak may differ from the two-cluster solutions mainly at frequencies under the beamstop, which FE does not see, or fit scattering that is not in the object model; the twin has neither.
+
+## Free FE (added 19 November 2026)
+
+`scripts/realdata_free_fe.py`, committed before its runs, withholds measured pixels and scores 50 new RAAR starts with shrinkwrap by their FE on the withheld pixels. Results in [`free_fe/report.md`](free_fe/report.md).
+
+- Ring (the 847 measured pixels within 3 pixels of the beamstop, 16.7% of the measured intensity): the 9 starts with the lowest FE on the remaining pixels are streaks, the 7 with the lowest free FE have two clusters; AUROC of the free FE for a streak 0.88; Spearman between the two FEs -0.25.
+- Random (5% of the other measured pixels): the free FE follows the FE on the remaining pixels (Spearman 0.99), and the 12 lowest by either are streaks; AUROC 0.26.
+
+This is consistent with the first reason above: the streak fits the measured pixels better but predicts the intensities next to the beamstop worse. One pattern, analysed after its answer was known.
+

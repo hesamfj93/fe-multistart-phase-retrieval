@@ -1,0 +1,308 @@
+{
+  "set": "random",
+  "n_free_pixels": 6242,
+  "n_train_pixels": 58394,
+  "free_share_of_measured_intensity": 0.07859121263027191,
+  "starts": [
+    {
+      "seed": 0,
+      "fe_train": 0.21010170876979828,
+      "fe_free": 0.22597123682498932,
+      "two_clusters": false
+    },
+    {
+      "seed": 1,
+      "fe_train": 0.10673131793737411,
+      "fe_free": 0.12070944160223007,
+      "two_clusters": false
+    },
+    {
+      "seed": 2,
+      "fe_train": 0.2114575356245041,
+      "fe_free": 0.22473356127738953,
+      "two_clusters": false
+    },
+    {
+      "seed": 3,
+      "fe_train": 0.13867807388305664,
+      "fe_free": 0.15986615419387817,
+      "two_clusters": false
+    },
+    {
+      "seed": 4,
+      "fe_train": 0.16978363692760468,
+      "fe_free": 0.18337777256965637,
+      "two_clusters": true
+    },
+    {
+      "seed": 5,
+      "fe_train": 0.12160124629735947,
+      "fe_free": 0.13925962150096893,
+      "two_clusters": false
+    },
+    {
+      "seed": 6,
+      "fe_train": 0.24540115892887115,
+      "fe_free": 0.2544493079185486,
+      "two_clusters": false
+    },
+    {
+      "seed": 7,
+      "fe_train": 0.12659384310245514,
+      "fe_free": 0.14866501092910767,
+      "two_clusters": false
+    },
+    {
+      "seed": 8,
+      "fe_train": 0.1044970154762268,
+      "fe_free": 0.1276700496673584,
+      "two_clusters": false
+    },
+    {
+      "seed": 9,
+      "fe_train": 0.12017045170068741,
+      "fe_free": 0.14120498299598694,
+      "two_clusters": false
+    },
+    {
+      "seed": 10,
+      "fe_train": 0.17462553083896637,
+      "fe_free": 0.17789097130298615,
+      "two_clusters": true
+    },
+    {
+      "seed": 11,
+      "fe_train": 0.1404448300600052,
+      "fe_free": 0.15910978615283966,
+      "two_clusters": true
+    },
+    {
+      "seed": 12,
+      "fe_train": 0.13882814347743988,
+      "fe_free": 0.15726600587368011,
+      "two_clusters": true
+    },
+    {
+      "seed": 13,
+      "fe_train": 0.1261908859014511,
+      "fe_free": 0.14372685551643372,
+      "two_clusters": false
+    },
+    {
+      "seed": 14,
+      "fe_train": 0.13714905083179474,
+      "fe_free": 0.1514986753463745,
+      "two_clusters": false
+    },
+    {
+      "seed": 15,
+      "fe_train": 0.16938109695911407,
+      "fe_free": 0.1908389776945114,
+      "two_clusters": true
+    },
+    {
+      "seed": 16,
+      "fe_train": 0.11764180660247803,
+      "fe_free": 0.1370953917503357,
+      "two_clusters": false
+    },
+    {
+      "seed": 17,
+      "fe_train": 0.185453400015831,
+      "fe_free": 0.20028968155384064,
+      "two_clusters": true
+    },
+    {
+      "seed": 18,
+      "fe_train": 0.1167401596903801,
+      "fe_free": 0.13821035623550415,
+      "two_clusters": false
+    },
+    {
+      "seed": 19,
+      "fe_train": 0.1113581582903862,
+      "fe_free": 0.1338322013616562,
+      "two_clusters": false
+    },
+    {
+      "seed": 20,
+      "fe_train": 0.1970331370830536,
+      "fe_free": 0.21295028924942017,
+      "two_clusters": true
+    },
+    {
+      "seed": 21,
+      "fe_train": 0.14403854310512543,
+      "fe_free": 0.1646735966205597,
+      "two_clusters": true
+    },
+    {
+      "seed": 22,
+      "fe_train": 0.1421753615140915,
+      "fe_free": 0.1611270010471344,
+      "two_clusters": true
+    },
+    {
+      "seed": 23,
+      "fe_train": 0.1518469601869583,
+      "fe_free": 0.1646886169910431,
+      "two_clusters": true
+    },
+    {
+      "seed": 24,
+      "fe_train": 0.14663052558898926,
+      "fe_free": 0.16866201162338257,
+      "two_clusters": true
+    },
+    {
+      "seed": 25,
+      "fe_train": 0.14343072474002838,
+      "fe_free": 0.1638403683900833,
+      "two_clusters": true
+    },
+    {
+      "seed": 26,
+      "fe_train": 0.14132824540138245,
+      "fe_free": 0.15815037488937378,
+      "two_clusters": true
+    },
+    {
+      "seed": 27,
+      "fe_train": 0.12431211769580841,
+      "fe_free": 0.1412045955657959,
+      "two_clusters": false
+    },
+    {
+      "seed": 28,
+      "fe_train": 0.14126582443714142,
+      "fe_free": 0.15756775438785553,
+      "two_clusters": true
+    },
+    {
+      "seed": 29,
+      "fe_train": 0.16673217713832855,
+      "fe_free": 0.17556726932525635,
+      "two_clusters": true
+    },
+    {
+      "seed": 30,
+      "fe_train": 0.12264792621135712,
+      "fe_free": 0.1408161222934723,
+      "two_clusters": false
+    },
+    {
+      "seed": 31,
+      "fe_train": 0.2146252691745758,
+      "fe_free": 0.23015999794006348,
+      "two_clusters": false
+    },
+    {
+      "seed": 32,
+      "fe_train": 0.21428853273391724,
+      "fe_free": 0.22858773171901703,
+      "two_clusters": false
+    },
+    {
+      "seed": 33,
+      "fe_train": 0.10832592099905014,
+      "fe_free": 0.13052034378051758,
+      "two_clusters": false
+    },
+    {
+      "seed": 34,
+      "fe_train": 0.1409837156534195,
+      "fe_free": 0.15878081321716309,
+      "two_clusters": true
+    },
+    {
+      "seed": 35,
+      "fe_train": 0.14283737540245056,
+      "fe_free": 0.16072508692741394,
+      "two_clusters": true
+    },
+    {
+      "seed": 36,
+      "fe_train": 0.13823498785495758,
+      "fe_free": 0.15528441965579987,
+      "two_clusters": true
+    },
+    {
+      "seed": 37,
+      "fe_train": 0.14139950275421143,
+      "fe_free": 0.15916277468204498,
+      "two_clusters": true
+    },
+    {
+      "seed": 38,
+      "fe_train": 0.15593726933002472,
+      "fe_free": 0.1680234968662262,
+      "two_clusters": true
+    },
+    {
+      "seed": 39,
+      "fe_train": 0.1181345209479332,
+      "fe_free": 0.13781589269638062,
+      "two_clusters": false
+    },
+    {
+      "seed": 40,
+      "fe_train": 0.12293334305286407,
+      "fe_free": 0.13297110795974731,
+      "two_clusters": false
+    },
+    {
+      "seed": 41,
+      "fe_train": 0.10495205968618393,
+      "fe_free": 0.1278497725725174,
+      "two_clusters": false
+    },
+    {
+      "seed": 42,
+      "fe_train": 0.143622487783432,
+      "fe_free": 0.16235403716564178,
+      "two_clusters": false
+    },
+    {
+      "seed": 43,
+      "fe_train": 0.16183431446552277,
+      "fe_free": 0.19613486528396606,
+      "two_clusters": true
+    },
+    {
+      "seed": 44,
+      "fe_train": 0.10290878266096115,
+      "fe_free": 0.12722408771514893,
+      "two_clusters": false
+    },
+    {
+      "seed": 45,
+      "fe_train": 0.20606185495853424,
+      "fe_free": 0.22178006172180176,
+      "two_clusters": false
+    },
+    {
+      "seed": 46,
+      "fe_train": 0.13830286264419556,
+      "fe_free": 0.15704289078712463,
+      "two_clusters": true
+    },
+    {
+      "seed": 47,
+      "fe_train": 0.11057988554239273,
+      "fe_free": 0.13139787316322327,
+      "two_clusters": false
+    },
+    {
+      "seed": 48,
+      "fe_train": 0.1402112990617752,
+      "fe_free": 0.16140997409820557,
+      "two_clusters": false
+    },
+    {
+      "seed": 49,
+      "fe_train": 0.12327221781015396,
+      "fe_free": 0.14910420775413513,
+      "two_clusters": false
+    }
+  ]
+}
