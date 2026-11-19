@@ -22,6 +22,8 @@ import torch  # noqa: E402
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 from pr_uq.metrics.alignment import align_to_gt  # noqa: E402
+sys.path.insert(0, str(REPO / "paper"))
+from tmlr_fe import fe_softmax_measured  # noqa: E402
 
 OUT = REPO / "paper" / "figures_tmlr"
 C_OURS, C_NETADM, C_CLASSICAL = "#2a78d6", "#eb6834", "#1baf7a"
@@ -144,7 +146,10 @@ def fig_bestofk():
 
 
 def fig_fe_reliability():
-    s = json.loads((REPO / "results/study3/report/summary.json").read_text())
+    s = json.loads((REPO / "paper/tmlr_posthoc_review.json").read_text())["runs"]
+    names = {"real_ours_moderate": "Study 3, real, moderate, ours", "real_ours_strong": "Study 3, real, strong, ours",
+             "complex_ours_moderate": "Study 3, complex, moderate, ours", "complex_ours_strong": "Study 3, complex, strong, ours",
+             "real_netadm_moderate": "Study 3, real, moderate, Net-ADM", "real_netadm_strong": "Study 3, real, strong, Net-ADM"}
     runs = [("real_ours_moderate", "ours, real, moderate"), ("real_ours_strong", "ours, real, strong"),
             ("complex_ours_moderate", "ours, complex, moderate"), ("complex_ours_strong", "ours, complex, strong"),
             ("real_netadm_moderate", "Net-ADM, real, moderate"), ("real_netadm_strong", "Net-ADM, real, strong")]
@@ -153,12 +158,12 @@ def fig_fe_reliability():
         fe, ps = [], []
         for p in sorted((REPO / "results/study3" / run / "per_image").glob("*/metrics.json")):
             m = json.loads(p.read_text())
-            fe.append(m["methods"]["fe_softmax"]["fe"])
+            fe.append(fe_softmax_measured(p.parent))  # FE against the measurement
             ps.append(min(m["methods"]["fe_softmax"]["psnr"], 60))
         c = C_NETADM if "netadm" in run else C_OURS
         ax.scatter(fe, ps, s=10, color=c, alpha=0.8, linewidths=0)
         ax.axhline(15, color=INK2, ls="--", lw=0.8)
-        rho = s["fe_signal_N13"][run]["rho"]
+        rho = s[names[run]]["N13_measured_fe"]["rho"]
         ax.set_title(f"{title}\nSpearman(FE, $-$PSNR) = {rho:.2f}", fontsize=7.5, loc="left")
         ax.set_xlabel("FE of FE-softmax")
         ax.set_ylabel("PSNR (dB)")

@@ -26,8 +26,8 @@ The internal names `stage2` and `stage3` predate the numbering of the manuscript
 |---|---|
 | five FE-guided starts vs one start, ten pre-specified comparisons (Studies 1 to 3) | better in all ten, by 1.05 to 3.36 dB |
 | vs one start with the same total iterations (Studies 1 and 2) | supported for complex objects (+1.10 and +1.37 dB), not for real objects (+0.73 and +0.80 dB, Holm p = 0.058) |
-| vs HIO (real, nonnegative) or RAAR (shrinkwrap) at equal wall time, selected by FE (Study 3) | the classical method is better in all six comparisons, by 5.8 to 24.0 dB |
-| FE of the fused result ranks images by error | Spearman 0.68 to 0.81 in eight runs |
+| vs HIO (real, nonnegative) or RAAR (shrinkwrap) at equal wall time, selected by FE (Study 3) | the classical method is better in all six comparisons, by 5.8 to 24.0 dB; with five starts each, by 1.9 to 23.3 dB (post hoc) |
+| FE of the fused result ranks images by error | Spearman 0.70 to 0.82 in eight runs, FE against the measurement (the frozen Study 3 report used the noise-free magnitudes; see [`docs/STUDY3_FE_NOTE.md`](docs/STUDY3_FE_NOTE.md)) |
 | measured pattern (CXIDB 28) | our solver fails on this object; among RAAR starts the lowest FE selects a solution that disagrees with the published reconstruction, while all HIO starts agree with it (post-hoc look at all starts) |
 
 Reports: [`docs/STAGE2B_RESULTS.md`](docs/STAGE2B_RESULTS.md) (Study 1), [`docs/STAGE3_RESULTS.md`](docs/STAGE3_RESULTS.md) (Study 2), [`results/study3/report/report.md`](results/study3/report/report.md) and [`results/study3/RUN_NOTES.md`](results/study3/RUN_NOTES.md) (Study 3), [`results/realdata_dev/report.md`](results/realdata_dev/report.md) and [`results/realdata/report.md`](results/realdata/report.md) (real data). The scripts in `paper/` whose names start with `make_tmlr` or `tmlr` rebuild the figures, tables and cross-study numbers of the manuscript from `results/`.
@@ -171,6 +171,8 @@ The third study asks whether the FE protocol still helps under Poisson noise, wh
 - **Development phase** (8 development images; plan [`STUDY3_DEV_PLAN.md`](STUDY3_DEV_PLAN.md), pushed before its runs): Poisson levels N_p = 30,000 and 3,000 (`results/study3_dev/noise_levels.json`); a component ablation that kept the solver unchanged ([`docs/COMPONENT_ABLATION_RESULTS.md`](docs/COMPONENT_ABLATION_RESULTS.md)); development runs and the equal-wall-time numbers of classical starts (`results/study3_dev/`, `results/study3_dev/timing.json`, check of the report script in `results/study3_dev/report/`).
 - **Analysis plan** for the held-out runs: [`STUDY3_PLAN.md`](STUDY3_PLAN.md), with configurations in `configs/study3/`, the report script `scripts/study3_report.py` and `tests/test_study3_configs.py`. It was tagged `study3-plan-v1` before any held-out run; the tag was pushed together with the results.
 - **Results**: `results/study3/` (eleven runs, all 50 images each) and the report produced by the frozen script, `results/study3/report/`. How and where each run was made: [`results/study3/RUN_NOTES.md`](results/study3/RUN_NOTES.md).
+- **FE used for N13**: the frozen report script read an FE computed against the noise-free magnitudes; the manuscript also gives N13 with the FE against the measurement. [`docs/STUDY3_FE_NOTE.md`](docs/STUDY3_FE_NOTE.md).
+- **Compute-matched control** (one start with five times the iterations): plan [`STUDY3_LONG_PLAN.md`](STUDY3_LONG_PLAN.md), configurations in `configs/study3_long/`, report script `scripts/study3_long_report.py`, tag `study3-long-plan-v1`. Not yet run.
 
 ## Real data: CXIDB entry 28
 

@@ -2,8 +2,10 @@
 """Post hoc: how well the FE of the FE-softmax reconstruction flags failures (PSNR < 15 dB).
 
 AUROC per untrained run with a percentile bootstrap 95% interval over images (10,000 resamples,
-seed 0; resamples without a failure or without a success are drawn again). Reads the stored
-per-image results; writes paper/tmlr_auroc.json and paper/tmlr_supp/tab_auroc.tex.
+seed 0; resamples without a failure or without a success are drawn again). FE is the error against
+the measurement, rebuilt by paper/tmlr_fe.py (the value stored by the runner under Poisson noise is
+computed against the noise-free magnitudes). Reads the stored per-image results; writes
+paper/tmlr_auroc.json and paper/tmlr_supp/tab_auroc.tex.
 
     python paper/tmlr_auroc.py
 """
@@ -14,7 +16,8 @@ from pathlib import Path
 
 import numpy as np
 
-REPO = Path(__file__).resolve().parent.parent
+from tmlr_fe import REPO, load_with_measured_fe
+
 RUNS = {
     "Study 1, real, ours": "results/stage2_mnist_heldout",
     "Study 2, complex, ours": "results/stage3_complex_heldout",
@@ -41,8 +44,8 @@ def main() -> None:
     rng = np.random.default_rng(0)
     res, rows = {}, []
     for name, run in RUNS.items():
-        ms = [json.loads(p.read_text()) for p in sorted((REPO / run / "per_image").glob("*/metrics.json"))]
-        fe = np.array([m["methods"]["fe_softmax"]["fe"] for m in ms])
+        ms = load_with_measured_fe(REPO / run)
+        fe = np.array([m["fe_softmax_measured"] for m in ms])
         ps = np.array([min(m["methods"]["fe_softmax"]["psnr"], 60.0) for m in ms])
         fail = ps < FAIL_DB
         n, k = len(ps), int(fail.sum())

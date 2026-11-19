@@ -2,6 +2,7 @@
 """Cross-study numbers for the TMLR manuscript, from the stored per-image results.
 
 Descriptive summaries only; the confirmatory tests are in the frozen reports of each study.
+The FE of the FE-softmax result is the error against the measurement (paper/tmlr_fe.py).
 Writes paper/tmlr_numbers.json.
 
     python paper/tmlr_numbers.py
@@ -14,7 +15,7 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import spearmanr
 
-REPO = Path(__file__).resolve().parent.parent
+from tmlr_fe import REPO, fe_softmax_measured
 CAP = 60.0
 RUNS = {
     "s1_real_ours": "results/stage2_mnist_heldout",
@@ -35,6 +36,7 @@ def load(run: str) -> list[dict]:
     for p in sorted((REPO / run / "per_image").glob("*/metrics.json")):
         m = json.loads(p.read_text(encoding="utf-8"))
         if m.get("status", "ok") == "ok":
+            m["fe_softmax_measured"] = fe_softmax_measured(p.parent)
             out.append(m)
     return out
 
@@ -46,7 +48,7 @@ def summarize(ms: list[dict]) -> dict:
     fe = [np.array(m["member_fe"], float) for m in ms]
     best = np.array([x.max() for x in mem])
     lowest_is_best = sum(int(np.argmin(f) == np.argmax(p)) for f, p in zip(fe, mem))
-    fe_fused = np.array([float(m["methods"]["fe_softmax"]["fe"]) for m in ms])
+    fe_fused = np.array([float(m["fe_softmax_measured"]) for m in ms])
     rho = spearmanr(fe_fused, -psnr["fe_softmax"]).correlation
     within = [spearmanr(-f, p).correlation for f, p in zip(fe, mem)]
     return {
