@@ -1,0 +1,1 @@
+{"time": "2026-11-23 22:35:28", "python": "3.11.9", "platform": "Windows-10-10.0.26100-SP0", "torch": "2.5.1+cu121", "cuda_available": true, "device_used": "cuda", "numpy": "2.1.2", "cuda_version": "12.1", "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU", "gpu_count": 1, "git_commit": "d265ad62580c32f3869c276a52bf4f956c1cc7d8"}

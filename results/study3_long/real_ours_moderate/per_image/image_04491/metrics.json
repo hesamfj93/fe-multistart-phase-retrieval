@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "image_id": "image_04491",
+  "name": "mnist_004491",
+  "mnist_test_index": 4491,
+  "protocol_split": "heldout3",
+  "split_rank": 17,
+  "device_used": "cuda",
+  "label": 1,
+  "K": 1,
+  "anchor_index": 0,
+  "best_single_index": 0,
+  "effective_sample_size": 1.0,
+  "member_seeds": [
+    0
+  ],
+  "member_fe": [
+    0.20281220972537994
+  ],
+  "member_psnr": [
+    22.031266689300537
+  ],
+  "member_ssim": [
+    0.9401251673698425
+  ],
+  "softmax_weights": [
+    1.0
+  ],
+  "methods": {
+    "k1_long": {
+      "psnr": 22.031266689300537,
+      "ssim": 0.9401251673698425,
+      "fe": 0.20134949684143066
+    }
+  },
+  "runtime_per_member_s": [
+    164.48810210000374
+  ],
+  "runtime_total_s": 164.56420870000147,
+  "runtime_postprocess_s": 0.07610659999772906,
+  "runtime_wall_this_session_s": 164.5832189000066,
+  "n_members_resumed": 0,
+  "noise_model": "poisson",
+  "noise_level": 30000.0,
+  "uncertainty_eval_version": null,
+  "error": null
+}

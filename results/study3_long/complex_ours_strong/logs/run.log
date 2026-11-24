@@ -1,0 +1,103 @@
+00:33:47 INFO    pr_run | Device: cuda | split: heldout3 | output: C:\Users\PcKala.org\phase_retrieval_untrained\fe-multistart-study3long\results\study3_long\complex_ours_strong
+00:33:47 INFO    pr_run | 50 images, K=1, T=0.05, overlap_with_dev=[]
+00:36:05 INFO    pr_run | [image_08277] member 1/1 done | seed=0 | PSNR=9.96 | 137.4s
+00:36:05 INFO    pr_run | [image_08277] OK | best-FE member=0 | k1_long=9.96 | 137.9s
+00:38:23 INFO    pr_run | [image_00610] member 1/1 done | seed=0 | PSNR=12.17 | 137.1s
+00:38:23 INFO    pr_run | [image_00610] OK | best-FE member=0 | k1_long=12.17 | 137.2s
+00:40:41 INFO    pr_run | [image_00351] member 1/1 done | seed=0 | PSNR=12.20 | 138.5s
+00:40:41 INFO    pr_run | [image_00351] OK | best-FE member=0 | k1_long=12.20 | 138.6s
+00:42:59 INFO    pr_run | [image_09248] member 1/1 done | seed=0 | PSNR=15.13 | 137.6s
+00:42:59 INFO    pr_run | [image_09248] OK | best-FE member=0 | k1_long=15.13 | 137.7s
+00:45:19 INFO    pr_run | [image_06125] member 1/1 done | seed=0 | PSNR=19.44 | 140.0s
+00:45:19 INFO    pr_run | [image_06125] OK | best-FE member=0 | k1_long=19.44 | 140.0s
+00:47:31 INFO    pr_run | [image_06957] member 1/1 done | seed=0 | PSNR=10.11 | 131.6s
+00:47:31 INFO    pr_run | [image_06957] OK | best-FE member=0 | k1_long=10.11 | 131.7s
+00:49:40 INFO    pr_run | [image_03583] member 1/1 done | seed=0 | PSNR=13.88 | 129.1s
+00:49:40 INFO    pr_run | [image_03583] OK | best-FE member=0 | k1_long=13.88 | 129.2s
+00:51:50 INFO    pr_run | [image_04104] member 1/1 done | seed=0 | PSNR=22.00 | 130.0s
+00:51:50 INFO    pr_run | [image_04104] OK | best-FE member=0 | k1_long=22.00 | 130.0s
+00:53:59 INFO    pr_run | [image_04351] member 1/1 done | seed=0 | PSNR=12.46 | 128.5s
+00:53:59 INFO    pr_run | [image_04351] OK | best-FE member=0 | k1_long=12.46 | 128.6s
+00:56:08 INFO    pr_run | [image_06415] member 1/1 done | seed=0 | PSNR=11.87 | 129.1s
+00:56:08 INFO    pr_run | [image_06415] OK | best-FE member=0 | k1_long=11.87 | 129.2s
+00:58:17 INFO    pr_run | [image_08439] member 1/1 done | seed=0 | PSNR=23.32 | 128.6s
+00:58:17 INFO    pr_run | [image_08439] OK | best-FE member=0 | k1_long=23.32 | 128.7s
+01:00:26 INFO    pr_run | [image_09199] member 1/1 done | seed=0 | PSNR=15.52 | 129.4s
+01:00:26 INFO    pr_run | [image_09199] OK | best-FE member=0 | k1_long=15.52 | 129.4s
+01:02:36 INFO    pr_run | [image_02132] member 1/1 done | seed=0 | PSNR=12.07 | 129.3s
+01:02:36 INFO    pr_run | [image_02132] OK | best-FE member=0 | k1_long=12.07 | 129.4s
+01:04:45 INFO    pr_run | [image_02025] member 1/1 done | seed=0 | PSNR=12.79 | 129.0s
+01:04:45 INFO    pr_run | [image_02025] OK | best-FE member=0 | k1_long=12.79 | 129.1s
+01:06:54 INFO    pr_run | [image_08817] member 1/1 done | seed=0 | PSNR=15.42 | 129.1s
+01:06:54 INFO    pr_run | [image_08817] OK | best-FE member=0 | k1_long=15.42 | 129.2s
+01:09:03 INFO    pr_run | [image_09285] member 1/1 done | seed=0 | PSNR=21.19 | 129.0s
+01:09:03 INFO    pr_run | [image_09285] OK | best-FE member=0 | k1_long=21.19 | 129.0s
+01:11:12 INFO    pr_run | [image_01400] member 1/1 done | seed=0 | PSNR=23.88 | 129.5s
+01:11:13 INFO    pr_run | [image_01400] OK | best-FE member=0 | k1_long=23.88 | 129.6s
+01:13:21 INFO    pr_run | [image_03481] member 1/1 done | seed=0 | PSNR=11.23 | 128.4s
+01:13:21 INFO    pr_run | [image_03481] OK | best-FE member=0 | k1_long=11.23 | 128.4s
+01:15:30 INFO    pr_run | [image_09927] member 1/1 done | seed=0 | PSNR=15.24 | 129.1s
+01:15:30 INFO    pr_run | [image_09927] OK | best-FE member=0 | k1_long=15.24 | 129.1s
+01:17:39 INFO    pr_run | [image_09552] member 1/1 done | seed=0 | PSNR=13.23 | 128.5s
+01:17:39 INFO    pr_run | [image_09552] OK | best-FE member=0 | k1_long=13.23 | 128.6s
+01:19:48 INFO    pr_run | [image_04375] member 1/1 done | seed=0 | PSNR=15.24 | 129.3s
+01:19:48 INFO    pr_run | [image_04375] OK | best-FE member=0 | k1_long=15.24 | 129.4s
+01:21:57 INFO    pr_run | [image_01564] member 1/1 done | seed=0 | PSNR=11.48 | 128.6s
+01:21:57 INFO    pr_run | [image_01564] OK | best-FE member=0 | k1_long=11.48 | 128.7s
+01:24:05 INFO    pr_run | [image_05205] member 1/1 done | seed=0 | PSNR=18.63 | 128.6s
+01:24:06 INFO    pr_run | [image_05205] OK | best-FE member=0 | k1_long=18.63 | 128.7s
+01:26:14 INFO    pr_run | [image_01005] member 1/1 done | seed=0 | PSNR=13.54 | 128.9s
+01:26:14 INFO    pr_run | [image_01005] OK | best-FE member=0 | k1_long=13.54 | 128.9s
+01:28:24 INFO    pr_run | [image_00387] member 1/1 done | seed=0 | PSNR=16.23 | 129.0s
+01:28:24 INFO    pr_run | [image_00387] OK | best-FE member=0 | k1_long=16.23 | 129.1s
+01:30:33 INFO    pr_run | [image_05249] member 1/1 done | seed=0 | PSNR=11.10 | 129.5s
+01:30:33 INFO    pr_run | [image_05249] OK | best-FE member=0 | k1_long=11.10 | 129.5s
+01:32:42 INFO    pr_run | [image_05215] member 1/1 done | seed=0 | PSNR=12.08 | 129.1s
+01:32:42 INFO    pr_run | [image_05215] OK | best-FE member=0 | k1_long=12.08 | 129.2s
+01:34:51 INFO    pr_run | [image_02969] member 1/1 done | seed=0 | PSNR=19.37 | 129.0s
+01:34:51 INFO    pr_run | [image_02969] OK | best-FE member=0 | k1_long=19.37 | 129.0s
+01:37:00 INFO    pr_run | [image_04139] member 1/1 done | seed=0 | PSNR=16.24 | 128.5s
+01:37:00 INFO    pr_run | [image_04139] OK | best-FE member=0 | k1_long=16.24 | 128.5s
+01:39:10 INFO    pr_run | [image_07093] member 1/1 done | seed=0 | PSNR=18.48 | 129.5s
+01:39:10 INFO    pr_run | [image_07093] OK | best-FE member=0 | k1_long=18.48 | 129.6s
+01:41:19 INFO    pr_run | [image_05385] member 1/1 done | seed=0 | PSNR=9.51 | 129.7s
+01:41:19 INFO    pr_run | [image_05385] OK | best-FE member=0 | k1_long=9.51 | 129.8s
+01:43:28 INFO    pr_run | [image_02186] member 1/1 done | seed=0 | PSNR=14.54 | 128.9s
+01:43:28 INFO    pr_run | [image_02186] OK | best-FE member=0 | k1_long=14.54 | 128.9s
+01:45:38 INFO    pr_run | [image_09838] member 1/1 done | seed=0 | PSNR=13.21 | 129.4s
+01:45:38 INFO    pr_run | [image_09838] OK | best-FE member=0 | k1_long=13.21 | 129.4s
+01:47:47 INFO    pr_run | [image_01630] member 1/1 done | seed=0 | PSNR=16.62 | 129.5s
+01:47:47 INFO    pr_run | [image_01630] OK | best-FE member=0 | k1_long=16.62 | 129.6s
+01:49:58 INFO    pr_run | [image_07148] member 1/1 done | seed=0 | PSNR=17.28 | 130.8s
+01:49:58 INFO    pr_run | [image_07148] OK | best-FE member=0 | k1_long=17.28 | 130.8s
+01:52:08 INFO    pr_run | [image_00776] member 1/1 done | seed=0 | PSNR=19.12 | 129.9s
+01:52:08 INFO    pr_run | [image_00776] OK | best-FE member=0 | k1_long=19.12 | 130.1s
+01:54:16 INFO    pr_run | [image_05722] member 1/1 done | seed=0 | PSNR=19.78 | 127.8s
+01:54:16 INFO    pr_run | [image_05722] OK | best-FE member=0 | k1_long=19.78 | 127.9s
+01:56:25 INFO    pr_run | [image_08926] member 1/1 done | seed=0 | PSNR=21.67 | 128.7s
+01:56:25 INFO    pr_run | [image_08926] OK | best-FE member=0 | k1_long=21.67 | 128.7s
+01:58:34 INFO    pr_run | [image_03498] member 1/1 done | seed=0 | PSNR=23.92 | 129.2s
+01:58:34 INFO    pr_run | [image_03498] OK | best-FE member=0 | k1_long=23.92 | 129.3s
+02:00:44 INFO    pr_run | [image_05927] member 1/1 done | seed=0 | PSNR=16.53 | 129.4s
+02:00:44 INFO    pr_run | [image_05927] OK | best-FE member=0 | k1_long=16.53 | 129.5s
+02:02:53 INFO    pr_run | [image_00872] member 1/1 done | seed=0 | PSNR=17.68 | 129.5s
+02:02:53 INFO    pr_run | [image_00872] OK | best-FE member=0 | k1_long=17.68 | 129.6s
+02:05:03 INFO    pr_run | [image_03613] member 1/1 done | seed=0 | PSNR=13.77 | 129.3s
+02:05:03 INFO    pr_run | [image_03613] OK | best-FE member=0 | k1_long=13.77 | 129.4s
+02:07:12 INFO    pr_run | [image_06255] member 1/1 done | seed=0 | PSNR=21.03 | 129.0s
+02:07:12 INFO    pr_run | [image_06255] OK | best-FE member=0 | k1_long=21.03 | 129.1s
+02:09:21 INFO    pr_run | [image_08367] member 1/1 done | seed=0 | PSNR=18.34 | 129.1s
+02:09:21 INFO    pr_run | [image_08367] OK | best-FE member=0 | k1_long=18.34 | 129.2s
+02:11:30 INFO    pr_run | [image_05887] member 1/1 done | seed=0 | PSNR=16.65 | 128.8s
+02:11:30 INFO    pr_run | [image_05887] OK | best-FE member=0 | k1_long=16.65 | 128.8s
+02:13:39 INFO    pr_run | [image_03327] member 1/1 done | seed=0 | PSNR=21.21 | 129.4s
+02:13:40 INFO    pr_run | [image_03327] OK | best-FE member=0 | k1_long=21.21 | 129.6s
+02:15:49 INFO    pr_run | [image_05562] member 1/1 done | seed=0 | PSNR=12.98 | 128.9s
+02:15:49 INFO    pr_run | [image_05562] OK | best-FE member=0 | k1_long=12.98 | 129.0s
+02:17:58 INFO    pr_run | [image_06028] member 1/1 done | seed=0 | PSNR=11.42 | 129.0s
+02:17:58 INFO    pr_run | [image_06028] OK | best-FE member=0 | k1_long=11.42 | 129.1s
+02:20:07 INFO    pr_run | [image_08906] member 1/1 done | seed=0 | PSNR=14.82 | 129.1s
+02:20:07 INFO    pr_run | [image_08906] OK | best-FE member=0 | k1_long=14.82 | 129.2s
+02:22:16 INFO    pr_run | [image_04950] member 1/1 done | seed=0 | PSNR=12.98 | 129.2s
+02:22:16 INFO    pr_run | [image_04950] OK | best-FE member=0 | k1_long=12.98 | 129.2s
+02:22:16 INFO    pr_run | Done. ok=50 (skipped 0) failed=0 of 50
