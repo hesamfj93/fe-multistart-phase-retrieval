@@ -23,6 +23,12 @@ def p_fmt(p: float) -> str:
     return f"{p:.3f}"
 
 
+def p_sci(p: float) -> str:
+    """Exact p in scientific notation, for tests whose p is far below the display floor of p_fmt."""
+    m, e = f"{p:.1e}".split("e")
+    return f"${m}\\times10^{{{int(e)}}}$"
+
+
 def main() -> None:
     OUT.mkdir(exist_ok=True)
     s = json.loads((REPO / "results/study3/report/summary.json").read_text())
@@ -35,7 +41,7 @@ def main() -> None:
     (OUT / "tab_study3_tests.tex").write_text("\n".join(rows) + "\n")
     rows = []
     for run, v in s["fe_signal_N13"].items():
-        rows.append(f"{run.replace('_', ' ')} & {v['n']} & {v['rho']:.2f} & [{v['ci95'][0]:.2f}, {v['ci95'][1]:.2f}] & {p_fmt(v['p_one_sided'])} \\\\")
+        rows.append(f"{run.replace('_', ' ')} & {v['n']} & {v['rho']:.2f} & [{v['ci95'][0]:.2f}, {v['ci95'][1]:.2f}] & {p_sci(v['p_one_sided'])} \\\\")
     (OUT / "tab_study3_n13.tex").write_text("\n".join(rows) + "\n")
     rows = []
     order = ("K=1", "uniform", "median", "selection", "FE-softmax", "best start (oracle)")
