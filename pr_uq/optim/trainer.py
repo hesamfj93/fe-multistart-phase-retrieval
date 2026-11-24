@@ -50,6 +50,11 @@ class TrainerConfig:
     # real-data runner sets it so that the data term has the scale it has for 32 x 32 MNIST objects.
     data_loss_scale: float = 1.0
 
+    # Object model. "complex" (the frozen design of every study so far): x = A exp(i phi) from the
+    # amplitude and phase generators. "real_nonneg": x = A with A = sigmoid(...) in [0, 1], the phase
+    # generator unused (phi = 0); a real and nonnegative object, as for HIO with that constraint.
+    object_constraint: str = "complex"
+
     # Regularization
     lambda_tv_A: float = 1e-3
     lambda_tv_phi: float = 1e-4
@@ -173,6 +178,8 @@ def train_member(
     recon : (1, 1, H, W) complex final reconstruction.
     log : `TrainerLog` with loss curves, runtime, and optional PSNR/FE curves.
     """
+    if config.object_constraint not in ("complex", "real_nonneg"):
+        raise ValueError(f"Unknown object_constraint: {config.object_constraint!r}")
     member = member.to(device)
     y_intensity = y_intensity.to(device)
     if mask is not None:
@@ -222,10 +229,14 @@ def train_member(
 
         # Forward
         A = member.amplitude()
-        phi = member.phase()
-        x_net = (A * torch.cos(phi)).to(torch.complex64) + 1j * (A * torch.sin(phi)).to(
-            torch.complex64
-        )
+        if config.object_constraint == "real_nonneg":
+            phi = torch.zeros_like(A)
+            x_net = A.to(torch.complex64)
+        else:
+            phi = member.phase()
+            x_net = (A * torch.cos(phi)).to(torch.complex64) + 1j * (A * torch.sin(phi)).to(
+                torch.complex64
+            )
 
         # Physics projection / β-mixing
         if config.use_physics_projection:
@@ -338,10 +349,13 @@ def train_member(
     # Final reconstruction
     with torch.no_grad():
         A = member.amplitude()
-        phi = member.phase()
-        x_final = (A * torch.cos(phi)).to(torch.complex64) + 1j * (A * torch.sin(phi)).to(
-            torch.complex64
-        )
+        if config.object_constraint == "real_nonneg":
+            x_final = A.to(torch.complex64)
+        else:
+            phi = member.phase()
+            x_final = (A * torch.cos(phi)).to(torch.complex64) + 1j * (A * torch.sin(phi)).to(
+                torch.complex64
+            )
     if best_recon is None:
         best_recon = x_final
     return best_recon.detach(), log

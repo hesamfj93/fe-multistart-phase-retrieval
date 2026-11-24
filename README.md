@@ -173,6 +173,7 @@ The third study asks whether the FE protocol still helps under Poisson noise, wh
 - **Results**: `results/study3/` (eleven runs, all 50 images each) and the report produced by the frozen script, `results/study3/report/`. How and where each run was made: [`results/study3/RUN_NOTES.md`](results/study3/RUN_NOTES.md).
 - **FE used for N13**: the frozen report script read an FE computed against the noise-free magnitudes; the manuscript also gives N13 with the FE against the measurement. [`docs/STUDY3_FE_NOTE.md`](docs/STUDY3_FE_NOTE.md).
 - **Compute-matched control** (one start with five times the iterations): plan [`STUDY3_LONG_PLAN.md`](STUDY3_LONG_PLAN.md), configurations in `configs/study3_long/`, report script `scripts/study3_long_report.py`, tag `study3-long-plan-v1`, pushed before the runs. Results in [`results/study3_long/report/report.md`](results/study3_long/report/report.md) and run notes in [`results/study3_long/RUN_NOTES.md`](results/study3_long/RUN_NOTES.md): five starts were better than the long start in 10 of 12 Holm-adjusted comparisons (FE-softmax by 1.24 to 2.22 dB, selection by 0.77 to 1.95 dB); no claim for our solver on real objects at moderate noise (+0.46 and +0.55 dB, CIs including zero).
+- **Real and nonnegative object for our solver** (the constraint HIO receives in N7 and N8): plan [`STUDY3_REALNN_PLAN.md`](STUDY3_REALNN_PLAN.md), configurations in `configs/study3_realnn/`, report script `scripts/study3_realnn_report.py`, tag `study3-realnn-plan-v1`. Not yet run.
 
 ## Real data: CXIDB entry 28
 
