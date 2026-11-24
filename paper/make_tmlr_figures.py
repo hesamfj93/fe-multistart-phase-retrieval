@@ -69,6 +69,24 @@ def s3_rows(ids):
     return rows
 
 
+LONG_LABEL = {"real_ours_moderate": ("real, mod.", "ours"), "real_ours_strong": ("real, strong", "ours"),
+              "complex_ours_moderate": ("complex, mod.", "ours"), "complex_ours_strong": ("complex, strong", "ours"),
+              "real_netadm_moderate": ("real, mod.", "netadm"), "real_netadm_strong": ("real, strong", "netadm")}
+
+
+def long_rows():
+    """Compute-matched control of Study 3 (planned after Study 3, tag study3-long-plan-v1): L1 to L12."""
+    s = json.loads((REPO / "results/study3_long/report/summary.json").read_text())
+    rows = []
+    for x in s["tests"]:
+        lab, solver = LONG_LABEL[x["run"]]
+        rule = "FE-sm." if x["comparison"].startswith("FE-softmax") else "sel."
+        name = "Net-ADM" if solver == "netadm" else "ours"
+        rows.append((f"{x['id']} S3 {lab}, {rule} ({name})", x["mean"], tuple(x["ci"]),
+                     f"{x['first_better']}/{x['n']}", x["decision"] != "no claim", solver))
+    return rows
+
+
 def forest_panel(ax, rows, title, xlim=None):
     y = np.arange(len(rows))[::-1]
     for yi, (lab, m, ci, b, sup, solver) in zip(y, rows):
@@ -90,18 +108,19 @@ def forest_panel(ax, rows, title, xlim=None):
 def fig_forest():
     rows_a = VS_K1 + s3_rows(["N1", "N2", "N3", "N4", "N5", "N6"])
     rows_c = s3_rows(["N7", "N8", "N9", "N10", "N11", "N12"])
-    fig = plt.figure(figsize=(7.2, 4.3))
-    gs = fig.add_gridspec(2, 2, height_ratios=[10, 7], width_ratios=[1, 1], hspace=0.5, wspace=1.05)
-    ax_a = fig.add_subplot(gs[:, 0])
-    ax_b = fig.add_subplot(gs[0, 1])
-    ax_c = fig.add_subplot(gs[1, 1])
+    rows_b = VS_LONG + long_rows()
+    fig = plt.figure(figsize=(7.2, 4.55))
+    gs = fig.add_gridspec(2, 2, height_ratios=[10, 6], width_ratios=[1, 1], hspace=0.45, wspace=1.15)
+    ax_a = fig.add_subplot(gs[0, 0])
+    ax_c = fig.add_subplot(gs[1, 0])
+    ax_b = fig.add_subplot(gs[:, 1])
     forest_panel(ax_a, rows_a, "(a) five FE-guided starts vs one start", (-0.5, 4.8))
-    forest_panel(ax_b, VS_LONG, "(b) vs one start of equal compute", (-0.5, 2.6))
+    forest_panel(ax_b, rows_b, "(b) vs one start of equal compute", (-0.5, 3.9))
     forest_panel(ax_c, rows_c, "(c) vs classical, equal wall time", (-28, 2))
     h = [plt.Line2D([], [], color=C_OURS, marker="o", lw=1.6, label="our solver"),
          plt.Line2D([], [], color=C_NETADM, marker="o", lw=1.6, label="Net-ADM"),
          plt.Line2D([], [], color=INK2, marker="o", mfc="white", lw=0, label="not supported")]
-    ax_b.legend(handles=h, fontsize=7, frameon=False, loc="lower right", bbox_to_anchor=(1.0, 1.12), ncol=3)
+    ax_b.legend(handles=h, fontsize=7, frameon=False, loc="lower right", bbox_to_anchor=(1.0, 1.035), ncol=3)
     fig.savefig(OUT / "fig_forest.pdf", bbox_inches="tight")
     fig.savefig(OUT / "fig_forest.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
